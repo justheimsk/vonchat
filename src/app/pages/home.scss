@@ -5,4 +5,19 @@
   overflow: hidden;
   padding: 16px;
   gap: var(--gap);
+
+  & .layout--flex {
+    display: flex;
+    gap: var(--gap);
+    height: 100%;
+  }
+
+  & .layout--flex-col {
+    @extend .layout--flex;
+    flex-direction: column;
+  }
+
+  & .layout--full {
+    width: 100%;
+  }  
 }
