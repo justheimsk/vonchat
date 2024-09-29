@@ -1,3 +1,8 @@
-.text {
-  color: red;
+#layout {
+  display: flex;
+  width: 100svw;
+  height: 100svh;
+  overflow: hidden;
+  padding: 16px;
+  gap: var(--gap);
 }
