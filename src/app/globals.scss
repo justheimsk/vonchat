@@ -4,3 +4,45 @@
   box-sizing: border-box;
   font-family: "Helvetica", Times, serif;
 }
+
+body, html {
+  background-color: var(--secondary);
+}
+
+:root {
+  --font: "Helvetica";
+  // --primary: #E3E5E8;
+  // --secondary: #D7D9DC;
+  --background: #ffffff;
+
+  --primary: #36393f;
+  --secondary: #2f3136;
+  --tertiary: rgb(32, 34, 37);
+  --quaternary: #202225;
+  --quinary: #393d42;
+  --senary: #828386;
+  --userinfo: #292B2F;
+
+  --white: #ffffff;
+  --gray: #8a8c90;
+  --symbol: #74777a;
+  --text: #7A7C80;
+  --separator: #42454B;
+  --input: #40444B;
+
+
+  --notification: #f84a4b;
+  --discord: #6e86d6;
+  --mention-detail-transparent: rgba(249, 168, 57, 0.15);
+  --mention-detail-hover: rgba(249, 168, 57, 0.115);
+  --mention-detail-full: #f9a839;
+  --mention-message: #413f3f;
+
+  --link: #5d80d6;
+
+  --transition: 0.2s;
+  --fast-transition: 0.1s;
+
+  --radius: 22px;
+  --gap: 18px;
+}
