@@ -1,9 +1,12 @@
+import ServerList from '@features/ServerList/ServerList'
 import './home.scss'
 
 export default function App() {
   return (
     <>
-      <h1 className="text">Hello World!</h1>
+      <div id="layout">
+        <ServerList />
+      </div>
     </>
   )
 }

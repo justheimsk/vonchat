@@ -1,0 +1,18 @@
+@import '@utils/mixins';
+
+.server-button {
+  @include transition;
+
+  background-color: var(--primary);
+  cursor: pointer;
+  width: 46px;
+  min-width: 46px;
+  height: 46px;
+  min-height: 46px;
+  border-radius: 100%;
+
+  &:hover {
+    background-color: var(--discord);
+    border-radius: 10px;
+  }
+}
