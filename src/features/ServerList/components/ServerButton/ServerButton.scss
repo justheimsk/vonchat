@@ -15,4 +15,8 @@
     background-color: var(--discord);
     border-radius: 10px;
   }
+
+  &:active {
+    transform: scale(0.9);
+  }
 }
