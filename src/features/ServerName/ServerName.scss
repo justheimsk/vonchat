@@ -1,6 +1,8 @@
 @import '@utils/mixins';
 
 #server-name {
+  @include shrink(0.95, '> div');
+
   min-width: 240px;
   max-width: 240px;
   min-height: 46px;
@@ -26,9 +28,5 @@
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-  }
-
-  &:active > div {
-    transform: scale(0.95);
   }
 }
