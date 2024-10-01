@@ -1,7 +1,75 @@
+@import '@utils/mixins';
+
 #user-info {
   min-width: 240px;
+  width: 240px;
   max-width: 240px;
   min-height: 51px;
   background-color: var(--tertiary);
   border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 6px;
+
+  &__avatar {
+    @include status-dot(online);
+
+    position: relative;
+    min-width: 32px;
+    min-height: 32px;
+    background-color: var(--discord);
+    border-radius: 100%;
+
+    &::after {
+      content: '';
+      border: 2px solid var(--tertiary);
+    }
+  }
+
+  &__infos {
+    color: var(--text);
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    
+    & > span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    & > small {
+      color: var(--text-light);
+    }
+  }
+
+  &__actions {
+    width: 100%;
+    display: flex;
+    gap: 6px;
+    justify-content: space-evenly;
+    
+    & > i {
+      @include fast-transition(background-color);
+      @include transition(transform);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      font-size: 1.3rem;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--text);
+      }
+
+      &:active {
+        transform: scale(0.85);
+      }
+    }
+  }
 }
