@@ -1,0 +1,52 @@
+@import "@utils/mixins";
+
+.channel {
+  @include fast-transition(transform);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-light);
+  border-radius: var(--small-radius);
+  padding-right: 12px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__infos {
+    padding: 8px 12px;
+    width: 100%;
+  }
+
+  &__actions {
+    @include fast-transition(transform);
+
+    color: var(--text-light);
+    opacity: 0;
+
+    & i {
+      @include shrink(0.85);
+      @include fast-transition;
+
+      &:hover {
+        color: var(--text);
+      }
+    }
+  }
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--text);
+
+    & .channel__actions {
+      opacity: 1;
+    }
+  }
+
+  &:has(.channel__infos:active) {
+    transform: scale(0.95);
+  }
+}

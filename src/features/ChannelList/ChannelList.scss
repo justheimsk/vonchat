@@ -5,4 +5,12 @@
   height: 100%;
   border-radius: var(--radius);
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 8px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 }
