@@ -2,6 +2,7 @@
 
 .server-button {
   @include transition;
+  @include shrink;
 
   background-color: var(--primary);
   cursor: pointer;
@@ -14,9 +15,5 @@
   &:hover {
     background-color: var(--discord);
     border-radius: 10px;
-  }
-
-  &:active {
-    transform: scale(0.9);
   }
 }
