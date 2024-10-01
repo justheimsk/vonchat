@@ -5,6 +5,12 @@
   font-family: var(--font), Times, serif;
 }
 
+i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 body, html {
   background-color: var(--secondary);
 }
@@ -47,5 +53,6 @@ body, html {
   --fast-transition: 0.1s;
 
   --radius: 22px;
+  --small-radius: 8px;
   --gap: 18px;
 }
