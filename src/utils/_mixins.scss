@@ -1,0 +1,29 @@
+@mixin transition($el: all) {
+  transition: $el var(--transition);
+}
+
+@mixin fast-transition($el: all) {
+  transition: $el var(--fast-transition);
+}
+
+@mixin status-dot($status) {
+  &::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    bottom: -2px;
+    right: -2px;
+    position: absolute;
+
+    @if $status == online {
+      background-color: var(--status-online);
+    } @else if $status == offline {
+      background-color: var(--status-offline);
+    } @else if $status == idle {
+      background-color: var(--status-idle);
+    } @else if $status == dnd {
+      background-color: var(--status-dnd);
+    }
+  }
+}
