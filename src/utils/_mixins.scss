@@ -27,3 +27,15 @@
     }
   }
 }
+
+@mixin shrink($scale: 0.9, $selector: null) {
+  @if $selector {
+    &:active #{$selector} {
+      transform: scale($scale);
+    }
+  } @else {
+    &:active {
+      transform: scale($scale);
+    }
+  }
+}
