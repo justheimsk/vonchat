@@ -1,7 +1,34 @@
+@import '@utils/mixins';
+
 #server-name {
   min-width: 240px;
   max-width: 240px;
   min-height: 46px;
   background-color: var(--tertiary);
   border-radius: var(--radius);
+  color: var(--text);
+  padding: 0 15px;
+  font-weight: bold;
+  cursor: pointer;
+
+  & > div {
+    @include transition;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+
+    & > span {
+      max-width: 88%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &:active > div {
+    transform: scale(0.95);
+  }
 }
