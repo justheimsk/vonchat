@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Helvetica", Times, serif;
+  font-family: var(--font), Times, serif;
 }
 
 body, html {
@@ -11,8 +11,6 @@ body, html {
 
 :root {
   --font: "Helvetica";
-  // --primary: #E3E5E8;
-  // --secondary: #D7D9DC;
   --background: #ffffff;
 
   --primary: #36393f;
@@ -26,10 +24,15 @@ body, html {
   --white: #ffffff;
   --gray: #8a8c90;
   --symbol: #74777a;
-  --text: #7A7C80;
+  --text: #FFFFFF;
+  --text-light: #7A7C80;
   --separator: #42454B;
   --input: #40444B;
 
+  --status-online: #209551;
+  --status-dnd: #D5373B;
+  --status-idle: #D8A12D;
+  --status-offline: #80848E;
 
   --notification: #f84a4b;
   --discord: #6e86d6;
