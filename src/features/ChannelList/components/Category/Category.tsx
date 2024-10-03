@@ -1,27 +1,28 @@
-import {FaAngleDown, FaUserPlus} from "react-icons/fa6";
+import {FaAngleDown, FaPlus} from "react-icons/fa6";
 import "./Category.scss";
-import {FaCog} from "react-icons/fa";
 import {Channel} from "../Channel/Channel";
+import {useState} from "react";
 
 export default function Category() {
+  const [active, setActive] = useState(true);
+
   return (
     <>
       <div className="category">
         <div className="category__infos">
-          <div className="category__infos__name">
+          <div onClick={() => setActive(!active)} className={`category__infos__name ${active ? 'category__infos__name--active' : ''}`}>
             <i><FaAngleDown /></i>
             <span>General</span>
           </div>
           <div className="category__infos__actions">
-            <i><FaUserPlus /></i>
-            <i><FaCog /></i>
+            <i><FaPlus /></i>
           </div>
         </div>
-        <div className="category__channels">
+        {active && <div className="category__channels">
           {"h".repeat(10).split('').map(() => (
             <Channel />
           ))}
-        </div>
+        </div>}
       </div>
     </>
   )
