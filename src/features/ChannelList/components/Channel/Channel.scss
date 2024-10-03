@@ -6,9 +6,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 6px;
   color: var(--text-light);
   border-radius: var(--small-radius);
   padding-right: 12px;
+  font-size: 0.97rem;
 
   & > div {
     display: flex;
@@ -19,6 +21,8 @@
   &__infos {
     padding: 8px 12px;
     width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   &__actions {
@@ -38,7 +42,7 @@
   }
 
   &:hover {
-    background-color: var(--primary);
+    background-color: var(--secondary);
     color: var(--text);
 
     & .channel__actions {
