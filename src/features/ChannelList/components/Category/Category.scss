@@ -13,14 +13,32 @@
     justify-content: space-between;
     font-size: 1rem;
     padding-right: 11px;
+    gap: 6px;
 
     &__name {
       @include fast-transition;
       @include shrink(0.95);
       width: 100%;
+      overflow: hidden;
+      
+      & > span {
+        white-space: nowrap;
+      }
 
       &:hover {
         color: var(--text);
+      }
+
+      & > i {
+        @include transition(transform);
+
+        transform: rotate(-90deg);
+      }
+      
+      &--active {
+        & > i {
+          transform: rotate(0);
+        }
       }
     }
 
