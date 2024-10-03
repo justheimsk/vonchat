@@ -3,7 +3,7 @@
   width: 100svw;
   height: 100svh;
   overflow: hidden;
-  padding: 16px;
+  padding: var(--gap);
   gap: var(--gap);
 
   & .layout--flex {
