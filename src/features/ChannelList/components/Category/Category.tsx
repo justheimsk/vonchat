@@ -5,6 +5,7 @@ import {useState} from "react";
 
 export default function Category() {
   const [active, setActive] = useState(true);
+  const [name, _] = useState('GENERAL');
 
   return (
     <>
@@ -12,7 +13,7 @@ export default function Category() {
         <div className="category__infos">
           <div onClick={() => setActive(!active)} className={`category__infos__name ${active ? 'category__infos__name--active' : ''}`}>
             <i><FaAngleDown /></i>
-            <span>General</span>
+            <span>{name}</span>
           </div>
           <div className="category__infos__actions">
             <i><FaPlus /></i>
