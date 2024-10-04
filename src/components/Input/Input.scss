@@ -1,0 +1,49 @@
+@import '@utils/mixins';
+
+.input-container {
+  @include fast-transition;
+  @include shrink(0.95);
+
+  width: auto;
+  position: relative;
+
+  &>input {
+    @include fast-transition;
+
+    padding: 5px 8px;
+    width: 200px;
+    border-radius: var(--radius);
+    border: none;
+    outline: none;
+    background-color: var(--primary);
+    font-size: 0.9rem;
+    float: right;
+    transition: 0.5s;
+    color: var(--text-light);
+
+    &:focus,
+    &:not(:placeholder-shown) {
+      color: var(--text);
+    }
+
+    &:focus {
+      width: 270px;
+    }
+  }
+
+  &>i {
+    @include fast-transition;
+
+    color: var(--text-light);
+    font-size: 0.9rem;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%) !important;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--text);
+    }
+  }
+}
