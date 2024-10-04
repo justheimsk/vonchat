@@ -1,7 +1,52 @@
+@import '@utils/mixins';
+
 #channel-info {
   min-width: 100%;
   min-height: 46px;
   display: flex;
   border-radius: var(--radius);
   background-color: var(--tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  color: var(--text-light);
+  overflow: hidden;
+
+  &>div {
+    display: flex;
+    align-items: center;
+  }
+
+  &__infos {
+    gap: 6px;
+
+    &>span {
+      color: var(--text);
+      font-weight: bold;
+      text-transform: lowercase;
+    }
+
+    &>i {
+      font-size: 1.3rem;
+      font-weight: thin;
+    }
+  }
+
+  &__actions {
+    gap: 12px;
+    width: auto;
+
+    &>i {
+      @include fast-transition(transform);
+      @include shrink(0.85);
+
+      font-size: 1.3rem;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--text);
+      }
+    }
+  }
 }
