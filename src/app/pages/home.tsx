@@ -12,7 +12,7 @@ export default function App() {
     <>
       <div id="layout">
         <ServerList />
-        <div className="layout--flex-col">
+        <div className="layout--flex-col channels-side">
           <ServerName />
           <ChannelList />
           <UserInfo />

@@ -10,14 +10,20 @@
     display: flex;
     gap: var(--gap);
     height: 100%;
+    overflow: hidden;
   }
 
   & .layout--flex-col {
     @extend .layout--flex;
     flex-direction: column;
+    width: auto;
   }
 
   & .layout--full {
     width: 100%;
-  }  
+  }
+
+  & .channels-side {
+    min-width: 240px;
+  }
 }
