@@ -6,10 +6,12 @@ export default function UserInfo() {
   return (
     <>
       <div id="user-info">
-        <div id="user-info__avatar" />
-        <div id="user-info__infos">
-          <span>vonderheimsk</span>
-          <small>Online</small>
+        <div id="user-info__hoverable">
+          <div id="user-info__avatar" />
+          <div id="user-info__infos">
+            <span>vonderheimsk</span>
+            <small>Online</small>
+          </div>
         </div>
         <div id="user-info__actions">
           <i><FaMicrophone /></i>

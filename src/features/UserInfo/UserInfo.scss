@@ -12,6 +12,26 @@
   padding: 0 12px;
   gap: 6px;
 
+  &__hoverable {
+    @include fast-transition;
+    @include shrink(0.95);
+
+    min-width: 60%;
+    max-width: 60%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 6px;
+    width: auto;
+    border-radius: var(--small-radius);
+
+    &:hover {
+      background-color: var(--secondary);
+    }
+  }
+
   &__avatar {
     @include status-dot(online);
 
@@ -34,14 +54,14 @@
     flex-direction: column;
     width: 100%;
     overflow: hidden;
-    
-    & > span {
+
+    &>span {
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
     }
 
-    & > small {
+    &>small {
       color: var(--text-light);
     }
   }
@@ -51,8 +71,8 @@
     display: flex;
     gap: 6px;
     justify-content: space-evenly;
-    
-    & > i {
+
+    &>i {
       @include fast-transition(background-color);
       @include transition(transform);
 
