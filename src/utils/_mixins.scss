@@ -6,23 +6,30 @@
   transition: $el var(--fast-transition);
 }
 
-@mixin status-dot($status) {
+@mixin status-dot($status, $bg: var(--tertiary), $offset: 0px) {
   &::after {
     content: '';
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    bottom: -2px;
-    right: -2px;
+    bottom: calc(-2px + $offset);
+    right: calc(-2px + $offset);
     position: absolute;
+    border: 2px solid $bg;
 
-    @if $status == online {
+    @if $status ==online {
       background-color: var(--status-online);
-    } @else if $status == offline {
+    }
+
+    @else if $status ==offline {
       background-color: var(--status-offline);
-    } @else if $status == idle {
+    }
+
+    @else if $status ==idle {
       background-color: var(--status-idle);
-    } @else if $status == dnd {
+    }
+
+    @else if $status ==dnd {
       background-color: var(--status-dnd);
     }
   }
@@ -33,7 +40,9 @@
     &:active #{$selector} {
       transform: scale($scale);
     }
-  } @else {
+  }
+
+  @else {
     &:active {
       transform: scale($scale);
     }
