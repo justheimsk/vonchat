@@ -4,7 +4,20 @@
   background-color: var(--tertiary);
   border-radius: var(--radius);
   display: flex;
-  flex-direction: column-reverse;
-  padding: 12px;
+  flex-direction: column;
   position: relative;
+  overflow: hidden;
+
+  &__messages {
+    height: inherit;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: auto;
+    gap: 12px;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
 }

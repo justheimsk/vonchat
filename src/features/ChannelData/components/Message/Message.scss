@@ -1,0 +1,44 @@
+.message {
+  display: flex;
+  color: var(--text);
+  gap: 12px;
+  padding: 4px 12px;
+
+  &__avatar {
+    min-width: 38px;
+    min-height: 38px;
+    max-width: 38px;
+    max-height: 38px;
+    background-color: var(--discord);
+    border-radius: 50%;
+  }
+
+  &__data {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &__infos {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      & > span {
+        font-weight: bold;
+      }
+
+      & > small {
+        color: var(--text-light);
+      }
+    }
+
+    & > span {
+      opacity: 0.8;
+      font-size: 0.95rem;
+    }
+  }
+
+  &:hover {
+    background-color: rgba(0,0,0,0.2);
+  }
+}
