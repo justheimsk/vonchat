@@ -1,4 +1,4 @@
-package services
+package healthCheckService
 
 import (
 	"fmt"
@@ -10,13 +10,12 @@ type healthCheckController struct {
 	logger *log.Logger
 }
 
-func newHealthCheckController(logger *log.Logger) *healthCheckController {
+func NewController(logger *log.Logger) *healthCheckController {
 	return &healthCheckController{
 		logger,
 	}
 }
 
 func (self *healthCheckController) CheckHealth(w http.ResponseWriter, r *http.Request) {
-	self.logger.Println("Controller / requested")
-	fmt.Fprintf(w, "Hello World!")
+	fmt.Fprintf(w, "All systems operational.")
 }
