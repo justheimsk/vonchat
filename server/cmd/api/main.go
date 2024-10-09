@@ -1,10 +1,21 @@
 package main
 
-import Server "github.com/justheimsk/vonchat/server/internal/server"
+import (
+	"github.com/justheimsk/vonchat/server/internal/database"
+	Server "github.com/justheimsk/vonchat/server/internal/server"
+	logger "github.com/justheimsk/vonchat/server/pkg/logger"
+)
 
 func main() {
-  server := Server.NewServer()
-  server.Init()
+  log := logger.GetLogger()
 
-  return
+  log.Println("Opening database connection...")
+  db, err := database.Open()
+  if err != nil {
+    log.Fatalf("Fatal error: %s", err)
+  }
+
+  log.Println("Connected to database.")
+  server := Server.NewServer(db, log)
+  server.Init()
 }
