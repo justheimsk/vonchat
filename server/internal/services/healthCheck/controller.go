@@ -7,16 +7,16 @@ import (
 )
 
 type healthCheckController struct {
-  logger *log.Logger
+	logger *log.Logger
 }
 
 func newHealthCheckController(logger *log.Logger) *healthCheckController {
-  return &healthCheckController{
-    logger,
-  }
+	return &healthCheckController{
+		logger,
+	}
 }
 
 func (self *healthCheckController) CheckHealth(w http.ResponseWriter, r *http.Request) {
-  self.logger.Println("Controller / requested")
-  fmt.Fprintf(w, "Hello World!")
+	self.logger.Println("Controller / requested")
+	fmt.Fprintf(w, "Hello World!")
 }
