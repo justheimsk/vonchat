@@ -1,13 +1,19 @@
 package server
 
-import "fmt"
+import (
+	"database/sql"
+	"log"
+)
 
-type Server struct {}
+type Server struct {
+  db *sql.DB
+  logger *log.Logger
+}
 
-func NewServer() (*Server) {
-  return &Server{}
+func NewServer(db *sql.DB, logger *log.Logger) (*Server) {
+  return &Server{ db, logger }
 }
 
 func (self *Server) Init() {
-  fmt.Println("Init server");
+  self.logger.Println("Init server");
 }
