@@ -3,11 +3,11 @@ package services
 import "log"
 
 type healthCheckService struct {
-  Handler healthCheckHandler
+	Handler healthCheckHandler
 }
 
 func NewHealthCheckService(logger *log.Logger) *healthCheckService {
-  return &healthCheckService{
-    Handler: *newHealthCheckHandler(logger, *newHealthCheckController(logger)),
-  }
+	return &healthCheckService{
+		Handler: *newHealthCheckHandler(logger, *newHealthCheckController(logger)),
+	}
 }

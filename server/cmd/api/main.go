@@ -7,15 +7,15 @@ import (
 )
 
 func main() {
-  log := logger.GetLogger()
+	log := logger.GetLogger()
 
-  log.Println("Opening database connection...")
-  db, err := database.Open()
-  if err != nil {
-    log.Fatalf("Fatal error: %s", err)
-  }
+	log.Println("Opening database connection...")
+	db, err := database.Open()
+	if err != nil {
+		log.Fatalf("Fatal error: %s", err)
+	}
 
-  log.Println("Connected to database.")
-  server := Server.NewServer(db, log)
-  server.Init()
+	log.Println("Connected to database.")
+	server := Server.NewServer(db, log)
+	server.Init()
 }

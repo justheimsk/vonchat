@@ -7,18 +7,18 @@ import (
 )
 
 type healthCheckHandler struct {
-  logger *log.Logger
-  controller healthCheckController
+	logger     *log.Logger
+	controller healthCheckController
 }
 
 func newHealthCheckHandler(logger *log.Logger, controller healthCheckController) *healthCheckHandler {
-  return &healthCheckHandler{
-    logger,
-    controller,
-  }
+	return &healthCheckHandler{
+		logger,
+		controller,
+	}
 }
 
 func (self *healthCheckHandler) Load(r chi.Router) {
-  r.Get("/", self.controller.CheckHealth)
-  self.logger.Println("HealthCheck handler fully loaded.")
+	r.Get("/", self.controller.CheckHealth)
+	self.logger.Println("HealthCheck handler fully loaded.")
 }
