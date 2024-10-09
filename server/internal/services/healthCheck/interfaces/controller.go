@@ -1,4 +1,4 @@
-package healthCheckService
+package healthCheckTypes
 
 import "net/http"
 
