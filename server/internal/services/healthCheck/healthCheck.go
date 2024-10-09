@@ -9,7 +9,7 @@ type HealthCheckHandler struct {
 	controller healthCheckTypes.Controller
 }
 
-func New(controller healthCheckTypes.Controller) *HealthCheckHandler {
+func NewHandler(controller healthCheckTypes.Controller) *HealthCheckHandler {
 	return &HealthCheckHandler{
 		controller,
 	}
