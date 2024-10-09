@@ -25,8 +25,8 @@ func (self *Server) Init() {
 	self.logger.Println("Starting HTTP server...")
 	mainRouter := chi.NewRouter()
 
-	healthCheck := healthCheckService.NewHandler(self.logger, *healthCheckService.NewController(self.logger))
-	mainRouter.Route("/", healthCheck.Load)
+	healthCheck := healthCheckService.New(self.logger, self.db)
+	mainRouter.Route("/", healthCheck.Handler.Load)
 
 	log.Printf("Serving HTTP in port: %d\n", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", PORT), mainRouter); err != nil {
