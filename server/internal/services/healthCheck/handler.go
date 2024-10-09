@@ -1,4 +1,4 @@
-package services
+package healthCheckService
 
 import (
 	"log"
@@ -11,7 +11,7 @@ type healthCheckHandler struct {
 	controller healthCheckController
 }
 
-func newHealthCheckHandler(logger *log.Logger, controller healthCheckController) *healthCheckHandler {
+func NewHandler(logger *log.Logger, controller healthCheckController) *healthCheckHandler {
 	return &healthCheckHandler{
 		logger,
 		controller,
