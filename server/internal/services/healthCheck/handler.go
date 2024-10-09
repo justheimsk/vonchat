@@ -1,24 +1,7 @@
 package healthCheckService
 
-import (
-	"log"
+import "github.com/go-chi/chi/v5"
 
-	"github.com/go-chi/chi/v5"
-)
-
-type healthCheckHandler struct {
-	logger     *log.Logger
-	controller healthCheckController
-}
-
-func NewHandler(logger *log.Logger, controller healthCheckController) *healthCheckHandler {
-	return &healthCheckHandler{
-		logger,
-		controller,
-	}
-}
-
-func (self *healthCheckHandler) Load(r chi.Router) {
-	r.Get("/", self.controller.CheckHealth)
-	self.logger.Println("HealthCheck handler fully loaded.")
+type Handler interface {
+	Load(r chi.Router)
 }
