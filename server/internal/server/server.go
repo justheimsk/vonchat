@@ -7,9 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	controllers "github.com/justheimsk/vonchat/server/internal/services/healthCheck/controller"
-	handlers "github.com/justheimsk/vonchat/server/internal/services/healthCheck/http"
-	repositories "github.com/justheimsk/vonchat/server/internal/services/healthCheck/repository"
+	builders "github.com/justheimsk/vonchat/server/internal/services/healthCheck/builder"
 )
 
 type Server struct {
@@ -27,18 +25,10 @@ func (self *Server) Init() {
 	self.logger.Println("Starting HTTP server...")
 	mainRouter := chi.NewRouter()
 
-	// Repository
-	healthRepo := repositories.NewHealthRepo(self.db)
+	healthCheck := builders.NewHealthCheck(self.db)
+	mainRouter.Route("/", healthCheck.Handler.Load)
 
-	// Controllers
-	healthController := controllers.NewHealthController(healthRepo)
-
-	// Handlers
-	healthCheck := handlers.NewHealthHandler(healthController)
-
-	mainRouter.Route("/", healthCheck.Load)
-
-	log.Printf("Serving HTTP in port: %d\n", PORT)
+	log.Printf("Serving HTTP in port: %d.\n", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", PORT), mainRouter); err != nil {
 		log.Fatalf("Failed to start HTTP server: %s", err)
 	}

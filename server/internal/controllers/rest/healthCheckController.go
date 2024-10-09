@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"net/http"
 
-	healthCheckService "github.com/justheimsk/vonchat/server/internal/services/healthCheck"
+	healthCheckTypes "github.com/justheimsk/vonchat/server/internal/services/healthCheck/interfaces"
 )
 
 type healthCheckController struct {
-	repo healthCheckService.Repository
+	repo healthCheckTypes.Repository
 }
 
-func NewHealthController(repo healthCheckService.Repository) *healthCheckController {
+func NewHealthController(repo healthCheckTypes.Repository) *healthCheckController {
 	return &healthCheckController{
 		repo,
 	}
