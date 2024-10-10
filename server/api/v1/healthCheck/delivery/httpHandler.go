@@ -1,21 +1,21 @@
-package healthCheckDelivery
+package healthResourceDelivery
 
 import (
 	"net/http"
 
-	healthCheckTypes "github.com/justheimsk/vonchat/server/api/v1/healthCheck/interfaces"
+	healthResourceType "github.com/justheimsk/vonchat/server/api/v1/healthCheck/interfaces"
 )
 
-type HealthCheckHTTPHandler struct {
-	controller healthCheckTypes.Controller
+type HealthHTTPHandler struct {
+	controller healthResourceType.Controller
 }
 
-func NewHTTPHandler(controller healthCheckTypes.Controller) *HealthCheckHTTPHandler {
-	return &HealthCheckHTTPHandler{
+func NewHTTPHandler(controller healthResourceType.Controller) *HealthHTTPHandler {
+	return &HealthHTTPHandler{
 		controller,
 	}
 }
 
-func (self *HealthCheckHTTPHandler) Load(r *http.ServeMux) {
+func (self *HealthHTTPHandler) Load(r *http.ServeMux) {
 	r.HandleFunc("GET /", self.controller.CheckHealth)
 }
