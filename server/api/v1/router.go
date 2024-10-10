@@ -4,10 +4,10 @@ import (
 	"database/sql"
 	"net/http"
 
-	healthCheckService "github.com/justheimsk/vonchat/server/api/v1/healthCheck"
+	builder "github.com/justheimsk/vonchat/server/internal/builders"
 )
 
 func LoadV1Routes(r *http.ServeMux, db *sql.DB) {
-	healthCheck := healthCheckService.New(db)
+	healthCheck := builder.NewHealthBuilder(db)
 	healthCheck.Handler.Load(r)
 }

@@ -1,4 +1,4 @@
-package pgsqlRepositories
+package repository
 
 import (
 	"database/sql"

@@ -1,17 +1,17 @@
-package healthResourceDelivery
+package controller
 
 import (
 	"fmt"
 	"net/http"
 
-	healthTypes "github.com/justheimsk/vonchat/server/api/v1/healthCheck/interfaces"
+	"github.com/justheimsk/vonchat/server/api/v1/interfaces"
 )
 
 type healthController struct {
-	repo healthTypes.Repository
+	repo interfaces.HealthRepository
 }
 
-func NewHealthController(repo healthTypes.Repository) *healthController {
+func NewHealthController(repo interfaces.HealthRepository) *healthController {
 	return &healthController{
 		repo,
 	}
