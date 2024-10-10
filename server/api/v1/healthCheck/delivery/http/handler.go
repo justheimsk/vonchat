@@ -2,7 +2,7 @@ package healthCheckDelivery
 
 import (
 	"github.com/go-chi/chi/v5"
-	healthCheckTypes "github.com/justheimsk/vonchat/server/internal/services/healthCheck/interfaces"
+	healthCheckTypes "github.com/justheimsk/vonchat/server/api/v1/healthCheck/interfaces"
 )
 
 type HealthCheckHTTPHandler struct {
