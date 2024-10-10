@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	healthCheckService "github.com/justheimsk/vonchat/server/api/v1/healthCheck"
+	"github.com/justheimsk/vonchat/server/api/v1"
 )
 
 type Server struct {
@@ -21,12 +21,10 @@ func New(db *sql.DB, logger *log.Logger) *Server {
 
 func (self *Server) Init() {
 	const PORT int = 8080
-
 	self.logger.Println("Starting HTTP server...")
-	mainRouter := chi.NewRouter()
 
-	healthCheck := healthCheckService.New(self.db)
-	mainRouter.Route("/", healthCheck.Handler.Load)
+	mainRouter := chi.NewRouter()
+	api.LoadV1Routes(mainRouter, self.db)
 
 	log.Printf("Serving HTTP in port: %d.\n", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", PORT), mainRouter); err != nil {
