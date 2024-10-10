@@ -4,12 +4,13 @@ import (
 	"database/sql"
 
 	healthCheckDelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
+	healthCheckTypes "github.com/justheimsk/vonchat/server/api/v1/healthCheck/interfaces"
 	controllers "github.com/justheimsk/vonchat/server/internal/controllers/rest"
 	repositories "github.com/justheimsk/vonchat/server/internal/repository/pgsql"
 )
 
 type healthCheckBuilder struct {
-	Handler healthCheckDelivery.HealthCheckHTTPHandler
+	Handler healthCheckTypes.Handler
 }
 
 func New(db *sql.DB) *healthCheckBuilder {
@@ -17,6 +18,6 @@ func New(db *sql.DB) *healthCheckBuilder {
 	controller := controllers.NewHealthController(repo)
 
 	return &healthCheckBuilder{
-		Handler: *healthCheckDelivery.NewHTTPHandler(controller),
+		Handler: healthCheckDelivery.NewHTTPHandler(controller),
 	}
 }
