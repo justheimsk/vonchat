@@ -1,7 +1,7 @@
-package healthResourceType
+package interfaces
 
 import "net/http"
 
-type Controller interface {
+type HealthController interface {
 	CheckHealth(w http.ResponseWriter, r *http.Request)
 }
