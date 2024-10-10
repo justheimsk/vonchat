@@ -18,7 +18,7 @@ func New(db *sql.DB, logger *log.Logger) *Server {
 	return &Server{db, logger}
 }
 
-func (self *Server) Init() {
+func (self *Server) CreateHTTPServer() {
 	const PORT int = 8080
 	self.logger.Println("Starting HTTP server...")
 
