@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/justheimsk/vonchat/server/api/v1/interfaces"
+	"github.com/justheimsk/vonchat/server/pkg/concat"
 )
 
 type HealthHTTPHandler struct {
@@ -16,6 +17,6 @@ func NewHTTPHandler(controller interfaces.HealthController) *HealthHTTPHandler {
 	}
 }
 
-func (self *HealthHTTPHandler) Load(r *http.ServeMux) {
-	r.HandleFunc("GET /", self.controller.CheckHealth)
+func (self *HealthHTTPHandler) Load(r *http.ServeMux, prefix string) {
+	r.HandleFunc(concat.ConcatPath("GET", prefix, "/"), self.controller.CheckHealth)
 }
