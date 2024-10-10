@@ -1,23 +1,21 @@
-package healthCheckService
+package healthResource
 
 import (
 	"database/sql"
 
-	healthCheckDelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery"
-	healthCheckTypes "github.com/justheimsk/vonchat/server/api/v1/healthCheck/interfaces"
-	controllers "github.com/justheimsk/vonchat/server/internal/controllers/rest"
+	healthResourceDelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery"
 	repositories "github.com/justheimsk/vonchat/server/internal/repository/pgsql"
 )
 
 type healthCheckBuilder struct {
-	Handler healthCheckTypes.Handler
+	Handler healthResourceDelivery.HealthHTTPHandler
 }
 
 func New(db *sql.DB) *healthCheckBuilder {
-	repo := repositories.NewHealthRepo(db)
-	controller := controllers.NewHealthController(repo)
+	repo := repositories.NewHealthRepository(db)
+	controller := healthResourceDelivery.NewHealthController(repo)
 
 	return &healthCheckBuilder{
-		Handler: healthCheckDelivery.NewHTTPHandler(controller),
+		Handler: *healthResourceDelivery.NewHTTPHandler(controller),
 	}
 }
