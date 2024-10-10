@@ -15,7 +15,7 @@ type Server struct {
 	logger *log.Logger
 }
 
-func NewServer(db *sql.DB, logger *log.Logger) *Server {
+func New(db *sql.DB, logger *log.Logger) *Server {
 	return &Server{db, logger}
 }
 
