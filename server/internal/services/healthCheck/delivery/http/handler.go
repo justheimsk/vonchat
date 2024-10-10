@@ -1,20 +1,20 @@
-package healthCheckService
+package healthCheckDelivery
 
 import (
 	"github.com/go-chi/chi/v5"
 	healthCheckTypes "github.com/justheimsk/vonchat/server/internal/services/healthCheck/interfaces"
 )
 
-type HealthCheckHandler struct {
+type HealthCheckHTTPHandler struct {
 	controller healthCheckTypes.Controller
 }
 
-func NewHandler(controller healthCheckTypes.Controller) *HealthCheckHandler {
-	return &HealthCheckHandler{
+func NewHTTPHandler(controller healthCheckTypes.Controller) *HealthCheckHTTPHandler {
+	return &HealthCheckHTTPHandler{
 		controller,
 	}
 }
 
-func (self *HealthCheckHandler) Load(r chi.Router) {
+func (self *HealthCheckHTTPHandler) Load(r chi.Router) {
 	r.Get("/", self.controller.CheckHealth)
 }

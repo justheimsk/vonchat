@@ -16,6 +16,6 @@ func main() {
 	}
 
 	log.Println("Connected to database.")
-	server := Server.NewServer(db, log)
+	server := Server.New(db, log)
 	server.Init()
 }
