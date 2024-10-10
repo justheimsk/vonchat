@@ -17,5 +17,5 @@ func main() {
 
 	log.Println("Connected to database.")
 	server := Server.New(db, log)
-	server.Init()
+	server.CreateHTTPServer()
 }
