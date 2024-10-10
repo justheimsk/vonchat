@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	healthCheckTypes "github.com/justheimsk/vonchat/server/internal/services/healthCheck/interfaces"
+	healthCheckTypes "github.com/justheimsk/vonchat/server/api/v1/healthCheck/interfaces"
 )
 
 type healthCheckController struct {

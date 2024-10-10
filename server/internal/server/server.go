@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	healthCheckService "github.com/justheimsk/vonchat/server/internal/services/healthCheck"
+	healthCheckService "github.com/justheimsk/vonchat/server/api/v1/healthCheck"
 )
 
 type Server struct {

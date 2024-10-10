@@ -3,9 +3,9 @@ package healthCheckService
 import (
 	"database/sql"
 
+	healthCheckDelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
 	controllers "github.com/justheimsk/vonchat/server/internal/controllers/rest"
 	repositories "github.com/justheimsk/vonchat/server/internal/repository/pgsql"
-	healthCheckDelivery "github.com/justheimsk/vonchat/server/internal/services/healthCheck/delivery/http"
 )
 
 type healthCheckBuilder struct {
