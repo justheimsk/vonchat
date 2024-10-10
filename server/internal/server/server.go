@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/justheimsk/vonchat/server/api/v1"
 )
 
@@ -23,11 +22,11 @@ func (self *Server) Init() {
 	const PORT int = 8080
 	self.logger.Println("Starting HTTP server...")
 
-	mainRouter := chi.NewRouter()
-	api.LoadV1Routes(mainRouter, self.db)
+	router := http.NewServeMux()
+	api.LoadV1Routes(router, self.db)
 
 	log.Printf("Serving HTTP in port: %d.\n", PORT)
-	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", PORT), mainRouter); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", PORT), router); err != nil {
 		log.Fatalf("Failed to start HTTP server: %s", err)
 	}
 }
