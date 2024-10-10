@@ -3,7 +3,7 @@ package healthCheckService
 import (
 	"database/sql"
 
-	healthCheckDelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
+	healthCheckDelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery"
 	healthCheckTypes "github.com/justheimsk/vonchat/server/api/v1/healthCheck/interfaces"
 	controllers "github.com/justheimsk/vonchat/server/internal/controllers/rest"
 	repositories "github.com/justheimsk/vonchat/server/internal/repository/pgsql"
