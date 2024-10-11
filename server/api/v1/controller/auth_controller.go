@@ -8,12 +8,12 @@ import (
 )
 
 type AuthController struct {
-	repo interfaces.AuthRepository
+	authService interfaces.AuthService
 }
 
-func NewAuthController(repo interfaces.AuthRepository) *AuthController {
+func NewAuthController(authService interfaces.AuthService) *AuthController {
 	return &AuthController{
-		repo,
+		authService,
 	}
 }
 
