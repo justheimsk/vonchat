@@ -16,3 +16,8 @@ type AuthRepository interface {
 	FetchAccountByEmail(email string) (model.User, error)
 	FetchAccountByName(name string) (model.User, error)
 }
+
+type AuthService interface {
+	AuthRepository
+	ComparePasswords(password string, hash string) (bool, error)
+}
