@@ -1,17 +1,17 @@
-package controller
+package httpdelivery
 
 import (
 	"fmt"
 	"net/http"
 
-	"github.com/justheimsk/vonchat/server/api/v1/interface"
+	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
 )
 
 type healthController struct {
-	repo interfaces.HealthRepository
+	repo domain.HealthRepository
 }
 
-func NewHealthController(repo interfaces.HealthRepository) *healthController {
+func NewHealthController(repo domain.HealthRepository) *healthController {
 	return &healthController{
 		repo,
 	}

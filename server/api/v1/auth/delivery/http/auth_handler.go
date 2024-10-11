@@ -1,17 +1,17 @@
-package handler
+package httpdelivery
 
 import (
 	"net/http"
 
-	"github.com/justheimsk/vonchat/server/api/v1/interface"
+	"github.com/justheimsk/vonchat/server/api/v1/auth"
 	"github.com/justheimsk/vonchat/server/pkg/concat"
 )
 
 type AuthHandler struct {
-	controller interfaces.AuthController
+	controller auth.Controller
 }
 
-func NewAuthHandler(controller interfaces.AuthController) *AuthHandler {
+func NewAuthHandler(controller auth.Controller) *AuthHandler {
 	return &AuthHandler{
 		controller,
 	}

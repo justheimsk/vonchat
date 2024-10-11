@@ -3,22 +3,21 @@ package builder
 import (
 	"database/sql"
 
-	controller "github.com/justheimsk/vonchat/server/api/v1/controller"
-	handler "github.com/justheimsk/vonchat/server/api/v1/handler"
-	"github.com/justheimsk/vonchat/server/api/v1/service"
-	"github.com/justheimsk/vonchat/server/internal/repository"
+	httpdelivery "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/http"
+	"github.com/justheimsk/vonchat/server/internal/infra/repository/pgsql"
+	"github.com/justheimsk/vonchat/server/internal/service"
 )
 
 type AuthBuilder struct {
-	Handler handler.AuthHandler
+	Handler httpdelivery.AuthHandler
 }
 
 func NewAuthBuilder(db *sql.DB) *AuthBuilder {
-	repo := repository.NewAuthRepository(db)
+	repo := pgsql.NewAuthRepository(db)
 	service := service.NewAuthService(repo)
-	controller := controller.NewAuthController(service)
+	controller := httpdelivery.NewAuthController(service)
 
 	return &AuthBuilder{
-		Handler: *handler.NewAuthHandler(controller),
+		Handler: *httpdelivery.NewAuthHandler(controller),
 	}
 }
