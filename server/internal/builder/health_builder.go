@@ -3,8 +3,8 @@ package builder
 import (
 	"database/sql"
 
-	controller "github.com/justheimsk/vonchat/server/api/v1/controllers"
-	handler "github.com/justheimsk/vonchat/server/api/v1/handlers"
+	controller "github.com/justheimsk/vonchat/server/api/v1/controller"
+	handler "github.com/justheimsk/vonchat/server/api/v1/handler"
 	"github.com/justheimsk/vonchat/server/internal/repository"
 )
 
