@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/justheimsk/vonchat/server/api/v1/interfaces"
+	"github.com/justheimsk/vonchat/server/api/v1/interface"
 	"github.com/justheimsk/vonchat/server/pkg/concat"
 )
 
@@ -18,5 +18,5 @@ func NewHTTPHandler(controller interfaces.HealthController) *HealthHTTPHandler {
 }
 
 func (self *HealthHTTPHandler) Load(r *http.ServeMux, prefix string) {
-	r.HandleFunc(concat.ConcatPath("GET", prefix, "/"), self.controller.CheckHealth)
+	r.HandleFunc(concat.ConcatPath("GET", prefix, ""), self.controller.CheckHealth)
 }

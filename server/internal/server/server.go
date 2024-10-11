@@ -30,3 +30,18 @@ func (self *Server) CreateHTTPServer() {
 		log.Fatalf("Failed to start HTTP server: %s", err)
 	}
 }
+
+// func ensureTrailingSlash(next http.Handler) http.Handler {
+// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		if r.URL.Path != "/" && endsWithSlash(r.URL.Path) {
+// 			path := r.URL.Path[:len(r.URL.Path)-1]
+// 			http.Redirect(w, r, path, http.StatusMovedPermanently)
+// 			return
+// 		}
+// 		next.ServeHTTP(w, r)
+// 	})
+// }
+//
+// func endsWithSlash(path string) bool {
+// 	return len(path) > 0 && path[len(path)-1] == '/'
+// }
