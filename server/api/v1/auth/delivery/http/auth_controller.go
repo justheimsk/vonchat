@@ -1,17 +1,17 @@
-package controller
+package httpdelivery
 
 import (
 	"fmt"
 	"net/http"
 
-	"github.com/justheimsk/vonchat/server/api/v1/interface"
+	domain "github.com/justheimsk/vonchat/server/internal/domain/services"
 )
 
 type AuthController struct {
-	authService interfaces.AuthService
+	authService domain.AuthService
 }
 
-func NewAuthController(authService interfaces.AuthService) *AuthController {
+func NewAuthController(authService domain.AuthService) *AuthController {
 	return &AuthController{
 		authService,
 	}

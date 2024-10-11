@@ -3,20 +3,19 @@ package builder
 import (
 	"database/sql"
 
-	controller "github.com/justheimsk/vonchat/server/api/v1/controller"
-	handler "github.com/justheimsk/vonchat/server/api/v1/handler"
-	"github.com/justheimsk/vonchat/server/internal/repository"
+	httpdelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
+	"github.com/justheimsk/vonchat/server/internal/infra/repository/pgsql"
 )
 
 type HealthBuilder struct {
-	Handler handler.HealthHTTPHandler
+	Handler httpdelivery.HealthHandler
 }
 
 func NewHealthBuilder(db *sql.DB) *HealthBuilder {
-	repo := repository.NewHealthRepository(db)
-	controller := controller.NewHealthController(repo)
+	repo := pgsql.NewHealthRepository(db)
+	controller := httpdelivery.NewHealthController(repo)
 
 	return &HealthBuilder{
-		Handler: *handler.NewHTTPHandler(controller),
+		Handler: *httpdelivery.NewHTTPHandler(controller),
 	}
 }
