@@ -1,6 +1,15 @@
 package interfaces
 
-import "github.com/justheimsk/vonchat/server/api/v1/model"
+import (
+	"net/http"
+
+	"github.com/justheimsk/vonchat/server/api/v1/model"
+)
+
+type AuthController interface {
+	Register(w http.ResponseWriter, r *http.Request)
+	Login(w http.ResponseWriter, r *http.Request)
+}
 
 type AuthRepository interface {
 	Register(name string, email string, password string) (model.User, error)
