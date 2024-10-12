@@ -1,8 +1,6 @@
 package domain
 
-import domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
-
 type AuthService interface {
-	domain.AuthRepository
-	ComparePasswords(password string, hash string) (bool, error)
+	Register(name string, email string, password string) (string, error)
+	Login(email string, password string) (string, error)
 }
