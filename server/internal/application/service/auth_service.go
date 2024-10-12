@@ -50,6 +50,23 @@ func (self *AuthService) Register(name string, email string, password string) (t
 }
 
 func (self *AuthService) Login(email string, password string) (token string, err error) {
+	user, err := self.repo.FetchAccountByEmail(email)
+	if err != nil {
+		err = models.InternalError
+		return
+	}
+
+	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)) != nil {
+		err = models.ErrUnauthorized
+		return
+	}
+
+	token, err = self.generateToken(user.ID)
+	if err != nil {
+		err = models.InternalError
+		return
+	}
+
 	return
 }
 
