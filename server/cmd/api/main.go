@@ -12,7 +12,7 @@ func main() {
 	log.Info("Opening database connection...")
 	db, err := database.Open()
 	if err != nil {
-		log.Fatal("Fatal error: %s", err)
+		log.Fatal("Fatal error: ", err)
 	}
 
 	log.Info("Connected to the database.")
