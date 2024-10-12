@@ -1,8 +1,6 @@
 package service
 
 import (
-	"fmt"
-
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
@@ -10,12 +8,14 @@ import (
 )
 
 type AuthService struct {
-	repo domain.AuthRepository
+	repo   domain.AuthRepository
+	logger models.Logger
 }
 
-func NewAuthService(repo domain.AuthRepository) *AuthService {
+func NewAuthService(repo domain.AuthRepository, logger models.Logger) *AuthService {
 	return &AuthService{
-		repo,
+		repo:   repo,
+		logger: logger.New("AUTH SERVICE"),
 	}
 }
 
@@ -28,17 +28,24 @@ func (self *AuthService) Register(name string, email string, password string) (t
 
 	pass, err := self.hashPassword(password)
 	if err != nil {
+		self.logger.Error(err)
 		err = models.InternalError
 		return
 	}
 
 	id, err := self.repo.Register(name, email, pass)
 	if err != nil {
+		self.logger.Error(err)
 		err = models.InternalError
 		return
 	}
 
 	token, err = self.generateToken(id)
+	if err != nil {
+		self.logger.Error(err)
+		err = models.InternalError
+		return
+	}
 	return
 }
 
