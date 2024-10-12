@@ -33,7 +33,9 @@ func (self *AuthController) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Fprintf(w, token)
+	util.WriteHTTPResponse(w, map[string]interface{}{
+		"token": token,
+	})
 }
 
 func (self *AuthController) Login(w http.ResponseWriter, r *http.Request) {

@@ -25,3 +25,9 @@ func WriteHTTPError(w http.ResponseWriter, err error) {
 		fmt.Fprintf(w, "Internal server error.")
 	}
 }
+
+func WriteHTTPResponse(w http.ResponseWriter, buf map[string]interface{}) {
+	if err := json.NewEncoder(w).Encode(buf); err != nil {
+		WriteHTTPError(w, models.InternalError)
+	}
+}
