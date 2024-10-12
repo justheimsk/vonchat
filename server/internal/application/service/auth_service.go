@@ -2,10 +2,11 @@ package service
 
 import (
 	"fmt"
-	"strconv"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService struct {
@@ -25,7 +26,13 @@ func (self *AuthService) Register(name string, email string, password string) (t
 		return
 	}
 
-	id, err := self.repo.Register(name, email, password)
+	pass, err := self.hashPassword(password)
+	if err != nil {
+		err = models.InternalError
+		return
+	}
+
+	id, err := self.repo.Register(name, email, pass)
 	if err != nil {
 		err = models.InternalError
 		return
@@ -40,7 +47,12 @@ func (self *AuthService) Login(email string, password string) (token string, err
 }
 
 func (self *AuthService) generateToken(id int) (token string, err error) {
-	token = strconv.Itoa(id)
+	buf := jwt.NewWithClaims(jwt.SigningMethodHS256,
+		jwt.MapClaims{
+			"id": id,
+		})
+
+	token, err = buf.SignedString([]byte("03940943"))
 	return
 }
 
@@ -49,5 +61,8 @@ func (self *AuthService) validateToken(token string) (id string, err error) {
 }
 
 func (self *AuthService) hashPassword(password string) (hash string, err error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	hash = string(bytes)
+
 	return
 }
