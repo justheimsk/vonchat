@@ -14,12 +14,14 @@ const (
 	NotFoundErrorCode = iota
 	DuplicateErrorCode
 	InternalErrorCode
+	UnauthorizedErrorCode
 )
 
 var (
-	ErrNotFound   = NewCustomError(NotFoundErrorCode, "Requested resource not found.")
-	ErrDuplicate  = NewCustomError(DuplicateErrorCode, "Duplicate entry.")
-	InternalError = NewCustomError(InternalErrorCode, "Internal server error.")
+	ErrNotFound     = NewCustomError(NotFoundErrorCode, "Requested resource not found.")
+	ErrDuplicate    = NewCustomError(DuplicateErrorCode, "Duplicate entry.")
+	InternalError   = NewCustomError(InternalErrorCode, "Internal server error.")
+	ErrUnauthorized = NewCustomError(UnauthorizedErrorCode, "Unauthorized operation.")
 )
 
 func NewCustomError(statuscode int, message string) *CustomError {
@@ -45,6 +47,8 @@ func (self *CustomError) ToHttpStatusCode() *CustomError {
 		return NewCustomError(http.StatusConflict, self.Message)
 	case InternalErrorCode:
 		return NewCustomError(http.StatusInternalServerError, self.Message)
+	case UnauthorizedErrorCode:
+		return NewCustomError(http.StatusUnauthorized, self.Message)
 	default:
 		return self
 	}
