@@ -10,12 +10,12 @@ import (
 )
 
 type Server struct {
-	db *sql.DB
-  logger models.Logger
+	db     *sql.DB
+	logger models.Logger
 }
 
 func New(db *sql.DB, logger models.Logger) *Server {
-  return &Server{db: db, logger: logger.New("HTTP")}
+	return &Server{db: db, logger: logger.New("HTTP")}
 }
 
 func (self *Server) CreateHTTPServer() {
