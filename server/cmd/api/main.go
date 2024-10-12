@@ -3,19 +3,19 @@ package main
 import (
 	"github.com/justheimsk/vonchat/server/internal/database"
 	Server "github.com/justheimsk/vonchat/server/internal/server"
-	logger "github.com/justheimsk/vonchat/server/pkg/logger"
+	"github.com/justheimsk/vonchat/server/pkg/logger"
 )
 
 func main() {
-	log := logger.GetLogger()
+	log := logger.NewLogger("CORE")
 
-	log.Println("Opening database connection...")
+	log.Info("Opening database connection...")
 	db, err := database.Open()
 	if err != nil {
-		log.Fatalf("Fatal error: %s", err)
+		log.Fatal("Fatal error: %s", err)
 	}
 
-	log.Println("Connected to the database.")
+	log.Info("Connected to the database.")
 	defer db.Close()
 
 	server := Server.New(db, log)

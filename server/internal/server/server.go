@@ -3,31 +3,32 @@ package server
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/justheimsk/vonchat/server/api/v1"
+	"github.com/justheimsk/vonchat/server/internal/domain/models"
 )
 
 type Server struct {
-	db     *sql.DB
-	logger *log.Logger
+	db *sql.DB
+  logger models.Logger
 }
 
-func New(db *sql.DB, logger *log.Logger) *Server {
-	return &Server{db, logger}
+func New(db *sql.DB, logger models.Logger) *Server {
+  return &Server{db: db, logger: logger.New("HTTP")}
 }
 
 func (self *Server) CreateHTTPServer() {
 	const PORT int = 8080
-	self.logger.Println("Starting HTTP server...")
+
+	self.logger.Info("Starting HTTP server...")
 
 	router := http.NewServeMux()
-	api.LoadV1Routes(router, self.db)
+	api.LoadV1Routes(router, self.db, self.logger)
 
-	log.Printf("Serving HTTP in port: %d.\n", PORT)
+	self.logger.Info("Serving HTTP in port: ", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", PORT), router); err != nil {
-		log.Fatalf("Failed to start HTTP server: %s", err)
+		self.logger.Fatal("Failed to start HTTP server: ", err)
 	}
 }
 
