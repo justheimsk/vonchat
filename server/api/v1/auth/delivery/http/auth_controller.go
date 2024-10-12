@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/justheimsk/vonchat/server/api/v1/dto"
+	"github.com/justheimsk/vonchat/server/internal/application/dto"
 	domain "github.com/justheimsk/vonchat/server/internal/domain/services"
 	"github.com/justheimsk/vonchat/server/pkg/util"
 )
