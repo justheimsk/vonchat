@@ -15,7 +15,9 @@ func main() {
 		log.Fatalf("Fatal error: %s", err)
 	}
 
-	log.Println("Connected to database.")
+	log.Println("Connected to the database.")
+	defer db.Close()
+
 	server := Server.New(db, log)
 	server.CreateHTTPServer()
 }

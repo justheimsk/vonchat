@@ -1,4 +1,4 @@
-package concat
+package util
 
 import "fmt"
 

@@ -1,10 +1,13 @@
 package httpdelivery
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
+	"github.com/justheimsk/vonchat/server/api/v1/dto"
 	domain "github.com/justheimsk/vonchat/server/internal/domain/services"
+	"github.com/justheimsk/vonchat/server/pkg/util"
 )
 
 type AuthController struct {
@@ -18,7 +21,19 @@ func NewAuthController(authService domain.AuthService) *AuthController {
 }
 
 func (self *AuthController) Register(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello from auth/resgiter")
+	var account dto.UserCreate
+
+	if err := json.NewDecoder(r.Body).Decode(&account); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	token, err := self.authService.Register(account.Username, account.Email, account.Password)
+	if err != nil {
+		util.WriteHTTPError(w, err)
+		return
+	}
+
+	fmt.Fprintf(w, token)
 }
 
 func (self *AuthController) Login(w http.ResponseWriter, r *http.Request) {

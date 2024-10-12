@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/justheimsk/vonchat/server/api/v1/auth"
-	"github.com/justheimsk/vonchat/server/pkg/concat"
+	"github.com/justheimsk/vonchat/server/pkg/util"
 )
 
 type AuthHandler struct {
@@ -18,6 +18,6 @@ func NewAuthHandler(controller auth.Controller) *AuthHandler {
 }
 
 func (self *AuthHandler) Load(r *http.ServeMux, prefix string) {
-	r.HandleFunc(concat.ConcatPath("POST", prefix, "/register"), self.controller.Register)
-	r.HandleFunc(concat.ConcatPath("POST", prefix, "/login"), self.controller.Login)
+	r.HandleFunc(util.ConcatPath("POST", prefix, "/register"), self.controller.Register)
+	r.HandleFunc(util.ConcatPath("POST", prefix, "/login"), self.controller.Login)
 }

@@ -1,6 +1,8 @@
 package service
 
 import (
+	"strconv"
+
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
 )
@@ -15,23 +17,29 @@ func NewAuthService(repo domain.AuthRepository) *AuthService {
 	}
 }
 
-func (self *AuthService) Register(name string, email string, password string) (user models.User, err error) {
+func (self *AuthService) Register(name string, email string, password string) (token string, err error) {
+	_, err = self.repo.FetchAccountByEmail(email)
+	if err != nil {
+		err = models.NewCustomError(models.DuplicateErrorCode, "Email already in use.")
+		return
+	}
+
+	id, err := self.repo.Register(name, email, password)
+	if err != nil {
+		err = models.InternalError
+		return
+	}
+
+	token, err = self.generateToken(id)
 	return
 }
 
-func (self *AuthService) FetchAccountByEmail(email string) (user models.User, err error) {
+func (self *AuthService) Login(email string, password string) (token string, err error) {
 	return
 }
 
-func (self *AuthService) FetchAccountByName(name string) (user models.User, err error) {
-	return
-}
-
-func (self *AuthService) ComparePasswords(password string, hash string) (ok bool, err error) {
-	return
-}
-
-func (self *AuthService) generateToken(id string) (token string, err error) {
+func (self *AuthService) generateToken(id int) (token string, err error) {
+	token = strconv.Itoa(id)
 	return
 }
 
