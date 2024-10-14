@@ -86,7 +86,10 @@ func (self *AuthService) validateToken(token string) (id string, err error) {
 
 func (self *AuthService) hashPassword(password string) (hash string, err error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	hash = string(bytes)
+	if err != nil {
+		return
+	}
 
+	hash = string(bytes)
 	return
 }
