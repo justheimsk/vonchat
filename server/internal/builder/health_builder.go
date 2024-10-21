@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	httpdelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
-	"github.com/justheimsk/vonchat/server/internal/infra/repository/pgsql"
+	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/pgsql"
 )
 
 type HealthBuilder struct {

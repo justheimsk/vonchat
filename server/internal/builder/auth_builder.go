@@ -6,7 +6,7 @@ import (
 	httpdelivery "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/http"
 	"github.com/justheimsk/vonchat/server/internal/application/service"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
-	"github.com/justheimsk/vonchat/server/internal/infra/repository/pgsql"
+	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/pgsql"
 )
 
 type AuthBuilder struct {
