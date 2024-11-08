@@ -7,6 +7,7 @@ import (
 
 	"github.com/justheimsk/vonchat/server/api/v1"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	"github.com/justheimsk/vonchat/server/internal/infra/config"
 )
 
 type Server struct {
@@ -18,8 +19,8 @@ func New(db *sql.DB, logger models.Logger) *Server {
 	return &Server{db: db, logger: logger.New("HTTP")}
 }
 
-func (self *Server) CreateHTTPServer() {
-	const PORT int = 8080
+func (self *Server) CreateHTTPServer(config *config.Config) {
+  PORT := config.Port
 
 	self.logger.Info("Starting HTTP server...")
 
@@ -27,7 +28,7 @@ func (self *Server) CreateHTTPServer() {
 	api.LoadV1Routes(router, self.db, self.logger)
 
 	self.logger.Info("Serving HTTP in port: ", PORT)
-	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", PORT), router); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), router); err != nil {
 		self.logger.Fatal("Failed to start HTTP server: ", err)
 	}
 }
