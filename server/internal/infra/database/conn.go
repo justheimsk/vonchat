@@ -3,6 +3,8 @@ package database
 import (
 	"database/sql"
 	"fmt"
+
+	"github.com/justheimsk/vonchat/server/scripts"
 	_ "github.com/lib/pq"
 )
 
@@ -23,7 +25,14 @@ func Open() (db *sql.DB, err error) {
 	err = db.Ping()
 	if err != nil {
 		err = fmt.Errorf("Failed to connect to the database: %w", err)
+    return
 	}
+
+  _, err = db.Exec(scripts.GetPQInitScript())
+  if err != nil {
+    err = fmt.Errorf("Failed to run init script: %w", err)
+    return
+  }
 
 	return
 }
