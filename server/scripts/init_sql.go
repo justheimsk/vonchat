@@ -1,6 +1,6 @@
 package scripts
 
-func GetPQInitScript() string {
+func GetPGInitScript() string {
   return `CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             username varchar(50) NOT NULL,
