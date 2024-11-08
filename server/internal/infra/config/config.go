@@ -76,6 +76,5 @@ func LoadConfig(log *logger.Logger) (*Config, error) {
 
   config.Port = port;
   config.DatabaseDriver = DBDriver
-  log.Info("Using ", config.DatabaseDriver, " database driver")
   return config, nil
 }

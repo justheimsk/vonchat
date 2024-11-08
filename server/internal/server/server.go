@@ -1,27 +1,26 @@
 package server
 
 import (
-	"database/sql"
 	"fmt"
 	"net/http"
 
 	"github.com/justheimsk/vonchat/server/api/v1"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
+	"github.com/justheimsk/vonchat/server/internal/infra/database"
 )
 
 type Server struct {
-	db     *sql.DB
+	db     database.DatabaseDriver
 	logger models.Logger
 }
 
-func New(db *sql.DB, logger models.Logger) *Server {
+func New(db database.DatabaseDriver, logger models.Logger) *Server {
 	return &Server{db: db, logger: logger.New("HTTP")}
 }
 
 func (self *Server) CreateHTTPServer(config *config.Config) {
   PORT := config.Port
-
 	self.logger.Info("Starting HTTP server...")
 
 	router := http.NewServeMux()

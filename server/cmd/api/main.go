@@ -15,16 +15,18 @@ func main() {
     return
   }
 
+  driver := database.NewPostgresDatabaseDriver(config)
+  log.Info("Using ", driver.GetName(), " database driver.")
 	log.Info("Opening database connection...")
-	db, err := database.Open()
+	err = driver.Open()
 	if err != nil {
 		log.Fatal("Fatal error: ", err)
     return
 	}
 
 	log.Info("Connected to the database.")
-	defer db.Close()
+	defer driver.Close()
 
-	server := Server.New(db, log)
+	server := Server.New(driver, log)
 	server.CreateHTTPServer(config)
 }
