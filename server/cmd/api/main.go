@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/justheimsk/vonchat/server/internal/database"
+	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/logger"
 	Server "github.com/justheimsk/vonchat/server/internal/server"
 )
