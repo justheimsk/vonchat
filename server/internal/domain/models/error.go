@@ -1,3 +1,5 @@
+// TODO: Improve error standardization and extensibility
+
 package models
 
 import (
@@ -15,6 +17,7 @@ const (
 	DuplicateErrorCode
 	InternalErrorCode
 	UnauthorizedErrorCode
+	BadRequestErrorCode
 )
 
 var (
@@ -22,6 +25,7 @@ var (
 	ErrDuplicate    = NewCustomError(DuplicateErrorCode, "Duplicate entry.")
 	InternalError   = NewCustomError(InternalErrorCode, "Internal server error.")
 	ErrUnauthorized = NewCustomError(UnauthorizedErrorCode, "Unauthorized operation.")
+	ErrBadRequest = NewCustomError(UnauthorizedErrorCode, "Bad request.")
 )
 
 func NewCustomError(statuscode int, message string) *CustomError {
@@ -48,6 +52,8 @@ func (self *CustomError) ToHttpStatusCode() *CustomError {
 	case InternalErrorCode:
 		return NewCustomError(http.StatusInternalServerError, self.Message)
 	case UnauthorizedErrorCode:
+		return NewCustomError(http.StatusUnauthorized, self.Message)
+  case BadRequestErrorCode:
 		return NewCustomError(http.StatusUnauthorized, self.Message)
 	default:
 		return self
