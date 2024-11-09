@@ -30,7 +30,7 @@ var (
 	ErrDuplicate    = NewCustomError(DuplicateErrorCode, "Duplicate entry.")
 	InternalError   = NewCustomError(InternalErrorCode, "Internal server error.")
 	ErrUnauthorized = NewCustomError(UnauthorizedErrorCode, "Unauthorized operation.")
-	ErrBadRequest = NewCustomError(UnauthorizedErrorCode, "Bad request.")
+	ErrBadRequest   = NewCustomError(BadRequestErrorCode, "Bad request.")
 )
 
 func NewMultiError(code string, errors []CustomError) *MultiError {

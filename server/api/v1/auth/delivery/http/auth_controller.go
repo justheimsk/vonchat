@@ -1,4 +1,4 @@
-package httpdelivery
+package http
 
 import (
 	"encoding/json"
@@ -24,7 +24,7 @@ func (self *AuthController) Register(w http.ResponseWriter, r *http.Request) {
 	var account dto.UserCreate
 
 	if err := json.NewDecoder(r.Body).Decode(&account); err != nil {
-		util.WriteHTTPError(w, models.InternalError)
+		util.WriteHTTPError(w, models.ErrBadRequest)
 		return
 	}
 
@@ -43,7 +43,7 @@ func (self *AuthController) Login(w http.ResponseWriter, r *http.Request) {
 	var account dto.UserCreate
 
 	if err := json.NewDecoder(r.Body).Decode(&account); err != nil {
-		util.WriteHTTPError(w, models.InternalError)
+		util.WriteHTTPError(w, models.ErrBadRequest)
 		return
 	}
 

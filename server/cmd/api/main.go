@@ -4,7 +4,7 @@ import (
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/logger"
-	Server "github.com/justheimsk/vonchat/server/internal/server"
+  http "github.com/justheimsk/vonchat/server/internal/infra/http"
 )
 
 func main() {
@@ -34,6 +34,6 @@ func main() {
 	log.Info("Connected to the database.")
 	defer driver.Close()
 
-	server := Server.New(driver, log)
-	server.CreateHTTPServer(config)
+	server := http.NewServer(driver, log)
+	server.Serve(config)
 }

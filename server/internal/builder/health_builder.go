@@ -1,20 +1,20 @@
 package builder
 
 import (
-	httpdelivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
+	http "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository"
 )
 
 type HealthBuilder struct {
-	Handler httpdelivery.HealthHandler
+	Handler http.HealthHandler
 }
 
 func NewHealthBuilder(driver database.DatabaseDriver) *HealthBuilder {
   repo := repository.NewHealthRepository(driver)
-	controller := httpdelivery.NewHealthController(repo)
+	controller := http.NewHealthController(repo)
 
 	return &HealthBuilder{
-		Handler: *httpdelivery.NewHTTPHandler(controller),
+		Handler: *http.NewHTTPHandler(controller),
 	}
 }
