@@ -4,7 +4,6 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
-	"github.com/justheimsk/vonchat/server/pkg/util"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -34,7 +33,7 @@ func (self *AuthService) Register(name string, email string, password string) (t
   }
 
   if errs := user.Validate(); errs != nil {
-    err = models.NewCustomError(models.BadRequestErrorCode, util.JoinErrors(errs))
+    err = models.NewMultiError("400", errs)
     return
   }
 

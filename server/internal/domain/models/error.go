@@ -4,20 +4,25 @@ package models
 
 import (
 	"encoding/json"
-	"net/http"
+	"strings"
 )
 
 type CustomError struct {
-	Message    string `json:"message"`
-	StatusCode int    `json:"status_code"`
+	Message string `json:"message"`
+	Code    string  `json:"code"`
+}
+
+type MultiError struct {
+  Errors []CustomError `json:"errors"`
+  Code   string        `json:"code"`
 }
 
 const (
-	NotFoundErrorCode = iota
-	DuplicateErrorCode
-	InternalErrorCode
-	UnauthorizedErrorCode
-	BadRequestErrorCode
+	NotFoundErrorCode     = "not_found"
+	DuplicateErrorCode    = "duplicate"
+	InternalErrorCode     = "internal_error"
+	UnauthorizedErrorCode = "unauthorized"
+	BadRequestErrorCode   = "bad_request"
 )
 
 var (
@@ -28,10 +33,27 @@ var (
 	ErrBadRequest = NewCustomError(UnauthorizedErrorCode, "Bad request.")
 )
 
-func NewCustomError(statuscode int, message string) *CustomError {
+func NewMultiError(code string, errors []CustomError) *MultiError {
+  return &MultiError{
+    errors,
+    code,
+  }
+}
+
+func (self *MultiError) Error() string {
+  var msgs []string
+
+  for _, err := range(self.Errors) {
+    msgs = append(msgs, err.Error())
+  }
+
+  return strings.Join(msgs, ", ")
+}
+
+func NewCustomError(code string, message string) *CustomError {
 	return &CustomError{
 		message,
-		statuscode,
+		code,
 	}
 }
 
@@ -44,17 +66,17 @@ func (self *CustomError) ToJSON() ([]byte, error) {
 }
 
 func (self *CustomError) ToHttpStatusCode() *CustomError {
-	switch self.StatusCode {
+	switch self.Code {
 	case NotFoundErrorCode:
-		return NewCustomError(http.StatusNotFound, self.Message)
+		return NewCustomError("404", self.Message)
 	case DuplicateErrorCode:
-		return NewCustomError(http.StatusConflict, self.Message)
+		return NewCustomError("409", self.Message)
 	case InternalErrorCode:
-		return NewCustomError(http.StatusInternalServerError, self.Message)
+		return NewCustomError("500", self.Message)
 	case UnauthorizedErrorCode:
-		return NewCustomError(http.StatusUnauthorized, self.Message)
+		return NewCustomError("401", self.Message)
   case BadRequestErrorCode:
-		return NewCustomError(http.StatusUnauthorized, self.Message)
+		return NewCustomError("400", self.Message)
 	default:
 		return self
 	}
