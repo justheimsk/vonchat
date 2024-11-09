@@ -4,6 +4,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/pkg/util"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -25,6 +26,17 @@ func (self *AuthService) Register(name string, email string, password string) (t
 		err = models.NewCustomError(models.DuplicateErrorCode, "Email already in use.")
 		return
 	}
+
+  user := models.User{
+    Username: name,
+    Email: email,
+    Password: password,
+  }
+
+  if errs := user.Validate(); errs != nil {
+    err = models.NewCustomError(models.BadRequestErrorCode, util.JoinErrors(errs))
+    return
+  }
 
 	pass, err := self.hashPassword(password)
 	if err != nil {
