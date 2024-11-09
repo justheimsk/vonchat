@@ -15,7 +15,14 @@ func main() {
     return
   }
 
-  driver := database.NewPostgresDatabaseDriver(config)
+  var driver database.DatabaseDriver
+
+  if config.DatabaseDriver == "POSTGRES" {
+    driver = database.NewPostgresDatabaseDriver(config)
+  } else if config.DatabaseDriver == "SQLITE" {
+    driver = database.NewSQLiteDatabaseDriver(config)
+  }
+
   log.Info("Using ", driver.GetName(), " database driver.")
 	log.Info("Opening database connection...")
 	err = driver.Open()

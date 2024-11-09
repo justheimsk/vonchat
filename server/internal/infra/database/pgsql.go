@@ -9,13 +9,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type DatabaseDriver interface {
-  Open() error
-  Close()
-  GetDB() *sql.DB
-  GetName() string
-}
-
 type PostgresDatabaseDriver struct {
   Host     string
   Port     string
@@ -51,7 +44,7 @@ func (self *PostgresDatabaseDriver) Open() (err error) {
 
   _, err = db.Exec(scripts.GetPGInitScript())
   if err != nil {
-    err = fmt.Errorf("Failed to run init script: %w", err)
+    err = fmt.Errorf("Failed to exec init script: %w", err)
     return
   }
 
@@ -67,4 +60,6 @@ func (self *PostgresDatabaseDriver) GetName() string {
   return "POSTGRES"
 }
 
-func (self *PostgresDatabaseDriver) Close() {}
+func (self *PostgresDatabaseDriver) Close() {
+  self.db.Close()
+}
