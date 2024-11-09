@@ -1,4 +1,4 @@
-package server
+package http
 
 import (
 	"fmt"
@@ -15,11 +15,11 @@ type Server struct {
 	logger models.Logger
 }
 
-func New(db database.DatabaseDriver, logger models.Logger) *Server {
+func NewServer(db database.DatabaseDriver, logger models.Logger) *Server {
 	return &Server{db: db, logger: logger.New("HTTP")}
 }
 
-func (self *Server) CreateHTTPServer(config *config.Config) {
+func (self *Server) Serve(config *config.Config) {
   PORT := config.Port
 	self.logger.Info("Starting HTTP server...")
 

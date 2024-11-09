@@ -1,4 +1,4 @@
-package httpdelivery
+package http
 
 import (
 	"fmt"
