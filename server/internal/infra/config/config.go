@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/justheimsk/vonchat/server/internal/infra/logger"
+	"github.com/justheimsk/vonchat/server/internal/domain/models"
 )
 
 type Config struct {
@@ -20,7 +20,7 @@ type Config struct {
   Debug            bool
 }
 
-func LoadConfig(log *logger.Logger) (*Config, error) {
+func LoadConfig(log models.Logger) (*Config, error) {
   config := &Config{}
   debug := os.Getenv("DEBUG")
   if debug == "true" {

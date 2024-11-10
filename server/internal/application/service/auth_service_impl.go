@@ -20,6 +20,7 @@ func NewAuthService(repo domain.AuthRepository, logger models.Logger) *authServi
 }
 
 func (self *authService) Register(name string, email string, password string) (token string, err error) {
+  start := self.logger.StartTrigger()
 	_, err = self.repo.FetchAccountByEmail(email)
 	if err == nil {
 		err = models.NewCustomError(models.DuplicateErrorCode, "Email already in use.")
@@ -57,13 +58,16 @@ func (self *authService) Register(name string, email string, password string) (t
 		err = models.InternalError
 		return
 	}
+
+  self.logger.DebugWithTime(start, "Account create ID=", id)
 	return
 }
 
 func (self *authService) Login(email string, password string) (token string, err error) {
+  start := self.logger.StartTrigger()
 	user, err := self.repo.FetchAccountByEmail(email)
 	if err != nil {
-		err = models.InternalError
+		err = models.ErrUnauthorized
 		return
 	}
 
@@ -78,6 +82,7 @@ func (self *authService) Login(email string, password string) (token string, err
 		return
 	}
 
+  self.logger.DebugWithTime(start, "Account login ID=",user.ID)
 	return
 }
 

@@ -27,7 +27,7 @@ func NewPostgresDatabaseDriver(config *config.Config) *PostgresDatabaseDriver {
     DB: config.PostgresDB,
     User: config.PostgresUser,
     Password: config.PostgresPassword,
-    logger: logger.NewLogger("DATABASE"),
+    logger: logger.NewLogger("DATABASE", config),
   }
 }
 

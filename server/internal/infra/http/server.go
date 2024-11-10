@@ -25,9 +25,10 @@ func (self *Server) Serve(config *config.Config) {
   PORT := config.Port
 	self.logger.Info("Starting HTTP server...")
 
+  loggingMiddleware := middleware.NewLoggingMiddleware(self.logger)
 	router := chi.NewRouter()
   if config.Debug {
-    router.Use(middleware.LoggingMiddleware)
+    router.Use(loggingMiddleware.Run)
   }
 
 	api.LoadV1Routes(router, self.db, self.logger)
