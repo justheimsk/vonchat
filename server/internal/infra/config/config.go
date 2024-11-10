@@ -1,11 +1,11 @@
 package config
 
 import (
-	"fmt"
-	"os"
-	"strings"
+  "fmt"
+  "os"
+  "strings"
 
-	"github.com/justheimsk/vonchat/server/internal/domain/models"
+  "github.com/justheimsk/vonchat/server/internal/domain/models"
 )
 
 type Config struct {
@@ -25,7 +25,6 @@ func LoadConfig(log models.Logger) (*Config, error) {
   debug := os.Getenv("DEBUG")
   if debug == "true" {
     config.Debug = true
-    log.Debug("Debug mode enabled.")
   }
 
   DBDriver := strings.ToUpper(os.Getenv("DATABASE_DRIVER"))

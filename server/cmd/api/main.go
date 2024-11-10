@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/justheimsk/vonchat/server/internal/infra/config"
-	"github.com/justheimsk/vonchat/server/internal/infra/database"
-	"github.com/justheimsk/vonchat/server/internal/infra/logger"
+  "github.com/justheimsk/vonchat/server/internal/infra/config"
+  "github.com/justheimsk/vonchat/server/internal/infra/database"
   http "github.com/justheimsk/vonchat/server/internal/infra/http"
+  "github.com/justheimsk/vonchat/server/internal/infra/logger"
 )
 
 func main() {
@@ -29,16 +29,16 @@ func main() {
   }
 
   log.Info("Using ", driver.GetName(), " database driver.")
-	log.Info("Opening database connection...")
-	err = driver.Open()
-	if err != nil {
-		log.Fatal("Fatal error: ", err)
+  log.Info("Opening database connection...")
+  err = driver.Open()
+  if err != nil {
+    log.Fatal("Fatal error: ", err)
     return
-	}
+  }
 
-	log.Info("Connected to the database.")
-	defer driver.Close()
+  log.Info("Connected to the database.")
+  defer driver.Close()
 
-	server := http.NewServer(driver, log)
-	server.Serve(config)
+  server := http.NewServer(driver, log)
+  server.Serve(config)
 }

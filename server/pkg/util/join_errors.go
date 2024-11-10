@@ -1,7 +1,7 @@
 package util
 
 import (
-	"strings"
+  "strings"
 )
 
 func JoinErrors(errs []error) string {

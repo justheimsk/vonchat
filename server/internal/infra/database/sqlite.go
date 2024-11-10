@@ -1,14 +1,14 @@
 package database
 
 import (
-	"database/sql"
-	"fmt"
+  "database/sql"
+  "fmt"
 
-	"github.com/justheimsk/vonchat/server/internal/infra/config"
-	"github.com/justheimsk/vonchat/server/internal/infra/logger"
-	"github.com/justheimsk/vonchat/server/scripts"
+  "github.com/justheimsk/vonchat/server/internal/infra/config"
+  "github.com/justheimsk/vonchat/server/internal/infra/logger"
+  "github.com/justheimsk/vonchat/server/scripts"
 
-	_ "github.com/mattn/go-sqlite3"
+  _ "github.com/mattn/go-sqlite3"
 )
 
 type SQLiteDatabaseDriver struct {

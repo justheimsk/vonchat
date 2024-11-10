@@ -1,21 +1,21 @@
 package delivery_http
 
 import (
-	"github.com/go-chi/chi/v5"
-	"github.com/justheimsk/vonchat/server/api/v1/auth"
+  "github.com/go-chi/chi/v5"
+  "github.com/justheimsk/vonchat/server/api/v1/auth"
 )
 
 type AuthHandler struct {
-	controller auth.Controller
+  controller auth.Controller
 }
 
 func NewAuthHandler(controller auth.Controller) *AuthHandler {
-	return &AuthHandler{
-		controller,
-	}
+  return &AuthHandler{
+    controller,
+  }
 }
 
 func (self *AuthHandler) Load(r chi.Router) {
-	r.Post("/register", self.controller.Register)
-	r.Post("/login", self.controller.Login)
+  r.Post("/register", self.controller.Register)
+  r.Post("/login", self.controller.Login)
 }

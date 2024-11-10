@@ -1,9 +1,9 @@
 package middleware
 
 import (
-	"net/http"
+  "net/http"
 
-	"github.com/justheimsk/vonchat/server/internal/domain/models"
+  "github.com/justheimsk/vonchat/server/internal/domain/models"
 )
 
 type LoggingMiddleware struct {
