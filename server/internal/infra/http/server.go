@@ -8,6 +8,7 @@ import (
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
+	"github.com/justheimsk/vonchat/server/internal/infra/http/middleware"
 )
 
 type Server struct {
@@ -26,11 +27,31 @@ func (self *Server) Serve(config *config.Config) {
 	router := http.NewServeMux()
 	api.LoadV1Routes(router, self.db, self.logger)
 
+  var mux http.Handler
+
+  if config.Debug {
+    mux = use(router, middleware.LoggingMiddleware)
+  } else {
+    mux = router
+  }
+    
 	self.logger.Info("Serving HTTP in port: ", PORT)
-	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), router); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), mux); err != nil {
 		self.logger.Fatal("Failed to start HTTP server: ", err)
 	}
 }
+
+func use(r *http.ServeMux, middlewares ...func(next http.Handler) http.Handler) http.Handler {
+	var s http.Handler
+	s = r
+
+	for _, mw := range middlewares {
+		s = mw(s)
+	}
+
+	return s
+}
+
 
 // func ensureTrailingSlash(next http.Handler) http.Handler {
 // 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

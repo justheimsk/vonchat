@@ -17,11 +17,17 @@ type Config struct {
   PostgresUser     string
   PostgresPassword string
   Port             string
+  Debug            bool
 }
 
 func LoadConfig(log *logger.Logger) (*Config, error) {
   config := &Config{}
-  
+  debug := os.Getenv("DEBUG")
+  if debug == "true" {
+    config.Debug = true
+    log.Debug("Debug mode enabled.")
+  }
+
   DBDriver := strings.ToUpper(os.Getenv("DATABASE_DRIVER"))
   if DBDriver == "" {
     DBDriver = "SQLITE"
