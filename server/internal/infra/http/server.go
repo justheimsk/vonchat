@@ -37,30 +37,3 @@ func (self *Server) Serve(config *config.Config) {
 		self.logger.Fatal("Failed to start HTTP server: ", err)
 	}
 }
-
-func use(r *http.ServeMux, middlewares ...func(next http.Handler) http.Handler) http.Handler {
-	var s http.Handler
-	s = r
-
-	for _, mw := range middlewares {
-		s = mw(s)
-	}
-
-	return s
-}
-
-
-// func ensureTrailingSlash(next http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 		if r.URL.Path != "/" && endsWithSlash(r.URL.Path) {
-// 			path := r.URL.Path[:len(r.URL.Path)-1]
-// 			http.Redirect(w, r, path, http.StatusMovedPermanently)
-// 			return
-// 		}
-// 		next.ServeHTTP(w, r)
-// 	})
-// }
-//
-// func endsWithSlash(path string) bool {
-// 	return len(path) > 0 && path[len(path)-1] == '/'
-// }
