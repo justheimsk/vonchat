@@ -1,4 +1,4 @@
-package http
+package delivery_http
 
 import (
 	"github.com/go-chi/chi/v5"

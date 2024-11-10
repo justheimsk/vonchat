@@ -1,4 +1,4 @@
-package http
+package delivery_http
 
 import (
 	"encoding/json"
@@ -6,15 +6,15 @@ import (
 
 	"github.com/justheimsk/vonchat/server/internal/application/dto"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
-	domain "github.com/justheimsk/vonchat/server/internal/domain/services"
+	domain_service "github.com/justheimsk/vonchat/server/internal/domain/service"
 	"github.com/justheimsk/vonchat/server/pkg/util"
 )
 
 type AuthController struct {
-	authService domain.AuthService
+	authService domain_service.AuthService
 }
 
-func NewAuthController(authService domain.AuthService) *AuthController {
+func NewAuthController(authService domain_service.AuthService) *AuthController {
 	return &AuthController{
 		authService,
 	}

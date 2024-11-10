@@ -8,11 +8,12 @@ import (
 )
 
 func LoadV1Routes(mux *chi.Mux, driver database.DatabaseDriver, logger models.Logger) {
-  mux.Route("/v1", func(router chi.Router) {
-	  healthCheck := builder.NewHealthBuilder(driver)
-	  healthCheck.Handler.Load(router)
+	healthCheckResource := builder.NewHealthBuilder(driver)
+	authResource := builder.NewAuthBuilder(driver, logger)
 
-	  authResource := builder.NewAuthBuilder(driver, logger)
+  mux.Route("/v1", func(router chi.Router) {
+	  healthCheckResource.Handler.Load(router)
+
     mux.Route("/v1/auth", func(authR chi.Router) {
 	    authResource.Handler.Load(authR)
     })
