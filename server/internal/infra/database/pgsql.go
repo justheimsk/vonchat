@@ -1,13 +1,13 @@
 package database
 
 import (
-	"database/sql"
-	"fmt"
+  "database/sql"
+  "fmt"
 
-	"github.com/justheimsk/vonchat/server/internal/infra/config"
-	"github.com/justheimsk/vonchat/server/internal/infra/logger"
-	"github.com/justheimsk/vonchat/server/scripts"
-	_ "github.com/lib/pq"
+  "github.com/justheimsk/vonchat/server/internal/infra/config"
+  "github.com/justheimsk/vonchat/server/internal/infra/logger"
+  "github.com/justheimsk/vonchat/server/scripts"
+  _ "github.com/lib/pq"
 )
 
 type PostgresDatabaseDriver struct {
@@ -32,18 +32,18 @@ func NewPostgresDatabaseDriver(config *config.Config) *PostgresDatabaseDriver {
 }
 
 func (self *PostgresDatabaseDriver) Open() (err error) {
-	str := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=disable", self.Host, self.Port, self.DB, self.User, self.Password)
+  str := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=disable", self.Host, self.Port, self.DB, self.User, self.Password)
   db, err := sql.Open("postgres", str)
-	if err != nil {
-		err = fmt.Errorf("Failed to open connection: %w", err)
-		return
-	}
-
-	err = db.Ping()
-	if err != nil {
-		err = fmt.Errorf("Failed to connect to the database: %w", err)
+  if err != nil {
+    err = fmt.Errorf("Failed to open connection: %w", err)
     return
-	}
+  }
+
+  err = db.Ping()
+  if err != nil {
+    err = fmt.Errorf("Failed to connect to the database: %w", err)
+    return
+  }
 
   _, err = db.Exec(scripts.GetPGInitScript())
   if err != nil {
@@ -51,7 +51,7 @@ func (self *PostgresDatabaseDriver) Open() (err error) {
   }
 
   self.db = db
-	return
+  return
 }
 
 func (self *PostgresDatabaseDriver) GetDB() (*sql.DB) {

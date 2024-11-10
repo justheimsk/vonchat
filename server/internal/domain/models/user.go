@@ -1,15 +1,15 @@
 package models
 
 import (
-	"regexp"
+  "regexp"
 )
 
 type User struct {
-	ID        int
-	Username  string
-	Email     string
-	Password  string
-	CreatedAt string
+  ID        int
+  Username  string
+  Email     string
+  Password  string
+  CreatedAt string
 }
 
 func (self *User) Validate() (err []CustomError) {
@@ -37,6 +37,6 @@ func (self *User) Validate() (err []CustomError) {
 }
 
 func (self *User) ValidateEmail() bool {
-	re := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
-	return re.MatchString(self.Email)
+  re := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+  return re.MatchString(self.Email)
 }

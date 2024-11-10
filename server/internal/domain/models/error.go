@@ -3,13 +3,13 @@
 package models
 
 import (
-	"encoding/json"
-	"strings"
+  "encoding/json"
+  "strings"
 )
 
 type CustomError struct {
-	Message string `json:"message"`
-	Code    string  `json:"code"`
+  Message string `json:"message"`
+  Code    string  `json:"code"`
 }
 
 type MultiError struct {
@@ -18,19 +18,19 @@ type MultiError struct {
 }
 
 const (
-	NotFoundErrorCode     = "not_found"
-	DuplicateErrorCode    = "duplicate"
-	InternalErrorCode     = "internal_error"
-	UnauthorizedErrorCode = "unauthorized"
-	BadRequestErrorCode   = "bad_request"
+  NotFoundErrorCode     = "not_found"
+  DuplicateErrorCode    = "duplicate"
+  InternalErrorCode     = "internal_error"
+  UnauthorizedErrorCode = "unauthorized"
+  BadRequestErrorCode   = "bad_request"
 )
 
 var (
-	ErrNotFound     = NewCustomError(NotFoundErrorCode, "Requested resource not found.")
-	ErrDuplicate    = NewCustomError(DuplicateErrorCode, "Duplicate entry.")
-	InternalError   = NewCustomError(InternalErrorCode, "Internal server error.")
-	ErrUnauthorized = NewCustomError(UnauthorizedErrorCode, "Unauthorized operation.")
-	ErrBadRequest   = NewCustomError(BadRequestErrorCode, "Bad request.")
+  ErrNotFound     = NewCustomError(NotFoundErrorCode, "Requested resource not found.")
+  ErrDuplicate    = NewCustomError(DuplicateErrorCode, "Duplicate entry.")
+  InternalError   = NewCustomError(InternalErrorCode, "Internal server error.")
+  ErrUnauthorized = NewCustomError(UnauthorizedErrorCode, "Unauthorized operation.")
+  ErrBadRequest   = NewCustomError(BadRequestErrorCode, "Bad request.")
 )
 
 func NewMultiError(code string, errors []CustomError) *MultiError {
@@ -51,33 +51,33 @@ func (self *MultiError) Error() string {
 }
 
 func NewCustomError(code string, message string) *CustomError {
-	return &CustomError{
-		message,
-		code,
-	}
+  return &CustomError{
+    message,
+    code,
+  }
 }
 
 func (self *CustomError) Error() string {
-	return self.Message
+  return self.Message
 }
 
 func (self *CustomError) ToJSON() ([]byte, error) {
-	return json.Marshal(self)
+  return json.Marshal(self)
 }
 
 func (self *CustomError) ToHttpStatusCode() *CustomError {
-	switch self.Code {
-	case NotFoundErrorCode:
-		return NewCustomError("404", self.Message)
-	case DuplicateErrorCode:
-		return NewCustomError("409", self.Message)
-	case InternalErrorCode:
-		return NewCustomError("500", self.Message)
-	case UnauthorizedErrorCode:
-		return NewCustomError("401", self.Message)
+  switch self.Code {
+  case NotFoundErrorCode:
+    return NewCustomError("404", self.Message)
+  case DuplicateErrorCode:
+    return NewCustomError("409", self.Message)
+  case InternalErrorCode:
+    return NewCustomError("500", self.Message)
+  case UnauthorizedErrorCode:
+    return NewCustomError("401", self.Message)
   case BadRequestErrorCode:
-		return NewCustomError("400", self.Message)
-	default:
-		return self
-	}
+    return NewCustomError("400", self.Message)
+  default:
+    return self
+  }
 }
