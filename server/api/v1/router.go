@@ -1,17 +1,20 @@
 package api
 
 import (
-	"net/http"
-
+	"github.com/go-chi/chi/v5"
 	builder "github.com/justheimsk/vonchat/server/internal/builder"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 )
 
-func LoadV1Routes(r *http.ServeMux, driver database.DatabaseDriver, logger models.Logger) {
-	healthCheck := builder.NewHealthBuilder(driver)
-	healthCheck.Handler.Load(r, "/v1")
+func LoadV1Routes(mux *chi.Mux, driver database.DatabaseDriver, logger models.Logger) {
+  mux.Route("/v1", func(router chi.Router) {
+	  healthCheck := builder.NewHealthBuilder(driver)
+	  healthCheck.Handler.Load(router)
 
-	authResource := builder.NewAuthBuilder(driver, logger)
-	authResource.Handler.Load(r, "/v1/auth")
+	  authResource := builder.NewAuthBuilder(driver, logger)
+    mux.Route("/v1/auth", func(authR chi.Router) {
+	    authResource.Handler.Load(authR)
+    })
+  })
 }

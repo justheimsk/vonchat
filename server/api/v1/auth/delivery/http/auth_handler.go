@@ -1,10 +1,8 @@
 package http
 
 import (
-	"net/http"
-
+	"github.com/go-chi/chi/v5"
 	"github.com/justheimsk/vonchat/server/api/v1/auth"
-	"github.com/justheimsk/vonchat/server/pkg/util"
 )
 
 type AuthHandler struct {
@@ -17,7 +15,7 @@ func NewAuthHandler(controller auth.Controller) *AuthHandler {
 	}
 }
 
-func (self *AuthHandler) Load(r *http.ServeMux, prefix string) {
-	r.HandleFunc(util.ConcatPath("POST", prefix, "/register"), self.controller.Register)
-	r.HandleFunc(util.ConcatPath("POST", prefix, "/login"), self.controller.Login)
+func (self *AuthHandler) Load(r chi.Router) {
+	r.Post("/register", self.controller.Register)
+	r.Post("/login", self.controller.Login)
 }
