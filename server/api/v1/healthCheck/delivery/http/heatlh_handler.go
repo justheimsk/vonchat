@@ -1,10 +1,8 @@
 package http
 
 import (
-	"net/http"
-
+	"github.com/go-chi/chi/v5"
 	"github.com/justheimsk/vonchat/server/api/v1/healthCheck"
-	"github.com/justheimsk/vonchat/server/pkg/util"
 )
 
 type HealthHandler struct {
@@ -17,6 +15,6 @@ func NewHTTPHandler(controller healthCheck.Controller) *HealthHandler {
 	}
 }
 
-func (self *HealthHandler) Load(r *http.ServeMux, prefix string) {
-	r.HandleFunc(util.ConcatPath("GET", prefix, ""), self.controller.CheckHealth)
+func (self *HealthHandler) Load(r chi.Router) {
+	r.Get("/", self.controller.CheckHealth)
 }

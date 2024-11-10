@@ -9,6 +9,7 @@ import (
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/http/middleware"
+  "github.com/go-chi/chi/v5"
 )
 
 type Server struct {
@@ -24,19 +25,14 @@ func (self *Server) Serve(config *config.Config) {
   PORT := config.Port
 	self.logger.Info("Starting HTTP server...")
 
-	router := http.NewServeMux()
-	api.LoadV1Routes(router, self.db, self.logger)
-
-  var mux http.Handler
-
+	router := chi.NewRouter()
   if config.Debug {
-    mux = use(router, middleware.LoggingMiddleware)
-  } else {
-    mux = router
+    router.Use(middleware.LoggingMiddleware)
   }
-    
+
+	api.LoadV1Routes(router, self.db, self.logger)
 	self.logger.Info("Serving HTTP in port: ", PORT)
-	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), mux); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), router); err != nil {
 		self.logger.Fatal("Failed to start HTTP server: ", err)
 	}
 }
