@@ -11,4 +11,4 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 run:
-	SQLITE_PATH=./sqlite.db $(BUILD_DIR)/$(TARGET)
+	SQLITE_PATH=./sqlite.db DEBUG=true $(BUILD_DIR)/$(TARGET)
