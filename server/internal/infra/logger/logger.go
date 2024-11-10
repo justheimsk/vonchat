@@ -3,7 +3,7 @@ package logger
 import (
 	"fmt"
 	"io"
-	Log "log"
+	_Log "log"
 	"os"
 	"time"
 
@@ -23,12 +23,14 @@ const (
 )
 
 type Logger struct {
-	logger Log.Logger
+	logger _Log.Logger
 	Label  string
 }
 
+var Log Logger
+
 func NewLogger(label string) *Logger {
-	log := Log.New(os.Stdout, "", 0)
+	log := _Log.New(os.Stdout, "", 0)
 	path := "logs/" + time.Now().Format("2006-01-02-15:04:05") + ".log"
 
 	os.MkdirAll("./logs", 0755)
@@ -49,6 +51,10 @@ func NewLogger(label string) *Logger {
 	}
 }
 
+func init() {
+  Log = *NewLogger("CORE")
+}
+
 func (self *Logger) logWithLevel(level string, color string, args ...interface{}) {
 	now := time.Now().Format("2006/01/02 15:04:05")
 	fmt.Fprintf(self.logger.Writer(), "%s [ %s ]"+color+" %s "+Reset, now, self.Label, level)
@@ -67,8 +73,16 @@ func (self *Logger) Info(args ...interface{}) {
 	self.logWithLevel("INFO", Blue, args...)
 }
 
+func (self *Logger) Debug(args ...interface{}) {
+	self.logWithLevel("DEBUG", Magenta, args...)
+}
+
 func (self *Logger) Error(args ...interface{}) {
 	self.logWithLevel("ERROR", Red, args...)
+}
+
+func (self *Logger) Warn(args ...interface{}) {
+	self.logWithLevel("WARN", Yellow, args...)
 }
 
 func (self *Logger) Fatal(args ...interface{}) {

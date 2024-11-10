@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
+	"github.com/justheimsk/vonchat/server/internal/infra/logger"
 	"github.com/justheimsk/vonchat/server/scripts"
 	_ "github.com/lib/pq"
 )
@@ -16,6 +17,7 @@ type PostgresDatabaseDriver struct {
   User     string
   Password string
   db *sql.DB
+  logger *logger.Logger
 }
 
 func NewPostgresDatabaseDriver(config *config.Config) *PostgresDatabaseDriver {
@@ -25,6 +27,7 @@ func NewPostgresDatabaseDriver(config *config.Config) *PostgresDatabaseDriver {
     DB: config.PostgresDB,
     User: config.PostgresUser,
     Password: config.PostgresPassword,
+    logger: logger.NewLogger("DATABASE"),
   }
 }
 
@@ -44,8 +47,7 @@ func (self *PostgresDatabaseDriver) Open() (err error) {
 
   _, err = db.Exec(scripts.GetPGInitScript())
   if err != nil {
-    err = fmt.Errorf("Failed to exec init script: %w", err)
-    return
+    self.logger.Warn("Failed to exec init script: ", err) 
   }
 
   self.db = db

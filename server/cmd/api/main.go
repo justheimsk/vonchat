@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	log := logger.NewLogger("CORE")
+  log := &logger.Log
   config, err := config.LoadConfig(logger.NewLogger("CONFIG"))
   if err != nil {
     log.Fatal("Failed to load config: ", err)
@@ -16,7 +16,6 @@ func main() {
   }
 
   var driver database.DatabaseDriver
-
   if config.DatabaseDriver == "POSTGRES" {
     driver = database.NewPostgresDatabaseDriver(config)
   } else if config.DatabaseDriver == "SQLITE" {
