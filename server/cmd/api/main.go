@@ -8,8 +8,14 @@ import (
 )
 
 func main() {
-  log := &logger.Log
-  config, err := config.LoadConfig(logger.NewLogger("CONFIG"))
+  log := logger.NewLogger("CORE", nil)
+  config, err := config.LoadConfig(log.New("CONFIG"))
+  log = logger.NewLogger("CORE", config)
+
+  if config.Debug {
+    log.Debug("Debug mode enabled.")
+  }
+
   if err != nil {
     log.Fatal("Failed to load config: ", err)
     return

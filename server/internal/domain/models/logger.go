@@ -1,9 +1,12 @@
 package models
 
 type Logger interface {
-	Info(args ...interface{})
-	Error(args ...interface{})
-	Fatal(args ...interface{})
-	Panic(args ...interface{})
-	New(label string) Logger
+	Info(...interface{})
+	Error(...interface{})
+	Fatal(...interface{})
+  Debug(...interface{})
+  DebugWithTime(int, ...interface{})
+  StartTrigger() int
+	Panic(...interface{})
+	New(string) Logger
 }
