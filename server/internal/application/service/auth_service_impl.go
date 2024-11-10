@@ -7,19 +7,19 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthService struct {
+type authService struct {
 	repo   domain.AuthRepository
 	logger models.Logger
 }
 
-func NewAuthService(repo domain.AuthRepository, logger models.Logger) *AuthService {
-	return &AuthService{
+func NewAuthService(repo domain.AuthRepository, logger models.Logger) *authService {
+	return &authService{
 		repo:   repo,
 		logger: logger.New("AUTH SERVICE"),
 	}
 }
 
-func (self *AuthService) Register(name string, email string, password string) (token string, err error) {
+func (self *authService) Register(name string, email string, password string) (token string, err error) {
 	_, err = self.repo.FetchAccountByEmail(email)
 	if err == nil {
 		err = models.NewCustomError(models.DuplicateErrorCode, "Email already in use.")
@@ -60,7 +60,7 @@ func (self *AuthService) Register(name string, email string, password string) (t
 	return
 }
 
-func (self *AuthService) Login(email string, password string) (token string, err error) {
+func (self *authService) Login(email string, password string) (token string, err error) {
 	user, err := self.repo.FetchAccountByEmail(email)
 	if err != nil {
 		err = models.InternalError
@@ -81,7 +81,7 @@ func (self *AuthService) Login(email string, password string) (token string, err
 	return
 }
 
-func (self *AuthService) generateToken(id int) (token string, err error) {
+func (self *authService) generateToken(id int) (token string, err error) {
 	buf := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
 			"id": id,
@@ -91,11 +91,11 @@ func (self *AuthService) generateToken(id int) (token string, err error) {
 	return
 }
 
-func (self *AuthService) validateToken(token string) (id string, err error) {
+func (self *authService) validateToken(token string) (id string, err error) {
 	return
 }
 
-func (self *AuthService) hashPassword(password string) (hash string, err error) {
+func (self *authService) hashPassword(password string) (hash string, err error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	if err != nil {
 		return

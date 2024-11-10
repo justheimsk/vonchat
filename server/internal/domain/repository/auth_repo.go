@@ -1,4 +1,4 @@
-package domain
+package domain_repo
 
 import "github.com/justheimsk/vonchat/server/internal/domain/models"
 
