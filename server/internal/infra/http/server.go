@@ -31,7 +31,7 @@ func (self *Server) Serve(config *config.Config) {
     router.Use(loggingMiddleware.Run)
   }
 
-  api.LoadV1Routes(router, self.db, self.logger)
+  api.LoadHTTPV1Routes(router, self.db, self.logger)
   self.logger.Info("Serving HTTP in port: ", PORT)
   if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), router); err != nil {
     self.logger.Fatal("Failed to start HTTP server: ", err)

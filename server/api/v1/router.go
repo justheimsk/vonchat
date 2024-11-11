@@ -7,7 +7,7 @@ import (
   "github.com/justheimsk/vonchat/server/internal/infra/database"
 )
 
-func LoadV1Routes(mux *chi.Mux, driver database.DatabaseDriver, logger models.Logger) {
+func LoadHTTPV1Routes(mux *chi.Mux, driver database.DatabaseDriver, logger models.Logger) {
   healthCheckResource := builder.NewHealthBuilder(driver)
   authResource := builder.NewAuthBuilder(driver, logger)
 
