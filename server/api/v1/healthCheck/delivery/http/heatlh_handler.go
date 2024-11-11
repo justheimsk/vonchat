@@ -1,15 +1,14 @@
-package delivery_http
+package http_delivery
 
 import (
   "github.com/go-chi/chi/v5"
-  "github.com/justheimsk/vonchat/server/api/v1/healthCheck"
 )
 
 type HealthHandler struct {
-  controller healthCheck.Controller
+  controller HealthController
 }
 
-func NewHTTPHandler(controller healthCheck.Controller) *HealthHandler {
+func NewHTTPHandler(controller HealthController) *HealthHandler {
   return &HealthHandler{
     controller,
   }

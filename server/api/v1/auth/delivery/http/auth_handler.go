@@ -1,15 +1,14 @@
-package delivery_http
+package http_delivery
 
 import (
   "github.com/go-chi/chi/v5"
-  "github.com/justheimsk/vonchat/server/api/v1/auth"
 )
 
 type AuthHandler struct {
-  controller auth.Controller
+  controller AuthController
 }
 
-func NewAuthHandler(controller auth.Controller) *AuthHandler {
+func NewAuthHandler(controller AuthController) *AuthHandler {
   return &AuthHandler{
     controller,
   }
