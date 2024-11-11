@@ -1,4 +1,4 @@
-package delivery_http
+package http_delivery
 
 import (
   "encoding/json"

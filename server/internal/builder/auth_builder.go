@@ -1,7 +1,7 @@
 package builder
 
 import (
-  delivery_http "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/http"
+  http_delivery "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/http"
   "github.com/justheimsk/vonchat/server/internal/application/service"
   "github.com/justheimsk/vonchat/server/internal/domain/models"
   domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
@@ -11,7 +11,7 @@ import (
 )
 
 type AuthBuilder struct {
-  Handler delivery_http.AuthHandler
+  Handler http_delivery.AuthHandler
   Service domain_service.AuthService
   Repository domain_repo.AuthRepository
 }
@@ -19,10 +19,10 @@ type AuthBuilder struct {
 func NewAuthBuilder(driver database.DatabaseDriver, logger models.Logger) *AuthBuilder {
   repo := repository.NewAuthRepository(driver)
   service := service.NewAuthService(repo, logger)
-  controller := delivery_http.NewAuthController(service)
+  controller := http_delivery.NewAuthController(service)
 
   return &AuthBuilder{
-    Handler: *delivery_http.NewAuthHandler(controller),
+    Handler: *http_delivery.NewAuthHandler(*controller),
     Service: service,
     Repository: repo,
   }

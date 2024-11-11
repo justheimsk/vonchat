@@ -1,4 +1,4 @@
-package delivery_http
+package http_delivery
 
 import (
   "fmt"
@@ -7,17 +7,17 @@ import (
   domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
 )
 
-type healthController struct {
+type HealthController struct {
   repo domain.HealthRepository
 }
 
-func NewHealthController(repo domain.HealthRepository) *healthController {
-  return &healthController{
+func NewHealthController(repo domain.HealthRepository) *HealthController {
+  return &HealthController{
     repo,
   }
 }
 
-func (self *healthController) CheckHealth(w http.ResponseWriter, r *http.Request) {
+func (self *HealthController) CheckHealth(w http.ResponseWriter, r *http.Request) {
   ping, err := self.repo.GetPing()
   if err != nil {
     fmt.Fprintf(w, "Failed to get database ping: %s", err)
