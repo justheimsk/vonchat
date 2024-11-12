@@ -11,19 +11,22 @@ import (
 )
 
 type AuthBuilder struct {
-  Handler http_delivery.AuthHandler
-  Service domain_service.AuthService
-  Repository domain_repo.AuthRepository
+  Handler        http_delivery.AuthHandler
+  Service        domain_service.AuthService
+  AuthRepository domain_repo.AuthRepository
+  UserRepository domain_repo.UserRepository
 }
 
 func NewAuthBuilder(driver database.DatabaseDriver, logger models.Logger) *AuthBuilder {
-  repo := repository.NewAuthRepository(driver)
-  service := service.NewAuthService(repo, logger)
+  authRepo := repository.NewAuthRepository(driver)
+  userRepo := repository.NewUserRepository(driver)
+  service := service.NewAuthService(authRepo, userRepo, logger)
   controller := http_delivery.NewAuthController(service)
 
   return &AuthBuilder{
     Handler: *http_delivery.NewAuthHandler(*controller),
     Service: service,
-    Repository: repo,
+    AuthRepository: authRepo,
+    UserRepository: userRepo,
   }
 }

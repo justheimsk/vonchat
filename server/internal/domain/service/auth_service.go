@@ -7,4 +7,5 @@ type AuthService interface {
 	Login(email string, password string) (string, error)
   ValidateToken(string) (*jwt.Token, error)
   GetIdFromClaims(*jwt.Token) (string, error)
+  AccountExists(string) bool
 }
