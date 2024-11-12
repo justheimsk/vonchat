@@ -1,10 +1,10 @@
 package repository
 
 import (
-  domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
-  "github.com/justheimsk/vonchat/server/internal/infra/database"
-  "github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/pgsql"
-  "github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/sqlite"
+	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/internal/infra/database"
+	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/pgsql"
+	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/sqlite"
 )
 
 func NewAuthRepository(driver database.DatabaseDriver) (repo domain.AuthRepository) {
@@ -33,6 +33,8 @@ func NewUserRepository(driver database.DatabaseDriver) (repo domain.UserReposito
   switch driver.GetName() {
   case "SQLITE":
     repo = sqlite.NewUserRepository(driver.GetDB())
+  case "POSTGRES":
+    repo = pgsql.NewUserRepository(driver.GetDB())
   }
 
   return
