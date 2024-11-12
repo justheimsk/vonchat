@@ -1,16 +1,18 @@
 package service
 
 import (
-  "github.com/golang-jwt/jwt/v5"
-  "github.com/justheimsk/vonchat/server/internal/domain/models"
-  domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
-  "golang.org/x/crypto/bcrypt"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type authService struct {
   repo   domain.AuthRepository
   logger models.Logger
 }
+
+var secret []byte = []byte("03940943")
 
 func NewAuthService(repo domain.AuthRepository, logger models.Logger) *authService {
   return &authService{
@@ -86,18 +88,45 @@ func (self *authService) Login(email string, password string) (token string, err
   return
 }
 
-func (self *authService) generateToken(id int) (token string, err error) {
+func (self *authService) generateToken(id string) (token string, err error) {
   buf := jwt.NewWithClaims(jwt.SigningMethodHS256,
     jwt.MapClaims{
       "id": id,
     })
 
-  token, err = buf.SignedString([]byte("03940943"))
+  token, err = buf.SignedString(secret)
   return
 }
 
-func (self *authService) validateToken(token string) (id string, err error) {
-  return
+func (self *authService) ValidateToken(tokenString string) (*jwt.Token, error) {
+  token, err := jwt.Parse(tokenString, func(tk *jwt.Token) (interface{}, error) {
+    if _, ok := tk.Method.(*jwt.SigningMethodRSA); ok {
+      return "", models.ErrUnauthorized
+    }
+    return secret, nil
+  })
+
+  if err != nil || !token.Valid {
+    return nil, models.ErrUnauthorized
+  }
+
+  return token, nil
+}
+
+func (self *authService) GetIdFromClaims(token *jwt.Token) (string, error) {
+  claims, ok := token.Claims.(jwt.MapClaims)
+  if !ok {
+    self.logger.Error("Failed to get ID from claims")
+    return "", models.InternalError
+  }
+
+  id, ok := claims["id"]
+  if !ok || id == nil {
+    self.logger.Error("Failed to get ID from claims")
+    return "", models.InternalError
+  }
+
+  return id.(string), nil
 }
 
 func (self *authService) hashPassword(password string) (hash string, err error) {
