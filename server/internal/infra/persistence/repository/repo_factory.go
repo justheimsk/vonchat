@@ -28,3 +28,12 @@ func NewHealthRepository(driver database.DatabaseDriver) (repo domain.HealthRepo
 
   return
 }
+
+func NewUserRepository(driver database.DatabaseDriver) (repo domain.UserRepository) {
+  switch driver.GetName() {
+  case "SQLITE":
+    repo = sqlite.NewUserRepository(driver.GetDB())
+  }
+
+  return
+}
