@@ -41,6 +41,12 @@ func (self *AuthMiddleware) Run(next http.Handler) http.Handler {
       return
     }
 
+    exists := self.service.AccountExists(id)
+    if !exists {
+      util.WriteHTTPError(w, models.ErrUnauthorized)
+      return
+    }
+
     ctx := context.WithValue(r.Context(), "userID", id)
     next.ServeHTTP(w, r.WithContext(ctx))
   })

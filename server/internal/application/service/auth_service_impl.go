@@ -3,27 +3,29 @@ package service
 import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
-	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type authService struct {
-  repo   domain.AuthRepository
-  logger models.Logger
+  authRepo   domain_repo.AuthRepository
+  userRepo   domain_repo.UserRepository
+  logger     models.Logger
 }
 
 var secret []byte = []byte("03940943")
 
-func NewAuthService(repo domain.AuthRepository, logger models.Logger) *authService {
+func NewAuthService(authRepo domain_repo.AuthRepository, userRepo domain_repo.UserRepository, logger models.Logger) *authService {
   return &authService{
-    repo:   repo,
+    authRepo:   authRepo,
+    userRepo: userRepo,
     logger: logger.New("AUTH SERVICE"),
   }
 }
 
 func (self *authService) Register(name string, email string, password string) (token string, err error) {
   start := self.logger.StartTrigger()
-  _, err = self.repo.FetchAccountByEmail(email)
+  _, err = self.authRepo.FetchAccountByEmail(email)
   if err == nil {
     err = models.NewCustomError(models.DuplicateErrorCode, "Email already in use.")
     return
@@ -47,7 +49,7 @@ func (self *authService) Register(name string, email string, password string) (t
     return
   }
 
-  id, err := self.repo.Register(name, email, pass)
+  id, err := self.authRepo.Register(name, email, pass)
   if err != nil {
     self.logger.Error(err)
     err = models.InternalError
@@ -67,7 +69,7 @@ func (self *authService) Register(name string, email string, password string) (t
 
 func (self *authService) Login(email string, password string) (token string, err error) {
   start := self.logger.StartTrigger()
-  user, err := self.repo.FetchAccountByEmail(email)
+  user, err := self.authRepo.FetchAccountByEmail(email)
   if err != nil {
     err = models.ErrUnauthorized
     return
@@ -137,4 +139,13 @@ func (self *authService) hashPassword(password string) (hash string, err error) 
 
   hash = string(bytes)
   return
+}
+
+func (self *authService) AccountExists(id string) bool {
+  _, err := self.userRepo.GetUserById(id)
+  if err != nil {
+    return false
+  }
+
+  return true
 }

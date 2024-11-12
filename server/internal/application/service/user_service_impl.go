@@ -21,8 +21,7 @@ func NewUserService(repo domain_repo.UserRepository, logger models.Logger) *User
 func (self *UserService) GetUserById(id string) (*dto.UserDTO, error) {
   repo_user, err := self.repo.GetUserById(id)
   if err != nil {
-    self.logger.Error("Failed to get user by id. ID=", id, " ERR=",err)
-    return nil, models.InternalError
+    return nil, models.ErrNotFound
   }
   
   user := &dto.UserDTO{
