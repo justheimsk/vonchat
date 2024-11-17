@@ -8,35 +8,35 @@ import (
 )
 
 func main() {
-  log := logger.NewLogger("CORE", nil)
+  log := logger.NewLogger("CORE", nil, nil)
   config, err := config.LoadConfig(log.New("CONFIG"))
-  log = logger.NewLogger("CORE", config)
+  log = logger.NewLogger("CORE", config, nil)
 
   if config.Debug {
-    log.Debug("Debug mode enabled.")
+    log.Debugf("Debug mode enabled.")
   }
 
   if err != nil {
-    log.Fatal("Failed to load config: ", err)
+    log.Fatalf("Failed to load config: %w", err)
     return
   }
 
   var driver database.DatabaseDriver
   if config.DatabaseDriver == "POSTGRES" {
-    driver = database.NewPostgresDatabaseDriver(config)
+    driver = database.NewPostgresDatabaseDriver(config, log)
   } else if config.DatabaseDriver == "SQLITE" {
-    driver = database.NewSQLiteDatabaseDriver(config)
+    driver = database.NewSQLiteDatabaseDriver(config, log)
   }
 
-  log.Info("Using ", driver.GetName(), " database driver.")
-  log.Info("Opening database connection...")
+  log.Infof("Using %s database driver.", driver.GetName())
+  log.Infof("Opening database connection...")
   err = driver.Open()
   if err != nil {
-    log.Fatal("Fatal error: ", err)
+    log.Fatalf("Fatal error: %w", err)
     return
   }
 
-  log.Info("Connected to the database.")
+  log.Infof("Connected to the database.")
   defer driver.Close()
 
   server := http.NewServer(driver, log)

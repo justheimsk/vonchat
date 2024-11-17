@@ -1,13 +1,13 @@
 package database
 
 import (
-  "database/sql"
-  "fmt"
+	"database/sql"
+	"fmt"
 
-  "github.com/justheimsk/vonchat/server/internal/infra/config"
-  "github.com/justheimsk/vonchat/server/internal/infra/logger"
-  "github.com/justheimsk/vonchat/server/scripts"
-  _ "github.com/lib/pq"
+	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	"github.com/justheimsk/vonchat/server/internal/infra/config"
+	"github.com/justheimsk/vonchat/server/scripts"
+	_ "github.com/lib/pq"
 )
 
 type PostgresDatabaseDriver struct {
@@ -17,17 +17,17 @@ type PostgresDatabaseDriver struct {
   User     string
   Password string
   db *sql.DB
-  logger *logger.Logger
+  logger models.Logger
 }
 
-func NewPostgresDatabaseDriver(config *config.Config) *PostgresDatabaseDriver {
+func NewPostgresDatabaseDriver(config *config.Config, logger models.Logger) *PostgresDatabaseDriver {
   return &PostgresDatabaseDriver{
     Host: config.PostgresHost,
     Port: config.PostgresPort,
     DB: config.PostgresDB,
     User: config.PostgresUser,
     Password: config.PostgresPassword,
-    logger: logger.NewLogger("DATABASE", config),
+    logger: logger.New("DATABASE"),
   }
 }
 
@@ -47,7 +47,7 @@ func (self *PostgresDatabaseDriver) Open() (err error) {
 
   _, err = db.Exec(scripts.GetPGInitScript())
   if err != nil {
-    self.logger.Warn("Failed to exec init script: ", err) 
+    self.logger.Warnf("Failed to exec init script: %w", err) 
   }
 
   self.db = db

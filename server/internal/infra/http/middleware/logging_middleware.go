@@ -18,7 +18,7 @@ func NewLoggingMiddleware(logger models.Logger) *LoggingMiddleware {
 
 func (self *LoggingMiddleware) Run(next http.Handler) http.Handler {
   return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-    self.logger.Debug(r.Method + " " + r.URL.Path)
+    self.logger.Debugf("%s %s", r.Method, r.URL.Path)
     next.ServeHTTP(w, r)
   })
 }

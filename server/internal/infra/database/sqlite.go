@@ -1,26 +1,26 @@
 package database
 
 import (
-  "database/sql"
-  "fmt"
+	"database/sql"
+	"fmt"
 
-  "github.com/justheimsk/vonchat/server/internal/infra/config"
-  "github.com/justheimsk/vonchat/server/internal/infra/logger"
-  "github.com/justheimsk/vonchat/server/scripts"
+	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	"github.com/justheimsk/vonchat/server/internal/infra/config"
+	"github.com/justheimsk/vonchat/server/scripts"
 
-  _ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type SQLiteDatabaseDriver struct {
   Path   string
   db     *sql.DB
-  logger *logger.Logger
+  logger models.Logger
 }
 
-func NewSQLiteDatabaseDriver(config *config.Config) *SQLiteDatabaseDriver {
+func NewSQLiteDatabaseDriver(config *config.Config, logger models.Logger) *SQLiteDatabaseDriver {
   return &SQLiteDatabaseDriver{
     Path: config.SQLitePath,
-    logger: logger.NewLogger("DATABASE", config),
+    logger: logger.New("DATABASE"),
   }
 }
 
@@ -37,7 +37,7 @@ func (self *SQLiteDatabaseDriver) Open() error {
 
   _, err = db.Exec(scripts.GetSQLiteInitScript())
   if err != nil {
-    self.logger.Warn("Failed to exec init script: ", err) 
+    self.logger.Warnf("Failed to exec init script: %w", err) 
   }
 
   self.db = db
