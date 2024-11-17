@@ -23,7 +23,7 @@ func NewServer(db database.DatabaseDriver, logger models.Logger) *Server {
 
 func (self *Server) Serve(config *config.Config) {
   PORT := config.Port
-  self.logger.Info("Starting HTTP server...")
+  self.logger.Infof("Starting HTTP server...")
 
   loggingMiddleware := middleware.NewLoggingMiddleware(self.logger)
   router := chi.NewRouter()
@@ -32,8 +32,8 @@ func (self *Server) Serve(config *config.Config) {
   }
 
   api.LoadHTTPV1Routes(router, self.db, self.logger)
-  self.logger.Info("Serving HTTP in port: ", PORT)
+  self.logger.Infof("Serving HTTP in port: %s", PORT)
   if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), router); err != nil {
-    self.logger.Fatal("Failed to start HTTP server: ", err)
+    self.logger.Fatalf("Failed to start HTTP server: %w", err)
   }
 }

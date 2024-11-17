@@ -51,7 +51,7 @@ func LoadConfig(log models.Logger) (*Config, error) {
     for _, k := range(keys) {
       value := os.Getenv(prefix + k)
       if value == "" {
-        log.Error("Missing variable: ", prefix + k)
+        log.Errorf("Missing variable: %s", prefix + k)
         errorDet = true
         continue
       }

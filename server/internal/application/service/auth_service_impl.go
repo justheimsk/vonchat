@@ -24,7 +24,6 @@ func NewAuthService(authRepo domain_repo.AuthRepository, userRepo domain_repo.Us
 }
 
 func (self *authService) Register(name string, email string, password string) (token string, err error) {
-  start := self.logger.StartTrigger()
   _, err = self.authRepo.FetchAccountByEmail(email)
   if err == nil {
     err = models.NewCustomError(models.DuplicateErrorCode, "Email already in use.")
@@ -44,31 +43,30 @@ func (self *authService) Register(name string, email string, password string) (t
 
   pass, err := self.hashPassword(password)
   if err != nil {
-    self.logger.Error(err)
+    self.logger.Errorf("Failed to hash password: %w", err)
     err = models.InternalError
     return
   }
 
   id, err := self.authRepo.Register(name, email, pass)
   if err != nil {
-    self.logger.Error(err)
+    self.logger.Errorf("Failed to register user: %w", err)
     err = models.InternalError
     return
   }
 
   token, err = self.generateToken(id)
   if err != nil {
-    self.logger.Error(err)
+    self.logger.Errorf("Failed to generate JWT token: %w", err)
     err = models.InternalError
     return
   }
 
-  self.logger.DebugWithTime(start, "Account create ID=", id)
+  self.logger.Debugf("Account create ID=%s", id)
   return
 }
 
 func (self *authService) Login(email string, password string) (token string, err error) {
-  start := self.logger.StartTrigger()
   user, err := self.authRepo.FetchAccountByEmail(email)
   if err != nil {
     err = models.ErrUnauthorized
@@ -86,7 +84,7 @@ func (self *authService) Login(email string, password string) (token string, err
     return
   }
 
-  self.logger.DebugWithTime(start, "Account login ID=",user.ID)
+  self.logger.Debugf("Account login ID=%s", user.ID)
   return
 }
 
@@ -118,13 +116,13 @@ func (self *authService) ValidateToken(tokenString string) (*jwt.Token, error) {
 func (self *authService) GetIdFromClaims(token *jwt.Token) (string, error) {
   claims, ok := token.Claims.(jwt.MapClaims)
   if !ok {
-    self.logger.Error("Failed to get ID from claims")
+    self.logger.Errorf("Failed to get ID from claims")
     return "", models.InternalError
   }
 
   id, ok := claims["id"]
   if !ok || id == nil {
-    self.logger.Error("Failed to get ID from claims")
+    self.logger.Errorf("Failed to get ID from claims")
     return "", models.InternalError
   }
 

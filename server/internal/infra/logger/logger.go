@@ -1,15 +1,13 @@
 package logger
 
 import (
-  "fmt"
-  "io"
-  _Log "log"
-  "math/rand"
-  "os"
-  "time"
+	"io"
+	_log "log"
+	"os"
+	"time"
 
-  "github.com/justheimsk/vonchat/server/internal/domain/models"
-  "github.com/justheimsk/vonchat/server/internal/infra/config"
+	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	"github.com/justheimsk/vonchat/server/internal/infra/config"
 )
 
 const (
@@ -25,107 +23,73 @@ const (
 )
 
 type Logger struct {
-  logger   _Log.Logger
-  Label    string
-  config   *config.Config
-  triggers map[int]time.Time
+  log    *_log.Logger
+  Label  string
+  config *config.Config
+  file   *os.File
 }
 
-var Log Logger
-
-func NewLogger(label string, config *config.Config) *Logger {
-  log := _Log.New(os.Stdout, "", 0)
+func NewLogger(label string, config *config.Config, file *os.File) models.Logger {
+  log := _log.New(os.Stdout, "", 0)
   path := "logs/" + time.Now().Format("2006-01-02-15:04:05") + ".log"
 
-  os.MkdirAll("./logs", 0755)
-  file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-  if err != nil {
-    return &Logger{
-      logger: *log,
-      Label:  label,
-      config: config,
-      triggers: make(map[int]time.Time),
+  logFile := file;
+  if(file == nil) {
+    os.MkdirAll("./logs", 0755)
+    file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+    if err != nil {
+      return &Logger{
+        log: log,
+        Label:  label,
+        config: config,
+      }
     }
+
+    logFile = file;
   }
 
   multiWriter := io.MultiWriter(os.Stdout, file)
   log.SetOutput(multiWriter)
 
   return &Logger{
-    logger: *log,
+    log: log,
     Label:  label,
     config: config,
-    triggers: make(map[int]time.Time),
+    file: logFile,
   }
 }
 
-func init() {
-  Log = *NewLogger("CORE", nil)
+func (self *Logger) concatLevel(format string, level string, color string) string {
+  now := time.Now().Format("2006-01-02-15:04:05")
+  return now + " [ " + self.Label + " ] " + color + level + Reset + " " + format
 }
 
-func (self *Logger) logWithLevel(level string, color string, args ...interface{}) {
-  now := time.Now().Format("2006/01/02 15:04:05")
-  fmt.Fprintf(self.logger.Writer(), "%s [ %s ]"+color+" %s "+Reset, now, self.Label, level)
-
-  switch level {
-  case "FATAL":
-    self.logger.Fatal(args...)
-  case "PANIC":
-    self.logger.Panic(args...)
-  default:
-    self.logger.Print(args...)
-  }
+func (self *Logger) Infof(format string, args ...any) {
+  self.log.Printf(self.concatLevel(format, "INFO", Blue), args...)
 }
 
-func (self *Logger) Info(args ...interface{}) {
-  self.logWithLevel("INFO", Blue, args...)
+func (self *Logger) Warnf(format string, args ...any) {
+  self.log.Printf(self.concatLevel(format, "WARN", Yellow), args...)
 }
 
-func (self *Logger) StartTrigger() int {
+func (self *Logger) Debugf(format string, args ...any) {
   if self.config.Debug {
-    id := rand.Int()
-    self.triggers[id] = time.Now()
-    return id
-  }
-
-  return 0
-}
-
-func (self *Logger) Debug(args ...interface{}) {
-  if self.config != nil && self.config.Debug {
-    self.logWithLevel("DEBUG", Magenta, args...)
+    self.log.Printf(self.concatLevel(format, "DEBUG", Magenta), args...)
   }
 }
 
-func (self *Logger) DebugWithTime(triggerID int, args ...interface{}) {
-  if self.config.Debug {
-    trigger, exists := self.triggers[triggerID]
-    if exists {
-      args = append(args, " ELAPSED=")
-      args = append(args, time.Since(trigger))
-    }
-
-    self.logWithLevel("DEBUG", Magenta, args...)
-    delete(self.triggers, triggerID)
-  }
+func (self *Logger) Errorf(format string, args ...any) {
+  self.log.Printf(self.concatLevel(format, "ERROR", Red), args...)
 }
 
-func (self *Logger) Error(args ...interface{}) {
-  self.logWithLevel("ERROR", Red, args...)
+func (self *Logger) Panicf(format string, args ...any) {
+  self.log.Panicf(self.concatLevel(format, "PANIC", RedBackground), args...)
 }
 
-func (self *Logger) Warn(args ...interface{}) {
-  self.logWithLevel("WARN", Yellow, args...)
-}
-
-func (self *Logger) Fatal(args ...interface{}) {
-  self.logWithLevel("FATAL", RedBackground, args...)
-}
-
-func (self *Logger) Panic(args ...interface{}) {
-  self.logWithLevel("PANIC", RedBackground, args...)
+func (self *Logger) Fatalf(format string, args ...any) {
+  self.log.Fatalf(self.concatLevel(format, "FATAL", RedBackground), args...)
 }
 
 func (self *Logger) New(label string) models.Logger {
-  return NewLogger(label, self.config)
+  return NewLogger(label, self.config, self.file)
 }
