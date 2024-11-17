@@ -34,7 +34,7 @@ func NewLogger(label string, config *config.Config, file *os.File) models.Logger
   path := "logs/" + time.Now().Format("2006-01-02-15:04:05") + ".log"
 
   logFile := file;
-  if(file == nil) {
+  if(logFile == nil) {
     os.MkdirAll("./logs", 0755)
     file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
     if err != nil {
@@ -48,7 +48,7 @@ func NewLogger(label string, config *config.Config, file *os.File) models.Logger
     logFile = file;
   }
 
-  multiWriter := io.MultiWriter(os.Stdout, file)
+  multiWriter := io.MultiWriter(os.Stdout, logFile)
   log.SetOutput(multiWriter)
 
   return &Logger{
