@@ -12,5 +12,12 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/utils'),
       '@components': path.resolve(__dirname, './src/components')
     }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler' // or "modern"
+      }
+    }
   }
 })
