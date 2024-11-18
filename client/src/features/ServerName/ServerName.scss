@@ -1,7 +1,7 @@
-@import '@utils/mixins';
+@use '@utils/_mixins' as mixins;
 
 #server-name {
-  @include shrink(0.95, '> div');
+  @include mixins.shrink(0.95, '> div');
 
   min-width: 240px;
   max-width: 240px;
@@ -14,7 +14,7 @@
   cursor: pointer;
 
   & > div {
-    @include transition;
+    @include mixins.transition;
 
     display: flex;
     align-items: center;

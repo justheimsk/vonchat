@@ -1,7 +1,7 @@
-@import "@utils/mixins";
+@use "@utils/mixins" as mixins;
 
 .channel {
-  @include fast-transition(transform);
+  @include mixins.fast-transition(transform);
 
   display: flex;
   align-items: center;
@@ -27,14 +27,14 @@
   }
 
   &__actions {
-    @include fast-transition(transform);
+    @include mixins.fast-transition(transform);
 
     color: var(--text-light);
     opacity: 0;
 
     & i {
-      @include shrink(0.85);
-      @include fast-transition;
+      @include mixins.shrink(0.85);
+      @include mixins.fast-transition;
 
       &:hover {
         color: var(--text);

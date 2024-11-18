@@ -1,4 +1,4 @@
-@import '@utils/mixins';
+@use '@utils/mixins' as mixins;
 
 #channel-info {
   min-width: 100%;
@@ -38,8 +38,8 @@
     width: auto;
 
     &>i {
-      @include fast-transition(transform);
-      @include shrink(0.85);
+      @include mixins.fast-transition(transform);
+      @include mixins.shrink(0.85);
 
       font-size: 1.3rem;
       cursor: pointer;

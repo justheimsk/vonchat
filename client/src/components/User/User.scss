@@ -1,8 +1,8 @@
-@import '@utils/mixins';
+@use '@utils/mixins' as mixins;
 
 .user {
-  @include fast-transition;
-  @include shrink(0.95);
+  @include mixins.fast-transition;
+  @include mixins.shrink(0.95);
 
   display: flex;
   align-items: center;
@@ -35,7 +35,7 @@
   }
 
   &__avatar {
-    @include status-dot(online, var(--tertiary));
+    @include mixins.status-dot(online, var(--tertiary));
 
     position: relative;
     min-width: 32px;

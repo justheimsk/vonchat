@@ -1,8 +1,8 @@
-@import '@utils/mixins';
+@use '@utils/mixins' as mixins;
 
 .server-button {
-  @include transition;
-  @include shrink;
+  @include mixins.transition;
+  @include mixins.shrink;
 
   background-color: var(--primary);
   cursor: pointer;

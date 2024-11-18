@@ -1,14 +1,14 @@
-@import '@utils/mixins';
+@use '@utils/mixins' as mixins;
 
 .input-container {
-  @include fast-transition;
-  @include shrink(0.95);
+  @include mixins.fast-transition;
+  @include mixins.shrink(0.95);
 
   width: auto;
   position: relative;
 
   &>input {
-    @include fast-transition;
+    @include mixins.fast-transition;
 
     padding: 5px 12px;
     width: 200px;
@@ -32,7 +32,7 @@
   }
 
   &>i {
-    @include fast-transition;
+    @include mixins.fast-transition;
 
     color: var(--text-light);
     font-size: 0.9rem;
