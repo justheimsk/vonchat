@@ -11,7 +11,7 @@ export default function ServerList() {
         </div>
         <div className="server-list__panel">
           {"h".repeat(20).split('').map(() => (
-            <ServerButton />
+            <ServerButton key={Math.random() * 99999} />
           ))}
         </div>
       </div>
