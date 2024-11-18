@@ -8,7 +8,7 @@ export default function ChannelData() {
       <div id="channel-data">
         <div id="channel-data__messages">
           {"h".repeat(20).split('').map(() => (
-            <Message />
+            <Message key={Math.random() * 99999} />
           ))}
         </div>
         <ChatInput />

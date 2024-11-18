@@ -6,7 +6,7 @@ export default function UserList() {
     <>
       <div id="user-list">
         {"h".repeat(20).split('').map(() => (
-          <User />
+          <User key={Math.random() * 99999} />
         ))}
       </div>
     </>
