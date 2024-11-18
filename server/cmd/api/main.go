@@ -4,7 +4,7 @@ import (
   "github.com/justheimsk/vonchat/server/internal/infra/config"
   "github.com/justheimsk/vonchat/server/internal/infra/database"
   http "github.com/justheimsk/vonchat/server/internal/infra/http"
-  "github.com/justheimsk/vonchat/server/internal/infra/logger"
+  "github.com/justheimsk/vonchat/server/pkg/logger"
 )
 
 func main() {
@@ -21,16 +21,11 @@ func main() {
     return
   }
 
-  var driver database.DatabaseDriver
-  if config.DatabaseDriver == "POSTGRES" {
-    driver = database.NewPostgresDatabaseDriver(config, log)
-  } else if config.DatabaseDriver == "SQLITE" {
-    driver = database.NewSQLiteDatabaseDriver(config, log)
-  }
-
+  driver := database.NewDatabaseDriver(config.DatabaseDriver, config, log)
   log.Infof("Using %s database driver.", driver.GetName())
   log.Infof("Opening database connection...")
   err = driver.Open()
+
   if err != nil {
     log.Fatalf("Fatal error: %w", err)
     return
