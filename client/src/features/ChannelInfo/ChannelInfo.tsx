@@ -1,7 +1,7 @@
 import {FaBell, FaHashtag, FaInbox, FaUsers} from "react-icons/fa6";
 import "./ChannelInfo.scss";
 import {TiPin} from "react-icons/ti";
-import Input from "@/components/Input/Input";
+import Input from "./components/Input/Input";
 
 export default function ChannelInfo() {
   return (
