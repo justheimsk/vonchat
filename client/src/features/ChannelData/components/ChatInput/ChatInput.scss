@@ -1,7 +1,7 @@
-@import '@utils/mixins';
+@use '@utils/mixins' as mixins;
 
 #chat-input {
-  @include fast-transition;
+  @include mixins.fast-transition;
 
   width: calc(100% - 24px);
   min-height: 38px;
@@ -50,8 +50,8 @@
     justify-content: center;
 
     &>i {
-      @include fast-transition;
-      @include shrink(0.85);
+      @include mixins.fast-transition;
+      @include mixins.shrink(0.85);
 
       display: flex;
       align-items: center;
@@ -71,8 +71,8 @@
     gap: 8px;
 
     &>i {
-      @include fast-transition;
-      @include shrink(0.85);
+      @include mixins.fast-transition;
+      @include mixins.shrink(0.85);
 
       color: var(--text-light);
       font-size: 1.4rem;

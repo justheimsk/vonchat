@@ -1,4 +1,4 @@
-@import '@utils/mixins';
+@use '@utils/_mixins' as mixins;
 
 #user-info {
   min-width: 240px;
@@ -13,8 +13,8 @@
   gap: 6px;
 
   &__hoverable {
-    @include fast-transition;
-    @include shrink(0.95);
+    @include mixins.fast-transition;
+    @include mixins.shrink(0.95);
 
     min-width: 60%;
     max-width: 60%;
@@ -33,7 +33,7 @@
   }
 
   &__avatar {
-    @include status-dot(online);
+    @include mixins.status-dot(online);
 
     position: relative;
     min-width: 32px;
@@ -73,8 +73,8 @@
     justify-content: space-evenly;
 
     &>i {
-      @include fast-transition(background-color);
-      @include transition(transform);
+      @include mixins.fast-transition(background-color);
+      @include mixins.transition(transform);
 
       display: flex;
       align-items: center;

@@ -1,4 +1,4 @@
-@import '@utils/mixins';
+@use '@utils/mixins' as mixins;
 
 .category {
   display: flex;
@@ -17,8 +17,8 @@
     gap: 6px;
 
     &__name {
-      @include fast-transition;
-      @include shrink(0.95);
+      @include mixins.fast-transition;
+      @include mixins.shrink(0.95);
       width: 100%;
       overflow: hidden;
 
@@ -32,7 +32,7 @@
       }
 
       &>i {
-        @include transition(transform);
+        @include mixins.transition(transform);
 
         transform: rotate(-90deg);
       }
@@ -45,8 +45,8 @@
     }
 
     &__actions i {
-      @include fast-transition;
-      @include shrink(0.85);
+      @include mixins.fast-transition;
+      @include mixins.shrink(0.85);
       font-size: 1.02rem;
 
       &:hover {
