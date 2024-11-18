@@ -1,6 +1,6 @@
 import "./ChannelData.scss";
 import ChatInput from "./components/ChatInput/ChatInput";
-import Message from "./components/Message/Message";
+import Message from "@components/Message/Message";
 
 export default function ChannelData() {
   return (
