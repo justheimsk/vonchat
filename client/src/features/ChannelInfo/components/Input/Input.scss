@@ -10,7 +10,8 @@
   &>input {
     @include mixins.fast-transition;
 
-    padding: 5px 12px;
+    padding: 5px 15px;
+    padding-right: 30px;
     width: 200px;
     border-radius: var(--radius);
     border: none;
