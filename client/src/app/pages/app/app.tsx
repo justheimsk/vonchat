@@ -1,5 +1,5 @@
 import ServerList from '@features/ServerList/ServerList'
-import './home.scss'
+import './app.scss'
 import ChannelList from '@features/ChannelList/ChannelList'
 import ServerName from '@features/ServerName/ServerName'
 import UserInfo from '@features/UserInfo/UserInfo'
@@ -8,7 +8,7 @@ import ChannelData from '@features/ChannelData/ChannelData'
 import UserList from '@features/UserList/UserList'
 
 export default function App() {
-  return (
+    return (
     <>
       <div id="layout">
         <ServerList />
