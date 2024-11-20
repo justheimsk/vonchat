@@ -6,6 +6,10 @@
   transition: $el var(--fast-transition);
 }
 
+@mixin slow-transition($el: all) {
+  transition: $el var(--slow-transition);
+}
+
 @mixin status-dot($status, $bg: var(--tertiary), $offset: 0px) {
   &::after {
     content: '';
