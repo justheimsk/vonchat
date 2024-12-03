@@ -4,6 +4,8 @@ import App from './pages/app/app'
 import './globals.scss'
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom'
 import Auth from './pages/auth/auth'
+import {Provider} from 'react-redux'
+import store from '@/store/store'
 
 const router = createBrowserRouter(createRoutesFromElements(
   <>
@@ -16,7 +18,9 @@ const app = document.getElementById('root');
 if(app) {
   createRoot(app).render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </StrictMode>,
   )
 }
