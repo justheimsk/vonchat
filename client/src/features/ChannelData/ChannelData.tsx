@@ -1,3 +1,4 @@
+import {CommandList} from "../CommandList/CommandList";
 import "./ChannelData.scss";
 import ChatInput from "./components/ChatInput/ChatInput";
 import Message from "@components/Message/Message";
@@ -11,6 +12,7 @@ export default function ChannelData() {
             <Message key={Math.random() * 99999} />
           ))}
         </div>
+        <CommandList />
         <ChatInput />
       </div>
     </>
