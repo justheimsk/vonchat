@@ -1,0 +1,39 @@
+@use '@utils/mixins' as mixins;
+
+.modal, .modal__overlay {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+
+  &--active {
+    pointer-events: all;
+    opacity: 1;
+  }
+}
+
+.modal__overlay {
+  @include mixins.transition;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  cursor: pointer;
+}
+
+.modal {
+  @include mixins.slow-transition;
+  color: var(--text);
+  padding: 12px;
+  width: 350px;
+  height: 350px;
+  background-color: var(--secondary);
+  border-radius: var(--radius);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  z-index: 101;
+
+  &--active {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
