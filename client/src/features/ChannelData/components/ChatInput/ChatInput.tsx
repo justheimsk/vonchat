@@ -2,18 +2,15 @@ import {FaCirclePlus} from "react-icons/fa6";
 import "./ChatInput.scss";
 import {BsEmojiSmileFill} from "react-icons/bs";
 import {RiFileGifFill} from "react-icons/ri";
-import {useDispatch} from "react-redux";
-import {toggleCommandList} from "@/store/slices/ui";
+import {vonchat} from "@/lib/Application";
 
 export default function ChatInput() {
-  const dispatch = useDispatch()
-
   function onChange(e: React.FormEvent<HTMLDivElement>) {
     const target = e.target as HTMLDivElement;
     if(target.innerText.startsWith("/")) {
-      dispatch(toggleCommandList(true))
+      vonchat.ui.openCommandList();
     } else {
-      dispatch(toggleCommandList(false))
+      vonchat.ui.closeCommandList()
     }
   }
 
