@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import uiSlice from './slices/ui'
+import commandRegistry from './slices/commandRegistry';
 
 const store = configureStore({
   reducer: {
-    uiSlice: uiSlice
+    uiSlice: uiSlice,
+    commandRegistry: commandRegistry
   }
 })
 

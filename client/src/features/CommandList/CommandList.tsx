@@ -3,10 +3,13 @@ import "./CommandList.scss"
 import {FaClock} from "react-icons/fa6"
 import {useSelector} from "react-redux";
 import type {RootState} from "@/store/store";
+import {Command} from "./components/Command/Command"
 
 export function CommandList() {
   const active = useSelector((state: RootState) => state.uiSlice.commandList);
+  const commands = useSelector((state: RootState) => state.commandRegistry.commands);
 
+  console.log(commands);
   return (
     <>
       <div id="command-list" className={`${active ? 'command-list--active' : ''}`}>
@@ -14,7 +17,14 @@ export function CommandList() {
           <FaClock />
           <BsSlashSquareFill />
         </div>
-        <span id="command-list__title"><BsSlashSquareFill /> Client Commands</span>
+        <div id="command-list__context">
+          <span id="command-list__title"><BsSlashSquareFill /> Client Commands</span>
+          <div id="command-list__commands">
+            {Array.from(commands.values()).map((cmd) => (
+              <Command key={cmd.name} name={cmd.name} description={cmd.description} />
+            ))}
+          </div>
+        </div>
       </div>
     </>
   )
