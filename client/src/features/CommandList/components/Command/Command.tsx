@@ -9,7 +9,7 @@ export interface CommandProps {
 }
 
 export function Command(props: CommandProps) {
-  const active = useSelector((state: RootState) => state.uiSlice.selectedCommand);
+  const active = useSelector((state: RootState) => state.ui.selectedCommand);
 
   return (
     <>

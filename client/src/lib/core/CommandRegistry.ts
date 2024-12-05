@@ -14,4 +14,8 @@ export default class CommandRegistry {
       cmd.execv();
     }
   }
+
+  public getState() {
+    return store.getState().commandRegistry;
+  }
 }

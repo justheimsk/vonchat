@@ -6,7 +6,6 @@ import {CommandList} from "@/features/CommandList/CommandList";
 import {useEffect} from "react";
 import {vonchat} from "@/lib/Application";
 import type {Subscription} from "@/lib/core/Observable";
-import store from "@/store/store";
 
 export default function ChatInput() {
   useEffect(() => {
@@ -51,7 +50,7 @@ export default function ChatInput() {
   }
 
   function parseCommand(name: string) {
-    const cmd = store.getState().commandRegistry.commands.find((cmd) => cmd.name.startsWith(name));
+    const cmd = vonchat.cmdRegistry.getState().commands.find((cmd) => cmd.name.startsWith(name));
     if(cmd) vonchat.ui.selectCommand(cmd.name);
     else vonchat.ui.selectCommand("");
   }
@@ -60,7 +59,7 @@ export default function ChatInput() {
     const target = e.target as HTMLDivElement;
     if(e.key === "Enter") {
       if(target.innerText.startsWith("/")) {
-        const selectedCommand = store.getState().uiSlice.selectedCommand;
+        const selectedCommand = vonchat.ui.getState().selectedCommand;
 
         if(selectedCommand) {
           e.preventDefault();
