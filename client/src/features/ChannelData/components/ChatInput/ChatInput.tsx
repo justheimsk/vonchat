@@ -51,6 +51,7 @@ export default function ChatInput() {
     const target = e.target as HTMLDivElement;
     if(e.key === "Enter") {
       if(target.innerText.startsWith("/")) {
+        e.preventDefault();
         vonchat.cmdRegistry.exec(target.innerText.replace(/\//, ""));
 
         vonchat.ui.closeCommandList();
