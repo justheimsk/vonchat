@@ -5,5 +5,5 @@ export default () => {
     alert("Hello World!");
   }
 
-  vonchat.cmdRegistry.register("hello_world", "Simple Hello World Command.", hello_world)
+  vonchat.cmdRegistry.register("hello_world", "Simple hello world command.", hello_world)
 }
