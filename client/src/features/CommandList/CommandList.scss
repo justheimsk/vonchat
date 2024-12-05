@@ -76,7 +76,12 @@
     padding: 10px;
     padding-top: 40px;
     gap: 10px;
-    
     overflow-y: auto;
+
+    #command-list__commands {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
   }
 }

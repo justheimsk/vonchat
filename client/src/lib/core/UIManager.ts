@@ -1,4 +1,4 @@
-import {toggleCommandList} from "@/store/slices/ui";
+import {selectCommand, toggleCommandList} from "@/store/slices/ui";
 import store from "@/store/store";
 
 export default class UIManager {
@@ -8,5 +8,9 @@ export default class UIManager {
 
   public closeCommandList() {
     store.dispatch(toggleCommandList(false));
+  }
+
+  public selectCommand(name: string) {
+    store.dispatch(selectCommand(name));
   }
 }
