@@ -5,13 +5,15 @@
   padding: 8px;
   font-size: 15px;
   border-radius: var(--small-radius);
+  border: 1px solid transparent;
 
   &__desc {
     font-size: 12px;
     color: var(--text-light);
   }
 
-  &:hover {
+  &:hover, &--active {
+    border: 1px solid rgba(255,255,255,0.1);
     background-color: var(--quinary);
   }
 }

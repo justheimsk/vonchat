@@ -6,6 +6,7 @@ import {CommandList} from "@/features/CommandList/CommandList";
 import {useEffect} from "react";
 import {vonchat} from "@/lib/Application";
 import type {Subscription} from "@/lib/core/Observable";
+import store from "@/store/store";
 
 export default function ChatInput() {
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function ChatInput() {
     events.push(vonchat.input.events.setChatInput.subscribe((text) => {
       if(editor) {
         editor.innerText = text;
+        parseCommand(text.replace(/\//gi, ""))
       }
     }));
 
@@ -42,20 +44,31 @@ export default function ChatInput() {
 
     if(target.innerText.startsWith("/")) {
       vonchat.ui.openCommandList();
+      parseCommand(target.innerText.replace(/\//gi, ""));
     } else {
       vonchat.ui.closeCommandList()
     }
+  }
+
+  function parseCommand(name: string) {
+    const cmd = store.getState().commandRegistry.commands.find((cmd) => cmd.name.startsWith(name));
+    if(cmd) vonchat.ui.selectCommand(cmd.name);
+    else vonchat.ui.selectCommand("");
   }
 
   function handleEnter(e: React.KeyboardEvent<HTMLDivElement>) {
     const target = e.target as HTMLDivElement;
     if(e.key === "Enter") {
       if(target.innerText.startsWith("/")) {
-        e.preventDefault();
-        vonchat.cmdRegistry.exec(target.innerText.replace(/\//, ""));
+        const selectedCommand = store.getState().uiSlice.selectedCommand;
 
-        vonchat.ui.closeCommandList();
-        vonchat.input.events.clearChatInput.notify(null);
+        if(selectedCommand) {
+          e.preventDefault();
+          vonchat.cmdRegistry.exec(selectedCommand);
+
+          vonchat.ui.closeCommandList();
+          vonchat.input.events.clearChatInput.notify(null);
+        }
       }
     }
   }
