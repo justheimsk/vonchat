@@ -12,7 +12,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<App />} />
     <Route path="/auth" element={<Auth />} />
   </>
-))
+));
 
 const app = document.getElementById('root');
 if(app) {

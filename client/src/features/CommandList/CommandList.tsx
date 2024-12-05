@@ -9,7 +9,6 @@ export function CommandList() {
   const active = useSelector((state: RootState) => state.uiSlice.commandList);
   const commands = useSelector((state: RootState) => state.commandRegistry.commands);
 
-  console.log(commands);
   return (
     <>
       <div id="command-list" className={`${active ? 'command-list--active' : ''}`}>
