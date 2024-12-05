@@ -6,7 +6,7 @@ import type {RootState} from "@/store/store";
 import {Command} from "./components/Command/Command"
 
 export function CommandList() {
-  const active = useSelector((state: RootState) => state.uiSlice.commandList);
+  const active = useSelector((state: RootState) => state.ui.commandList);
   const commands = useSelector((state: RootState) => state.commandRegistry.commands);
 
   return (

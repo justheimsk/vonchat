@@ -2,6 +2,10 @@ import {selectCommand, toggleCommandList} from "@/store/slices/ui";
 import store from "@/store/store";
 
 export default class UIManager {
+  public getState() {
+    return store.getState().ui;
+  }
+
   public openCommandList() {
     store.dispatch(toggleCommandList(true));
   }
