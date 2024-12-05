@@ -2,36 +2,63 @@ import {FaCirclePlus} from "react-icons/fa6";
 import "./ChatInput.scss";
 import {BsEmojiSmileFill} from "react-icons/bs";
 import {RiFileGifFill} from "react-icons/ri";
-import {vonchat} from "@/lib/Application";
-import {useSelector} from "react-redux";
-import type {RootState} from "@/store/store";
 import {CommandList} from "@/features/CommandList/CommandList";
+import {useEffect} from "react";
+import {vonchat} from "@/lib/Application";
+import type {Subscription} from "@/lib/core/Observable";
 
 export default function ChatInput() {
-  const value = useSelector((state: RootState) => state.input.chatInput);
+  useEffect(() => {
+    const editor = document.getElementById('chat-input__editor');
+    
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    const events: Subscription<any>[] = []
 
-  function onChange(e: React.FormEvent<HTMLDivElement>) {
+    events.push(vonchat.input.events.clearChatInput.subscribe(() => {
+      if(editor) {
+        editor.innerText = "";
+      }
+    }));
+
+    events.push(vonchat.input.events.setChatInput.subscribe((text) => {
+      if(editor) {
+        editor.innerText = text;
+      }
+    }));
+
+    events.push(vonchat.input.events.appendChatInput.subscribe((text) => {
+      if(editor) {
+        editor.innerText += text;
+      }
+    }))
+
+    return () => {
+      events.map((ev) => ev.unsubscribe());
+    }
+  }, []);
+
+  function handleEditorInput(e: React.FormEvent<HTMLDivElement>) {
     const target = e.target as HTMLDivElement;
+
     if(target.innerText.startsWith("/")) {
       vonchat.ui.openCommandList();
     } else {
-      vonchat.ui.closeCommandList();
+      vonchat.ui.closeCommandList()
     }
-    
-    vonchat.input.setChatInputValue(target.innerText);
   }
 
-  function onEnter(e: React.KeyboardEvent<HTMLDivElement>) {
-    const target = e.target as HTMLInputElement;
+  function handleEnter(e: React.KeyboardEvent<HTMLDivElement>) {
+    const target = e.target as HTMLDivElement;
     if(e.key === "Enter") {
       if(target.innerText.startsWith("/")) {
-        vonchat.cmdRegistry.execCommand(target.innerText.replace(/\//gi, ""))
-        vonchat.ui.closeCommandList()
-        vonchat.input.setChatInputValue("")
+        vonchat.cmdRegistry.exec(target.innerText.replace(/\//, ""));
+
+        vonchat.ui.closeCommandList();
+        vonchat.input.events.clearChatInput.notify(null);
       }
     }
   }
-  
+
   return (
     <>
       <div id="chat-input">
@@ -44,8 +71,8 @@ export default function ChatInput() {
           suppressContentEditableWarning
           id="chat-input__editor"
           data-name="general"
-          onInput={(e) => onChange(e)}
-          onKeyUp={(e) => onEnter(e)}
+          onInput={(e) => handleEditorInput(e)}
+          onKeyDown={(e) => handleEnter(e)}
         >
         </div>
         <div id="chat-input__actions">

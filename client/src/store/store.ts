@@ -5,7 +5,7 @@ import commandRegistry from './slices/commandRegistry';
 const store = configureStore({
   reducer: {
     uiSlice: uiSlice,
-    commandRegistry: commandRegistry
+    commandRegistry: commandRegistry,
   }
 })
 
