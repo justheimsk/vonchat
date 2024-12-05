@@ -1,13 +1,17 @@
 import CommandRegistry from "./core/CommandRegistry";
+import {Input} from "./core/Input";
 import UIManager from "./core/UIManager"
 
-class Application {
+export class Application {
   public ui: UIManager;
   public cmdRegistry: CommandRegistry;
+  public input: Input;
 
   public constructor() {
     this.ui = new UIManager();
     this.cmdRegistry = new CommandRegistry();
+    this.input = new Input();
+
     this.loadClientCommands()
   }
 
