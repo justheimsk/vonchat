@@ -10,12 +10,12 @@ export class Application {
   public constructor() {
     this.ui = new UIManager();
     this.cmdRegistry = new CommandRegistry();
-    this.input = new Input();
+    this.input = new Input(this);
 
     this.loadClientCommands()
   }
 
-  public async loadClientCommands() {
+  private async loadClientCommands() {
     const commands = (await import('../shared/commands')).default;
     commands();
   }
