@@ -2,7 +2,7 @@ import {vonchat} from "@/lib/Application";
 import type {RecvContext} from "@/lib/core/CommandRegistry";
 
 export default () => {
-  const hello_world = (ctx: RecvContext) => {
+  const hello_world = () => {
     alert("Hello World!");
   }
 
