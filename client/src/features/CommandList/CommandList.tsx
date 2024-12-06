@@ -20,7 +20,7 @@ export function CommandList() {
           <span id="command-list__title"><BsSlashSquareFill /> Client Commands</span>
           <div id="command-list__commands">
             {Array.from(commands.values()).map((cmd) => (
-              <Command key={cmd.name} args={cmd.args} name={cmd.name} description={cmd.description} />
+              <Command key={cmd.name} self={cmd} />
             ))}
           </div>
         </div>

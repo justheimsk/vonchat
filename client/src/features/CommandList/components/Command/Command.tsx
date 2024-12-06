@@ -2,12 +2,10 @@ import {vonchat} from "@/lib/Application";
 import "./Command.scss"
 import {useSelector} from "react-redux";
 import type {RootState} from "@/store/store";
-import type {Arg} from "@/lib/core/Command";
+import type CommandLib from "@/lib/core/Command";
 
 export interface CommandProps {
-  name: string;
-  description: string;
-  args: Arg[]
+  self: CommandLib
 }
 
 export function Command(props: CommandProps) {
@@ -16,16 +14,16 @@ export function Command(props: CommandProps) {
   return (
     <>
       {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-      <div onClick={() => vonchat.input.events.setChatInput.notify(`/${props.name} ${props.args.map((arg) => `${arg.name}=""`).join(" ")}`)} className={`command ${active === props.name ? 'command--active' : ''}`}>
+      <div onClick={() => vonchat.input.formatCommandInChatInput(props.self)} className={`command ${active === props.self.name ? 'command--active' : ''}`}>
         <div className="command__header">
-          <span>/{props.name}</span>
+          <span>/{props.self.name}</span>
           <div className="command__args">
-            {props.args.map((arg) => (
+            {props.self.args.map((arg) => (
               <span key={arg.name} className="command__arg">{arg.name}</span>
             ))}
           </div>
         </div>
-        <span className="command__desc">{props.description}</span>
+        <span className="command__desc">{props.self.description}</span>
       </div>
     </>
   )
