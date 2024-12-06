@@ -1,24 +1,27 @@
-import type Command from "@/lib/core/Command";
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
+import type Command from '@/lib/core/Command';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface CommandRegistryState {
-  commands: Command[];
+	commands: Command[];
 }
 
 const initialState: CommandRegistryState = {
-  commands: []
-}
+	commands: [],
+};
 
 const commandRegistry = createSlice({
-  name: 'commandRegistry',
-  initialState,
-  reducers: {
-    registerCommand: (state: CommandRegistryState, action: PayloadAction<Command>) => {
-      state.commands.push(action.payload);
-    }
-  }
-})
+	name: 'commandRegistry',
+	initialState,
+	reducers: {
+		registerCommand: (
+			state: CommandRegistryState,
+			action: PayloadAction<Command>,
+		) => {
+			state.commands.push(action.payload);
+		},
+	},
+});
 
-export const { registerCommand } = commandRegistry.actions
+export const { registerCommand } = commandRegistry.actions;
 
-export default commandRegistry.reducer
+export default commandRegistry.reducer;
