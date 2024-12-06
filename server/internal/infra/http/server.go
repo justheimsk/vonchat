@@ -10,6 +10,7 @@ import (
   "github.com/justheimsk/vonchat/server/internal/infra/database"
   "github.com/justheimsk/vonchat/server/internal/infra/http/middleware"
   "github.com/go-chi/chi/v5"
+  "github.com/rs/cors"
 )
 
 type Server struct {
@@ -31,9 +32,17 @@ func (self *Server) Serve(config *config.Config) {
     router.Use(loggingMiddleware.Run)
   }
 
+  c := cors.New(cors.Options{
+    AllowedOrigins: []string{"*"},
+    AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
+    AllowedHeaders: []string{"Content-Type", "Authorization"},
+    AllowCredentials: true,
+  })
+
+  handler := c.Handler(router)
   api.LoadHTTPV1Routes(router, self.db, self.logger)
   self.logger.Infof("Serving HTTP in port: %s", PORT)
-  if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), router); err != nil {
+  if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), handler); err != nil {
     self.logger.Fatalf("Failed to start HTTP server: %w", err)
   }
 }
