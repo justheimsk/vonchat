@@ -6,9 +6,13 @@ import type {RecvArg} from "./CommandRegistry";
 export class Input {
   public events: InputEvents;
   private app: Application;
+  private historyIdx: number;
+  public history: string[];
 
   public constructor(app: Application) {
     this.events = new InputEvents();
+    this.history = [];
+    this.historyIdx = 0;
     this.app = app;
   }
 
@@ -45,11 +49,35 @@ export class Input {
         this.events.clearChatInput.notify(null);
         this.app.cmdRegistry.exec(selectedCommand, args);
         this.app.ui.closeCommandList();
+        this.history.push(entry);
+        this.resetHistoryIndex();
       }
     }
   }
 
   public formatCommandInChatInput(cmd: Command) {
     return this.app.input.events.setChatInput.notify(`/${cmd.name} ${cmd.args.map((arg) => `${arg.name}=""`).join(" ")}`);
+  }
+
+  public cycleHistory(reversed = false) {
+    if(!reversed) {
+      if(this.historyIdx > 0) {
+        this.historyIdx--;
+        return this.history[this.historyIdx];
+      }
+    } else {
+      if(this.historyIdx < this.history.length - 1) {
+        this.historyIdx++;
+        return this.history[this.historyIdx];
+      // biome-ignore lint/style/noUselessElse: <explanation>
+      } else {
+        this.resetHistoryIndex();
+        return ""
+      }
+    }
+  }
+
+  public resetHistoryIndex() {
+    this.historyIdx = this.history.length;
   }
 }

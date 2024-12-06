@@ -46,6 +46,7 @@ export default function ChatInput() {
 
   function handleEditorInput(e: React.FormEvent<HTMLDivElement>) {
     const target = e.target as HTMLDivElement;
+    vonchat.input.resetHistoryIndex();
 
     if(target.innerText.startsWith("/")) {
       vonchat.ui.openCommandList();
@@ -63,9 +64,18 @@ export default function ChatInput() {
 
   function handleEnter(e: React.KeyboardEvent<HTMLDivElement>) {
     const target = e.target as HTMLDivElement;
+
     if(e.key === "Enter") {
       e.preventDefault();
       vonchat.input.send(target.innerText);
+    } else if(e.key === "ArrowUp") {
+      e.preventDefault();
+      const lastEntry = vonchat.input.cycleHistory();
+      if(lastEntry !== undefined) vonchat.input.events.setChatInput.notify(lastEntry);
+    } else if(e.key === "ArrowDown") {
+      e.preventDefault();
+      const firstEntry = vonchat.input.cycleHistory(true);
+      if(firstEntry !== undefined) vonchat.input.events.setChatInput.notify(firstEntry);
     }
   }
 
