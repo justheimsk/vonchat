@@ -7,6 +7,26 @@
   border-radius: var(--small-radius);
   border: 1px solid transparent;
 
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .command__args {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      & > span {
+        font-size: 12px;
+        padding: 2px;
+        border-radius: 4px;
+        background-color: var(--tertiary);
+      }
+    }
+  }
+  
+  
   &__desc {
     font-size: 12px;
     color: var(--text-light);
