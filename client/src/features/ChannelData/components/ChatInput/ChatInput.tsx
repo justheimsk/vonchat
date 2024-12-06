@@ -6,7 +6,6 @@ import {CommandList} from "@/features/CommandList/CommandList";
 import {useEffect} from "react";
 import {vonchat} from "@/lib/Application";
 import type {Subscription} from "@/lib/core/Observable";
-import type {RecvArg} from "@/lib/core/CommandRegistry";
 
 export default function ChatInput() {
   useEffect(() => {
