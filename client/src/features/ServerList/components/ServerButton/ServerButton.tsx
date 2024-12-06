@@ -1,9 +1,9 @@
-import "./ServerButton.scss";
+import './ServerButton.scss';
 
 export default function ServerButton() {
-  return (
-    <>
-      <div className="server-button" />
-    </>
-  )
+	return (
+		<>
+			<div className="server-button" />
+		</>
+	);
 }

@@ -1,14 +1,17 @@
-import {User} from "@components/User/User";
-import "./UserList.scss";
+import { User } from '@components/User/User';
+import './UserList.scss';
 
 export default function UserList() {
-  return (
-    <>
-      <div id="user-list">
-        {"h".repeat(20).split('').map(() => (
-          <User key={Math.random() * 99999} />
-        ))}
-      </div>
-    </>
-  )
+	return (
+		<>
+			<div id="user-list">
+				{'h'
+					.repeat(20)
+					.split('')
+					.map(() => (
+						<User key={Math.random() * 99999} />
+					))}
+			</div>
+		</>
+	);
 }
