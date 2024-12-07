@@ -14,9 +14,9 @@ func LoadHTTPV1Routes(mux *chi.Mux, driver database.DatabaseDriver, logger model
   usersResource := builder.NewUserBuilder(driver, logger)
   authMiddleware := middleware.NewAuthMiddleware(logger, authResource.Service)
 
-  mux.Route("/v1", func(router chi.Router) {
-    healthCheckResource.Handler.Load(router)
+  healthCheckResource.Handler.Load(mux)
 
+  mux.Route("/v1", func(router chi.Router) {  
     router.Route("/auth", func(authR chi.Router) {
       authResource.Handler.Load(authR)
     })

@@ -1,10 +1,12 @@
 package http_delivery
 
 import (
-  "fmt"
-  "net/http"
+	"fmt"
+	"net/http"
 
-  domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/pkg/util"
 )
 
 type HealthController struct {
@@ -20,9 +22,13 @@ func NewHealthController(repo domain.HealthRepository) *HealthController {
 func (self *HealthController) CheckHealth(w http.ResponseWriter, r *http.Request) {
   ping, err := self.repo.GetPing()
   if err != nil {
-    fmt.Fprintf(w, "Failed to get database ping: %s", err)
+    util.WriteHTTPError(w, models.InternalError)
     return
   }
 
-  fmt.Fprintf(w, "All systems operational, database ping = %dms", ping.Milliseconds())
+  msg := fmt.Sprintf("All systems operational, database ping = %dms", ping.Milliseconds())
+  util.WriteHTTPResponse(w, map[string]interface{}{
+    "message": msg,
+    "version": "1",
+  })
 }
