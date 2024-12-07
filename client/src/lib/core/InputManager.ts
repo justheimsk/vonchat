@@ -3,7 +3,7 @@ import { InputEvents } from '../events/InputEvents';
 import type Command from './Command';
 import type { RecvArg } from './CommandRegistry';
 
-export class Input {
+export class InputManager {
 	public events: InputEvents;
 	private app: Application;
 	private historyIdx: number;
