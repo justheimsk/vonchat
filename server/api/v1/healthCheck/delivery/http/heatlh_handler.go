@@ -1,19 +1,19 @@
 package http_delivery
 
 import (
-  "github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5"
 )
 
 type HealthHandler struct {
-  controller HealthController
+	controller HealthController
 }
 
 func NewHTTPHandler(controller HealthController) *HealthHandler {
-  return &HealthHandler{
-    controller,
-  }
+	return &HealthHandler{
+		controller,
+	}
 }
 
 func (self *HealthHandler) Load(r chi.Router) {
-  r.Get("/", self.controller.CheckHealth)
+	r.Get("/", self.controller.CheckHealth)
 }

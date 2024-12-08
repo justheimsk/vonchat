@@ -8,34 +8,34 @@ import (
 )
 
 func NewAuthRepository(driver database.DatabaseDriver) (repo domain.AuthRepository) {
-  switch driver.GetName() {
-  case "POSTGRES":
-      repo = pgsql.NewAuthRepository(driver.GetDB())
-  case "SQLITE":
-      repo = sqlite.NewAuthRepository(driver.GetDB())
-  }
+	switch driver.GetName() {
+	case "POSTGRES":
+		repo = pgsql.NewAuthRepository(driver.GetDB())
+	case "SQLITE":
+		repo = sqlite.NewAuthRepository(driver.GetDB())
+	}
 
-  return
+	return
 }
 
 func NewHealthRepository(driver database.DatabaseDriver) (repo domain.HealthRepository) {
-  switch driver.GetName() {
-  case "POSTGRES":
-      repo = pgsql.NewHealthRepository(driver.GetDB())
-  case "SQLITE":
-      repo = sqlite.NewHealthRepository(driver.GetDB())
-  }
+	switch driver.GetName() {
+	case "POSTGRES":
+		repo = pgsql.NewHealthRepository(driver.GetDB())
+	case "SQLITE":
+		repo = sqlite.NewHealthRepository(driver.GetDB())
+	}
 
-  return
+	return
 }
 
 func NewUserRepository(driver database.DatabaseDriver) (repo domain.UserRepository) {
-  switch driver.GetName() {
-  case "SQLITE":
-    repo = sqlite.NewUserRepository(driver.GetDB())
-  case "POSTGRES":
-    repo = pgsql.NewUserRepository(driver.GetDB())
-  }
+	switch driver.GetName() {
+	case "SQLITE":
+		repo = sqlite.NewUserRepository(driver.GetDB())
+	case "POSTGRES":
+		repo = pgsql.NewUserRepository(driver.GetDB())
+	}
 
-  return
+	return
 }

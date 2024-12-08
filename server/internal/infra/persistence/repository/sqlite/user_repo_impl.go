@@ -7,23 +7,23 @@ import (
 )
 
 type userRepository struct {
-  db *sql.DB
+	db *sql.DB
 }
 
 func NewUserRepository(db *sql.DB) *userRepository {
-  return &userRepository{
-    db,
-  }
+	return &userRepository{
+		db,
+	}
 }
 
 func (self *userRepository) GetUserById(id string) (*models.User, error) {
-  user := &models.User{}
+	user := &models.User{}
 
-  str := "SELECT * FROM users WHERE id=$1"
-  err := self.db.QueryRow(str, id).Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
-  if err != nil {
-    return nil, err
-  }
+	str := "SELECT * FROM users WHERE id=$1"
+	err := self.db.QueryRow(str, id).Scan(&user.ID, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
+	if err != nil {
+		return nil, err
+	}
 
-  return user, nil
+	return user, nil
 }

@@ -11,22 +11,22 @@ import (
 )
 
 type UserBuilder struct {
-  Handler http_delivery.UsersHandler
-  Controller http_delivery.UsersController
-  Repository domain_repo.UserRepository
-  Service domain_service.UserService
+	Handler    http_delivery.UsersHandler
+	Controller http_delivery.UsersController
+	Repository domain_repo.UserRepository
+	Service    domain_service.UserService
 }
 
 func NewUserBuilder(driver database.DatabaseDriver, logger models.Logger) *UserBuilder {
-  repo := repository.NewUserRepository(driver)
-  service := service.NewUserService(repo, logger)
-  controller := http_delivery.NewUsersController(service)
-  handler := http_delivery.NewUsersHandler(*controller)
+	repo := repository.NewUserRepository(driver)
+	service := service.NewUserService(repo, logger)
+	controller := http_delivery.NewUsersController(service)
+	handler := http_delivery.NewUsersHandler(*controller)
 
-  return &UserBuilder{
-    *handler,
-    *controller,
-    repo,
-    service,
-  }
+	return &UserBuilder{
+		*handler,
+		*controller,
+		repo,
+		service,
+	}
 }

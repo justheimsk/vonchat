@@ -8,19 +8,19 @@ import (
 )
 
 type DatabaseDriver interface {
-  Open() error
-  Close() error
-  GetDB() *sql.DB
-  GetName() string
+	Open() error
+	Close() error
+	GetDB() *sql.DB
+	GetName() string
 }
 
 func NewDatabaseDriver(driverName string, config *config.Config, logger models.Logger) DatabaseDriver {
-  switch (driverName) {
-  case "POSTGRES":
-    return NewPostgresDatabaseDriver(config, logger)
-  case "SQLITE":
-    return NewSQLiteDatabaseDriver(config, logger)
-  }
+	switch driverName {
+	case "POSTGRES":
+		return NewPostgresDatabaseDriver(config, logger)
+	case "SQLITE":
+		return NewSQLiteDatabaseDriver(config, logger)
+	}
 
-  return nil
+	return nil
 }

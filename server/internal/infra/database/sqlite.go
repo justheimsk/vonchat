@@ -12,47 +12,46 @@ import (
 )
 
 type SQLiteDatabaseDriver struct {
-  Path   string
-  db     *sql.DB
-  logger models.Logger
+	Path   string
+	db     *sql.DB
+	logger models.Logger
 }
 
 func NewSQLiteDatabaseDriver(config *config.Config, logger models.Logger) *SQLiteDatabaseDriver {
-  return &SQLiteDatabaseDriver{
-    Path: config.SQLitePath,
-    logger: logger.New("DATABASE"),
-  }
+	return &SQLiteDatabaseDriver{
+		Path:   config.SQLitePath,
+		logger: logger.New("DATABASE"),
+	}
 }
 
 func (self *SQLiteDatabaseDriver) Open() error {
-  db, err := sql.Open("sqlite3", self.Path)
-  if err != nil {
-    return fmt.Errorf("Failed to open connection: %w", err)
-  }
+	db, err := sql.Open("sqlite3", self.Path)
+	if err != nil {
+		return fmt.Errorf("Failed to open connection: %w", err)
+	}
 
-  err = db.Ping()
-  if err != nil {
-    return fmt.Errorf("Failed to connect to database: %w", err)
-  }
+	err = db.Ping()
+	if err != nil {
+		return fmt.Errorf("Failed to connect to database: %w", err)
+	}
 
-  _, err = db.Exec(scripts.GetSQLiteInitScript())
-  if err != nil {
-    self.logger.Warnf("Failed to exec init script: %w", err) 
-  }
+	_, err = db.Exec(scripts.GetSQLiteInitScript())
+	if err != nil {
+		self.logger.Warnf("Failed to exec init script: %w", err)
+	}
 
-  self.db = db
-  return nil
+	self.db = db
+	return nil
 }
 
 func (self *SQLiteDatabaseDriver) GetDB() *sql.DB {
-  return self.db
+	return self.db
 }
 
 func (self *SQLiteDatabaseDriver) Close() error {
-  return self.db.Close()
+	return self.db.Close()
 }
 
-
 func (self *SQLiteDatabaseDriver) GetName() string {
-  return "SQLITE"
+	return "SQLITE"
 }
