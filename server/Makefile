@@ -10,5 +10,8 @@ $(TARGET): $(BUILD_DIR)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
+lint:
+	$(shell go env GOPATH)/bin/revive -formatter friendly ./...
+
 run:
 	SQLITE_PATH=./sqlite.db DEBUG=true $(BUILD_DIR)/$(TARGET)
