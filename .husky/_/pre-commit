@@ -3,7 +3,7 @@
 FILES=$(git diff --cached --name-only)
 
 if echo "$FILES" | grep -q "^client/"; then
-  cd client
+  cd $(git rev-parse --show-toplevel)/client
   bin_path=$(which bun)
   bin_name="bun"
 
@@ -16,6 +16,27 @@ if echo "$FILES" | grep -q "^client/"; then
 
   if [ $? -ne 0 ]; then
     echo "You can run \"$bin_name run lint:write\" to fix some errors!"
+    exit 1
+  fi
+fi
+
+if echo "$FILES" | grep -q "^server/"; then
+  go_path="$(which go)"
+  if [ -z "$go_path" ]; then
+    echo "You must have go installed!"
+    exit 1
+  fi
+
+  bin_path="$(go env GOPATH)/bin/revive"
+  if [ ! -f "$bin_path" ]; then
+    echo "Installing linter"
+    go install github.com/mgechev/revive@latest
+  fi
+
+  cd $(git rev-parse --show-toplevel)/server
+  "$bin_path" -formatter friendly ./...
+
+  if [ $? -ne 0 ]; then
     exit 1
   fi
 fi
