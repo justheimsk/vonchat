@@ -21,11 +21,14 @@ if echo "$FILES" | grep -q "^client/"; then
 fi
 
 if echo "$FILES" | grep -q "^server/"; then
+  cd $(git rev-parse --show-toplevel)/server
   go_path="$(which go)"
   if [ -z "$go_path" ]; then
     echo "You must have go installed!"
     exit 1
   fi
+
+  go fmt ./...
 
   bin_path="$(go env GOPATH)/bin/revive"
   if [ ! -f "$bin_path" ]; then
@@ -33,7 +36,6 @@ if echo "$FILES" | grep -q "^server/"; then
     go install github.com/mgechev/revive@latest
   fi
 
-  cd $(git rev-parse --show-toplevel)/server
   "$bin_path" -formatter friendly ./...
 
   if [ $? -ne 0 ]; then
