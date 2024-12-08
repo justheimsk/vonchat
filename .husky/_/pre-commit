@@ -1,0 +1,15 @@
+cd client
+bin_path=$(which bun)
+bin_name="bun"
+
+if [ -n "$bin_path" ]; then
+  bun run lint
+else 
+  bin_name="npm"
+  npm run lint
+fi
+
+if [ $? -ne 0 ]; then
+  echo "You can run \"$bin_name run lint:write\" to fix some errors!"
+  exit 1
+fi
