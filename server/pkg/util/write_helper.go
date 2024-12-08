@@ -23,7 +23,7 @@ func WriteHTTPError(w http.ResponseWriter, err error) {
   }
 
   if err := json.NewEncoder(w).Encode(buf); err != nil {
-    fmt.Fprintf(w, "Internal server error.")
+    _, _ = fmt.Fprintf(w, "Internal server error.")
   }
 }
 

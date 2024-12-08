@@ -35,7 +35,7 @@ func NewLogger(label string, config *config.Config, file *os.File) models.Logger
 
   logFile := file;
   if(logFile == nil) {
-    os.MkdirAll("./logs", 0755)
+    _ = os.MkdirAll("./logs", 0755)
     file, err := os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
     if err != nil {
       return &Logger{

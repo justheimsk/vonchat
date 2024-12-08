@@ -62,6 +62,6 @@ func (self *PostgresDatabaseDriver) GetName() string {
   return "POSTGRES"
 }
 
-func (self *PostgresDatabaseDriver) Close() {
-  self.db.Close()
+func (self *PostgresDatabaseDriver) Close() error {
+  return self.db.Close()
 }
