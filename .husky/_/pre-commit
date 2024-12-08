@@ -2,7 +2,7 @@
 
 FILES=$(git diff --cached --name-only)
 
-if echo "$FILES" | grep -q "^client/"; then
+if echo "$FILES" | grep -qE "\.(js|ts|jsx|tsx)$"; then
   cd $(git rev-parse --show-toplevel)/client
   bin_path=$(which bun)
   bin_name="bun"
@@ -20,7 +20,7 @@ if echo "$FILES" | grep -q "^client/"; then
   fi
 fi
 
-if echo "$FILES" | grep -q "^server/"; then
+if echo "$FILES" | grep -q "\.go$"; then
   cd $(git rev-parse --show-toplevel)/server
   go_path="$(which go)"
   if [ -z "$go_path" ]; then
@@ -28,7 +28,7 @@ if echo "$FILES" | grep -q "^server/"; then
     exit 1
   fi
 
-  go fmt ./...
+  changed_files=$(go fmt ./...)
 
   bin_path="$(go env GOPATH)/bin/revive"
   if [ ! -f "$bin_path" ]; then
@@ -37,6 +37,9 @@ if echo "$FILES" | grep -q "^server/"; then
   fi
 
   "$bin_path" -formatter friendly ./...
+  if [ -n "$changed_files" ]; then
+    git add "$changed_files"
+  fi
 
   if [ $? -ne 0 ]; then
     exit 1
