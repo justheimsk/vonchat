@@ -10,7 +10,7 @@ export class Application {
 	public constructor() {
 		this.ui = new UIManager();
 		this.cmdRegistry = new CommandRegistry();
-    this.input = new InputManager(this);
+		this.input = new InputManager(this);
 
 		this.loadClientCommands();
 	}
