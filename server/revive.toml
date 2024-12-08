@@ -1,0 +1,45 @@
+# When set to false, ignores files with "GENERATED" header, similar to golint
+ignoreGeneratedHeader = true
+
+# Sets the default severity to "warning"
+severity = "warning"
+
+# Sets the default failure confidence. This means that linting errors
+# with less than 0.8 confidence will be ignored.
+confidence = 0.8
+
+# Sets the error code for failures with the "error" severity
+errorCode = 1
+
+# Sets the error code for failures with severity "warning"
+warningCode = 0
+
+[rule.cyclomatic]
+  arguments =[3]
+
+[rule.duplicated-imports]
+  severity = "error"
+
+[rule.empty-block]
+  severity = "error"
+
+[rule.increment-decrement]
+  severity = "warning"
+
+[rule.nested-structs]
+  severity = "error"
+
+[rule.unhandled-error]
+  severity = "error"
+
+[rule.unnecessary-stmt]
+  severity = "error"
+
+[rule.unused-parameter]
+  severity = "error"
+
+[rule.dot-imports]
+  severity = "error"
+
+[rule.early-return]
+  severity = "error"
