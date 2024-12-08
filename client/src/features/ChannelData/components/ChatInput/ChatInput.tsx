@@ -1,55 +1,42 @@
-import { FaCirclePlus } from 'react-icons/fa6';
+import {CommandList} from '@/features/CommandList/CommandList';
+import {vonchat} from '@/lib/Application';
+import {useEffect} from 'react';
+import {BsEmojiSmileFill} from 'react-icons/bs';
+import {FaCirclePlus} from 'react-icons/fa6';
+import {RiFileGifFill} from 'react-icons/ri';
 import './ChatInput.scss';
-import { CommandList } from '@/features/CommandList/CommandList';
-import { vonchat } from '@/lib/Application';
-import type { Subscription } from '@/lib/core/Observable';
-import { useEffect } from 'react';
-import { BsEmojiSmileFill } from 'react-icons/bs';
-import { RiFileGifFill } from 'react-icons/ri';
 
 export default function ChatInput() {
 	useEffect(() => {
 		const editor = document.getElementById('chat-input__editor');
 
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		const events: Subscription<any>[] = [];
+		const event = vonchat.input.events.setChatInput.subscribe((text) => {
+      if (editor) {
+        editor.innerText = text;
+        parseCommand(text.replace(/\//gi, ''));
 
-		events.push(
-			vonchat.input.events.clearChatInput.subscribe(() => {
-				if (editor) {
-					editor.innerText = '';
-				}
-			}),
-		);
+        const range = document.createRange();
+        const selection = window.getSelection();
 
-		events.push(
-			vonchat.input.events.setChatInput.subscribe((text) => {
-				if (editor) {
-					editor.innerText = text;
-					parseCommand(text.replace(/\//gi, ''));
+        range.selectNodeContents(editor);
+        range.collapse(false);
 
-					const range = document.createRange();
-					const selection = window.getSelection();
-
-					range.selectNodeContents(editor);
-					range.collapse(false);
-
-					if (selection) {
-						selection.removeAllRanges();
-						selection.addRange(range);
-					}
-				}
-			}),
-		);
+        if (selection) {
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      }
+    })
 
 		return () => {
-			events.map((ev) => ev.unsubscribe());
+			event.unsubscribe();
 		};
 	}, []);
 
 	function handleEditorInput(e: React.FormEvent<HTMLDivElement>) {
 		const target = e.target as HTMLDivElement;
 		vonchat.input.resetHistoryIndex();
+    vonchat.input.value = target.innerText;
 
 		if (target.innerText.startsWith('/')) {
 			vonchat.ui.openCommandList();
@@ -72,14 +59,17 @@ export default function ChatInput() {
 
 		if (e.key === 'Enter') {
 			e.preventDefault();
+
 			vonchat.input.send(target.innerText);
 		} else if (e.key === 'ArrowUp') {
 			e.preventDefault();
+
 			const lastEntry = vonchat.input.cycleHistory();
 			if (lastEntry !== undefined)
 				vonchat.input.events.setChatInput.notify(lastEntry);
 		} else if (e.key === 'ArrowDown') {
 			e.preventDefault();
+
 			const firstEntry = vonchat.input.cycleHistory(true);
 			if (firstEntry !== undefined)
 				vonchat.input.events.setChatInput.notify(firstEntry);

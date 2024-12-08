@@ -8,12 +8,14 @@ export class InputManager {
 	private app: Application;
 	private historyIdx: number;
 	public history: string[];
+	public value: string;
 
 	public constructor(app: Application) {
 		this.events = new InputEvents();
 		this.history = [];
 		this.historyIdx = 0;
 		this.app = app;
+		this.value = '';
 	}
 
 	public send(entry: string) {
@@ -46,11 +48,12 @@ export class InputManager {
 					return this.formatCommandInChatInput(cmd);
 				}
 
-				this.events.clearChatInput.notify(null);
+				this.events.setChatInput.notify('');
 				this.app.cmdRegistry.exec(selectedCommand, args);
 				this.app.ui.closeCommandList();
 				this.history.push(entry);
 				this.resetHistoryIndex();
+				this.value = '';
 			}
 		}
 	}
@@ -74,7 +77,7 @@ export class InputManager {
 				// biome-ignore lint/style/noUselessElse: <explanation>
 			} else {
 				this.resetHistoryIndex();
-				return '';
+				return this.value;
 			}
 		}
 	}
