@@ -9,7 +9,7 @@
     "lint": "biome check ./src/",
     "lint:write": "biome check ./src/ --write",
     "preview": "vite preview --host --port 3000",
-    "prepare": "husky"
+    "prepare": "cd .. && husky install client/.husky"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.4.0",
