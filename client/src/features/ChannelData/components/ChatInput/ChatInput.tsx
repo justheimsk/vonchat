@@ -1,9 +1,9 @@
-import {CommandList} from '@/features/CommandList/CommandList';
-import {vonchat} from '@/lib/Application';
-import {useEffect} from 'react';
-import {BsEmojiSmileFill} from 'react-icons/bs';
-import {FaCirclePlus} from 'react-icons/fa6';
-import {RiFileGifFill} from 'react-icons/ri';
+import { CommandList } from '@/features/CommandList/CommandList';
+import { vonchat } from '@/lib/Application';
+import { useEffect } from 'react';
+import { BsEmojiSmileFill } from 'react-icons/bs';
+import { FaCirclePlus } from 'react-icons/fa6';
+import { RiFileGifFill } from 'react-icons/ri';
 import './ChatInput.scss';
 
 export default function ChatInput() {
@@ -11,22 +11,22 @@ export default function ChatInput() {
 		const editor = document.getElementById('chat-input__editor');
 
 		const event = vonchat.input.events.setChatInput.subscribe((text) => {
-      if (editor) {
-        editor.innerText = text;
-        parseCommand(text.replace(/\//gi, ''));
+			if (editor) {
+				editor.innerText = text;
+				parseCommand(text.replace(/\//gi, ''));
 
-        const range = document.createRange();
-        const selection = window.getSelection();
+				const range = document.createRange();
+				const selection = window.getSelection();
 
-        range.selectNodeContents(editor);
-        range.collapse(false);
+				range.selectNodeContents(editor);
+				range.collapse(false);
 
-        if (selection) {
-          selection.removeAllRanges();
-          selection.addRange(range);
-        }
-      }
-    })
+				if (selection) {
+					selection.removeAllRanges();
+					selection.addRange(range);
+				}
+			}
+		});
 
 		return () => {
 			event.unsubscribe();
@@ -36,7 +36,7 @@ export default function ChatInput() {
 	function handleEditorInput(e: React.FormEvent<HTMLDivElement>) {
 		const target = e.target as HTMLDivElement;
 		vonchat.input.resetHistoryIndex();
-    vonchat.input.value = target.innerText;
+		vonchat.input.value = target.innerText;
 
 		if (target.innerText.startsWith('/')) {
 			vonchat.ui.openCommandList();

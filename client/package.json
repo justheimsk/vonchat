@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host --port 3000",
     "build": "tsc -b && vite build",
-    "lint": "biome lint ./src/",
+    "lint": "biome check ./src/",
+    "lint:write": "biome check ./src/ --write",
     "preview": "vite preview --host --port 3000"
   },
   "dependencies": {
