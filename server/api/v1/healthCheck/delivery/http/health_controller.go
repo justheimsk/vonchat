@@ -19,7 +19,7 @@ func NewHealthController(repo domain.HealthRepository) *HealthController {
   }
 }
 
-func (self *HealthController) CheckHealth(w http.ResponseWriter, r *http.Request) {
+func (self *HealthController) CheckHealth(w http.ResponseWriter, _ *http.Request) {
   ping, err := self.repo.GetPing()
   if err != nil {
     util.WriteHTTPError(w, models.InternalError)

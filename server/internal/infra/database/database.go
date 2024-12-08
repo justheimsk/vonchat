@@ -9,7 +9,7 @@ import (
 
 type DatabaseDriver interface {
   Open() error
-  Close()
+  Close() error
   GetDB() *sql.DB
   GetName() string
 }

@@ -48,8 +48,8 @@ func (self *SQLiteDatabaseDriver) GetDB() *sql.DB {
   return self.db
 }
 
-func (self *SQLiteDatabaseDriver) Close() {
-  self.db.Close()
+func (self *SQLiteDatabaseDriver) Close() error {
+  return self.db.Close()
 }
 
 
