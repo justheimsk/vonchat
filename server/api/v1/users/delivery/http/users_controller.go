@@ -9,29 +9,29 @@ import (
 )
 
 type UsersController struct {
-  service domain_service.UserService
+	service domain_service.UserService
 }
 
 func NewUsersController(service domain_service.UserService) *UsersController {
-  return &UsersController{
-    service,
-  }
+	return &UsersController{
+		service,
+	}
 }
 
 func (self *UsersController) GetMe(w http.ResponseWriter, r *http.Request) {
-  id := r.Context().Value("userID")
-  if id == "" {
-    util.WriteHTTPError(w, models.InternalError)
-    return
-  }
+	id := r.Context().Value("userID")
+	if id == "" {
+		util.WriteHTTPError(w, models.InternalError)
+		return
+	}
 
-  user, err := self.service.GetUserById(id.(string))
-  if err != nil {
-    util.WriteHTTPError(w, models.InternalError)
-    return
-  }
+	user, err := self.service.GetUserById(id.(string))
+	if err != nil {
+		util.WriteHTTPError(w, models.InternalError)
+		return
+	}
 
-  util.WriteHTTPResponse(w, map[string]interface{}{
-    "user": user,
-  })
+	util.WriteHTTPResponse(w, map[string]interface{}{
+		"user": user,
+	})
 }

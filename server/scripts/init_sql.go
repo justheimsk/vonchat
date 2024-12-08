@@ -1,7 +1,7 @@
 package scripts
 
 func GetPGInitScript() string {
-  return `CREATE TABLE IF NOT EXISTS users (
+	return `CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             username varchar(50) NOT NULL,
             email varchar(255) UNIQUE NOT NULL,
@@ -14,7 +14,7 @@ func GetPGInitScript() string {
 }
 
 func GetSQLiteInitScript() string {
-  return `CREATE TABLE IF NOT EXISTS users (
+	return `CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,

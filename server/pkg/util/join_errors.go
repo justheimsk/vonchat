@@ -1,15 +1,15 @@
 package util
 
 import (
-  "strings"
+	"strings"
 )
 
 func JoinErrors(errs []error) string {
-  var msgs []string
+	var msgs []string
 
-  for _, err := range(errs) {
-    msgs = append(msgs, err.Error())
-  }
+	for _, err := range errs {
+		msgs = append(msgs, err.Error())
+	}
 
-  return strings.Join(msgs, ", ")
+	return strings.Join(msgs, ", ")
 }

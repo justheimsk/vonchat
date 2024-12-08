@@ -9,24 +9,24 @@ import (
 )
 
 func LoadHTTPV1Routes(mux *chi.Mux, driver database.DatabaseDriver, logger models.Logger) {
-  healthCheckResource := builder.NewHealthBuilder(driver)
-  authResource := builder.NewAuthBuilder(driver, logger)
-  usersResource := builder.NewUserBuilder(driver, logger)
-  authMiddleware := middleware.NewAuthMiddleware(logger, authResource.Service)
+	healthCheckResource := builder.NewHealthBuilder(driver)
+	authResource := builder.NewAuthBuilder(driver, logger)
+	usersResource := builder.NewUserBuilder(driver, logger)
+	authMiddleware := middleware.NewAuthMiddleware(logger, authResource.Service)
 
-  healthCheckResource.Handler.Load(mux)
+	healthCheckResource.Handler.Load(mux)
 
-  mux.Route("/v1", func(router chi.Router) {  
-    router.Route("/auth", func(authR chi.Router) {
-      authResource.Handler.Load(authR)
-    })
+	mux.Route("/v1", func(router chi.Router) {
+		router.Route("/auth", func(authR chi.Router) {
+			authResource.Handler.Load(authR)
+		})
 
-    router.Route("/", func(protected chi.Router) {
-      protected.Use(authMiddleware.Run)
+		router.Route("/", func(protected chi.Router) {
+			protected.Use(authMiddleware.Run)
 
-      protected.Route("/users", func(r chi.Router) {
-        usersResource.Handler.Load(r)
-      })
-    })
-  })
+			protected.Route("/users", func(r chi.Router) {
+				usersResource.Handler.Load(r)
+			})
+		})
+	})
 }

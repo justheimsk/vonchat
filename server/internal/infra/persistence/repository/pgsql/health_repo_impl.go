@@ -1,27 +1,27 @@
 package pgsql
 
 import (
-  "database/sql"
-  "time"
+	"database/sql"
+	"time"
 )
 
 type healthRepository struct {
-  db *sql.DB
+	db *sql.DB
 }
 
 func NewHealthRepository(db *sql.DB) *healthRepository {
-  return &healthRepository{
-    db,
-  }
+	return &healthRepository{
+		db,
+	}
 }
 
 func (self *healthRepository) GetPing() (time.Duration, error) {
-  start := time.Now()
+	start := time.Now()
 
-  err := self.db.Ping()
-  if err != nil {
-    return 0, err
-  }
+	err := self.db.Ping()
+	if err != nil {
+		return 0, err
+	}
 
-  return time.Since(start), nil
+	return time.Since(start), nil
 }
