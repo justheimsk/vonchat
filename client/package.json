@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "biome check ./src/",
     "lint:write": "biome check ./src/ --write",
-    "preview": "vite preview --host --port 3000"
+    "preview": "vite preview --host --port 3000",
+    "prepare": "husky"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.4.0",
@@ -29,6 +30,7 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc-fb9a90fa48-20240614",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.12.0",
+    "husky": "^9.1.7",
     "sass-embedded": "^1.81.0",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.14.0",
