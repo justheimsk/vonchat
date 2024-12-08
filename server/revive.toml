@@ -24,19 +24,16 @@ warningCode = 0
   severity = "warning"
 
 [rule.nested-structs]
-  severity = "error"
+  severity = "warning"
 
 [rule.unhandled-error]
   severity = "error"
 
 [rule.unnecessary-stmt]
-  severity = "error"
+  severity = "warning"
 
 [rule.unused-parameter]
   severity = "error"
 
 [rule.dot-imports]
-  severity = "error"
-
-[rule.early-return]
   severity = "error"

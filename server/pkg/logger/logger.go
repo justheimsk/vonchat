@@ -73,7 +73,7 @@ func (self *Logger) Warnf(format string, args ...any) {
 }
 
 func (self *Logger) Debugf(format string, args ...any) {
-	if self.config.Debug {
+	if self.config != nil && self.config.Debug {
 		self.log.Printf(self.concatLevel(format, "DEBUG", Magenta), args...)
 	}
 }

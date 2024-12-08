@@ -22,11 +22,11 @@ type PostgresDatabaseDriver struct {
 
 func NewPostgresDatabaseDriver(config *config.Config, logger models.Logger) *PostgresDatabaseDriver {
 	return &PostgresDatabaseDriver{
-		Host:     config.PostgresHost,
-		Port:     config.PostgresPort,
-		DB:       config.PostgresDB,
-		User:     config.PostgresUser,
-		Password: config.PostgresPassword,
+		Host:     config.Postgres.Host,
+		Port:     config.Postgres.Port,
+		DB:       config.Postgres.DB,
+		User:     config.Postgres.User,
+		Password: config.Postgres.Password,
 		logger:   logger.New("DATABASE"),
 	}
 }
