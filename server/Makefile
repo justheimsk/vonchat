@@ -13,5 +13,8 @@ $(BUILD_DIR):
 lint:
 	$(shell go env GOPATH)/bin/revive -formatter friendly ./...
 
+fmt:
+	go fmt ./...
+
 run:
 	$(BUILD_DIR)/$(TARGET)
