@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 cd client
 bin_path=$(which bun)
 bin_name="bun"
