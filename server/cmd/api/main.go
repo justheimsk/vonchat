@@ -12,16 +12,17 @@ func main() {
 	config, err := config.LoadConfig(log.New("CONFIG"))
 	log = logger.NewLogger("CORE", config, nil)
 
+	if err != nil {
+		log.Fatalf("Failed to load config: %s", err)
+		return
+	}
+
 	if config.Debug {
 		log.Debugf("Debug mode enabled.")
 	}
 
-	if err != nil {
-		log.Fatalf("Failed to load config: %w", err)
-		return
-	}
-
 	driver := database.NewDatabaseDriver(config.DatabaseDriver, config, log)
+
 	log.Infof("Using %s database driver.", driver.GetName())
 	log.Infof("Opening database connection...")
 	err = driver.Open()

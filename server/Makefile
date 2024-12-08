@@ -14,4 +14,4 @@ lint:
 	$(shell go env GOPATH)/bin/revive -formatter friendly ./...
 
 run:
-	SQLITE_PATH=./sqlite.db DEBUG=true $(BUILD_DIR)/$(TARGET)
+	$(BUILD_DIR)/$(TARGET)

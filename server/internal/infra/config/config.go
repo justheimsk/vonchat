@@ -1,85 +1,94 @@
 package config
 
 import (
-	"fmt"
-	"os"
-	"strings"
-
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	"github.com/spf13/viper"
 )
 
+type PostgresConfig struct {
+	Host     string
+	Port     string
+	DB       string
+	User     string
+	Password string
+}
+
+type SqliteConfig struct {
+	Path string
+}
+
 type Config struct {
-	DatabaseDriver   string
-	SQLitePath       string
-	PostgresHost     string
-	PostgresPort     string
-	PostgresDB       string
-	PostgresUser     string
-	PostgresPassword string
-	Port             string
-	Debug            bool
+	DatabaseDriver string
+	Postgres       PostgresConfig
+	Sqlite         SqliteConfig
+	Port           string
+	Debug          bool
 }
 
 func LoadConfig(log models.Logger) (*Config, error) {
 	config := &Config{}
-	debug := os.Getenv("DEBUG")
-	if debug == "true" {
-		config.Debug = true
-	}
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
 
-	DBDriver := strings.ToUpper(os.Getenv("DATABASE_DRIVER"))
-	if DBDriver == "" {
-		DBDriver = "SQLITE"
-	}
-
-	if DBDriver != "SQLITE" && DBDriver != "POSTGRES" {
-		return nil, fmt.Errorf("Invalid database driver.")
-	}
-
-	if DBDriver == "SQLITE" {
-		path := os.Getenv("SQLITE_PATH")
-		if path == "" {
-			return nil, fmt.Errorf("Using SQLITE database driver but variable SQLITE_PATH is missing.")
+	err := viper.ReadInConfig()
+	if err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			log.Fatalf("Failed to read configuration file: %w", err)
 		}
+	} else {
+		log.Infof("Configuration file loaded: %s", viper.ConfigFileUsed())
+	}
 
-		config.SQLitePath = path
-	} else if DBDriver == "POSTGRES" {
-		prefix := "POSTGRES_"
-		keys := []string{"HOST", "PORT", "DB", "USER", "PASSWORD"}
-		errorDet := false
+	viper.SetDefault("database.driver", "SQLITE")
+	viper.SetDefault("debug", false)
+	viper.SetDefault("port", "8080")
 
-		for _, k := range keys {
-			value := os.Getenv(prefix + k)
+	config.Debug = viper.GetBool("debug")
+	config.Port = viper.GetString("port")
+	config.DatabaseDriver = viper.GetString("database.driver")
+
+	if config.DatabaseDriver == "SQLITE" {
+		path := viper.GetString("database.path")
+		if path == "" {
+			log.Fatalf("Using SQLITE database driver but missing database.path config.")
+			return nil, models.ErrBadRequest
+		} else {
+			config.Sqlite.Path = path
+		}
+	} else if config.DatabaseDriver == "POSTGRES" {
+		keys := []string{"host", "port", "user", "db", "password"}
+		missing_config := false
+
+		for _, key := range keys {
+			value := viper.GetString("database." + key)
+
 			if value == "" {
-				log.Errorf("Missing variable: %s", prefix+k)
-				errorDet = true
+				log.Errorf("Using POSTGRES database driver but missing databse.%s config.", key)
+				missing_config = true
 				continue
 			}
 
-			if k == "HOST" {
-				config.PostgresHost = value
-			} else if k == "PORT" {
-				config.PostgresPort = value
-			} else if k == "DB" {
-				config.PostgresDB = value
-			} else if k == "USER" {
-				config.PostgresUser = value
-			} else if k == "PASSWORD" {
-				config.PostgresPassword = value
+			switch key {
+			case "host":
+				config.Postgres.Host = value
+			case "port":
+				config.Postgres.Port = value
+			case "db":
+				config.Postgres.DB = value
+			case "user":
+				config.Postgres.User = value
+			case "password":
+				config.Postgres.Password = value
 			}
 		}
 
-		if errorDet != false {
-			return nil, fmt.Errorf("Using POSTGRES database driver but missing above variables.")
+		if missing_config {
+			return config, models.NewCustomError("malformed_config_input", "Broken config.")
 		}
+	} else {
+		return config, models.NewCustomError("unknown_database_driver", "Unknown database driver: "+config.DatabaseDriver)
 	}
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	config.Port = port
-	config.DatabaseDriver = DBDriver
 	return config, nil
 }
