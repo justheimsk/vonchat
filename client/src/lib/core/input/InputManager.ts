@@ -54,6 +54,7 @@ export class InputManager {
 				this.app.cmdRegistry.exec(selectedCommand, args);
 				this.app.ui.closeCommandList();
 				this.history.pushHistory(entry);
+				this.history.current = '';
 				this.value = '';
 			}
 		}
@@ -65,9 +66,11 @@ export class InputManager {
 		);
 	}
 
-	public setValue(value: string) {
+	public setValue(value: string, modifyDom = true) {
+		// TODO: value is not registering on every change, so make it work :)
 		this.value = value;
+		this.history.current = value;
 		this.events.onInput.notify(value);
-		this.events.domSetInnerText.notify(value);
+		if (modifyDom) this.events.domSetInnerText.notify(value);
 	}
 }
