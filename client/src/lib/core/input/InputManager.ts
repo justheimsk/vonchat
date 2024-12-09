@@ -13,7 +13,7 @@ export class InputManager {
 
 	public constructor(app: Application) {
 		this.events = new InputEvents();
-		this.history = new InputHistory(this, { maxHistory: 100 });
+		this.history = new InputHistory({ maxHistory: 100 });
 		this.app = app;
 		this.value = '';
 	}

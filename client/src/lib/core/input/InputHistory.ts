@@ -1,5 +1,3 @@
-import type { InputManager } from './InputManager';
-
 export interface InputHistoryOptions {
 	maxHistory: number;
 }
@@ -7,12 +5,10 @@ export interface InputHistoryOptions {
 export class InputHistory {
 	private historyIdx: number;
 	private history: string[];
-	private input: InputManager;
 	public options: InputHistoryOptions;
 	public current: string;
 
-	public constructor(input: InputManager, options: InputHistoryOptions) {
-		this.input = input;
+	public constructor(options: InputHistoryOptions) {
 		this.historyIdx = 0;
 		this.history = [];
 		this.options = this.validateOptions(options);
