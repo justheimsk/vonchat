@@ -35,7 +35,7 @@ export default function ChatInput() {
 
 	function handleEditorInput(e: React.FormEvent<HTMLDivElement>) {
 		const target = e.target as HTMLDivElement;
-		vonchat.input.resetHistoryIndex();
+		vonchat.input.history.resetIdx();
 		vonchat.input.value = target.innerText;
 
 		if (target.innerText.startsWith('/')) {
@@ -64,15 +64,14 @@ export default function ChatInput() {
 		} else if (e.key === 'ArrowUp') {
 			e.preventDefault();
 
-			const lastEntry = vonchat.input.cycleHistory();
-			if (lastEntry !== undefined)
-				vonchat.input.events.setChatInput.notify(lastEntry);
+			const previous = vonchat.input.history.getPrevious();
+			if (previous !== undefined)
+				vonchat.input.events.setChatInput.notify(previous);
 		} else if (e.key === 'ArrowDown') {
 			e.preventDefault();
 
-			const firstEntry = vonchat.input.cycleHistory(true);
-			if (firstEntry !== undefined)
-				vonchat.input.events.setChatInput.notify(firstEntry);
+			const next = vonchat.input.history.getNext();
+			if (next !== undefined) vonchat.input.events.setChatInput.notify(next);
 		}
 	}
 
