@@ -62,8 +62,7 @@ export default function ChatInput() {
 		vonchat.input.history.resetIdx();
 		parseCommand(target.innerText);
 
-		vonchat.input.value = target.innerText;
-		vonchat.input.events.onInput.notify(target.innerText);
+		vonchat.input.setValue(target.innerText, false);
 	}
 
 	function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {

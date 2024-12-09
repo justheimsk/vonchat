@@ -9,12 +9,14 @@ export class InputHistory {
 	private history: string[];
 	private input: InputManager;
 	public options: InputHistoryOptions;
+	public current: string;
 
 	public constructor(input: InputManager, options: InputHistoryOptions) {
 		this.input = input;
 		this.historyIdx = 0;
 		this.history = [];
 		this.options = this.validateOptions(options);
+		this.current = '';
 	}
 
 	public pushHistory(value: string) {
@@ -44,7 +46,7 @@ export class InputHistory {
 			// biome-ignore lint/style/noUselessElse: <explanation>
 		} else {
 			this.resetIdx();
-			return this.input.value;
+			return this.current;
 		}
 	}
 
