@@ -1,5 +1,5 @@
 import { vonchat } from '@/lib/Application';
-import type { RecvContext } from '@/lib/core/CommandRegistry';
+import type { RecvContext } from '@/lib/core/command/CommandRegistry';
 
 export default () => {
 	const hello_world = () => {
