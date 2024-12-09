@@ -1,5 +1,5 @@
-import CommandRegistry from './core/CommandRegistry';
 import UIManager from './core/UIManager';
+import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
 
 export class Application {
