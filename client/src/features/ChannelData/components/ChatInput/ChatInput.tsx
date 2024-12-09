@@ -8,23 +8,15 @@ import './ChatInput.scss';
 
 export default function ChatInput() {
 	useEffect(() => {
-		const editor = document.getElementById('chat-input__editor');
+		const editor = document.getElementById(
+			'chat-input__editor',
+		) as HTMLDivElement;
 
-		const event = vonchat.input.events.setChatInput.subscribe((text) => {
+		const event = vonchat.input.events.domSetInnerText.subscribe((text) => {
 			if (editor) {
 				editor.innerText = text;
-				parseCommand(text.replace(/\//gi, ''));
-
-				const range = document.createRange();
-				const selection = window.getSelection();
-
-				range.selectNodeContents(editor);
-				range.collapse(false);
-
-				if (selection) {
-					selection.removeAllRanges();
-					selection.addRange(range);
-				}
+				parseCommand(text);
+				moveCaretToEnd(editor);
 			}
 		});
 
@@ -33,45 +25,65 @@ export default function ChatInput() {
 		};
 	}, []);
 
-	function handleEditorInput(e: React.FormEvent<HTMLDivElement>) {
-		const target = e.target as HTMLDivElement;
-		vonchat.input.history.resetIdx();
-		vonchat.input.value = target.innerText;
+	function moveCaretToEnd(editor: HTMLDivElement) {
+		const range = document.createRange();
+		const selection = window.getSelection();
 
-		if (target.innerText.startsWith('/')) {
-			vonchat.ui.openCommandList();
-			parseCommand(target.innerText.replace(/\//gi, '').split(' ')[0]);
-		} else {
-			vonchat.ui.closeCommandList();
+		range.selectNodeContents(editor);
+		range.collapse(false);
+
+		if (selection) {
+			selection.removeAllRanges();
+			selection.addRange(range);
 		}
 	}
 
 	function parseCommand(name: string) {
 		const cmd = vonchat.cmdRegistry
 			.getState()
-			.commands.find((cmd) => cmd.name.startsWith(name));
+			.commands.find((cmd) =>
+				cmd.name.startsWith(name.trim().replace(/\//gi, '').split(' ')[0]),
+			);
 		if (cmd) vonchat.ui.selectCommand(cmd.name);
 		else vonchat.ui.selectCommand('');
 	}
 
-	function handleEnter(e: React.KeyboardEvent<HTMLDivElement>) {
+	function handleInput(e: React.FormEvent<HTMLDivElement>) {
 		const target = e.target as HTMLDivElement;
+		if (!target) return;
 
+		vonchat.input.history.resetIdx();
+		parseCommand(target.innerText);
+
+		if (target.innerText.startsWith('/')) {
+			vonchat.ui.openCommandList();
+		} else {
+			vonchat.ui.closeCommandList();
+		}
+
+		vonchat.input.value = target.innerText;
+		vonchat.input.events.onInput.notify(target.innerText);
+	}
+
+	function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+		const target = e.target as HTMLDivElement;
+		if (!target) return;
+
+		vonchat.input.events.onKeyDown.notify(target.innerText);
 		if (e.key === 'Enter') {
 			e.preventDefault();
-
-			vonchat.input.send(target.innerText);
+			vonchat.input.send(vonchat.input.value);
 		} else if (e.key === 'ArrowUp') {
 			e.preventDefault();
 
 			const previous = vonchat.input.history.getPrevious();
 			if (previous !== undefined)
-				vonchat.input.events.setChatInput.notify(previous);
+				vonchat.input.events.domSetInnerText.notify(previous);
 		} else if (e.key === 'ArrowDown') {
 			e.preventDefault();
-
-			const next = vonchat.input.history.getNext();
-			if (next !== undefined) vonchat.input.events.setChatInput.notify(next);
+			vonchat.input.events.domSetInnerText.notify(
+				vonchat.input.history.getNext(),
+			);
 		}
 	}
 
@@ -89,8 +101,8 @@ export default function ChatInput() {
 					suppressContentEditableWarning
 					id="chat-input__editor"
 					data-name="general"
-					onInput={(e) => handleEditorInput(e)}
-					onKeyDown={(e) => handleEnter(e)}
+					onInput={(e) => handleInput(e)}
+					onKeyDown={(e) => handleKeyDown(e)}
 				/>
 				<div id="chat-input__actions">
 					<i>

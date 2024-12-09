@@ -10,7 +10,7 @@ export default () => {
 		const text = ctx.args.get('text');
 		if (text) {
 			const reversed = (text.value as string).split('').reverse();
-			vonchat.input.events.setChatInput.notify(reversed.join(''));
+			vonchat.input.setValue(reversed.join(''));
 		}
 	};
 

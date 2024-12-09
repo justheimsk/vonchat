@@ -47,7 +47,7 @@ export class InputManager {
 					return this.formatCommandInChatInput(cmd);
 				}
 
-				this.events.setChatInput.notify('');
+				this.events.domSetInnerText.notify('');
 				this.app.cmdRegistry.exec(selectedCommand, args);
 				this.app.ui.closeCommandList();
 				this.history.pushHistory(entry);
@@ -57,8 +57,14 @@ export class InputManager {
 	}
 
 	public formatCommandInChatInput(cmd: Command) {
-		return this.app.input.events.setChatInput.notify(
+		return this.app.input.events.domSetInnerText.notify(
 			`/${cmd.name} ${cmd.args.map((arg) => `${arg.name}=""`).join(' ')}`,
 		);
+	}
+
+	public setValue(value: string) {
+		this.value = value;
+		this.events.onInput.notify(value);
+		this.events.domSetInnerText.notify(value);
 	}
 }
