@@ -1,7 +1,8 @@
 import type { Application } from '@/lib/Application';
 import { InputEvents } from '@/lib/events/InputEvents';
-import type Command from '../Command';
-import type { RecvArg } from '../CommandRegistry';
+import type Command from '../command/Command';
+import type { Arg } from '../command/Command';
+import type { RecvArg } from '../command/CommandRegistry';
 import { InputHistory } from './InputHistory';
 
 export class InputManager {
@@ -37,7 +38,9 @@ export class InputManager {
 			}
 
 			if (cmd) {
-				const requiredArgs = cmd.args.filter((arg) => arg.required === true);
+				const requiredArgs = cmd.args.filter(
+					(arg: Arg) => arg.required === true,
+				);
 				if (requiredArgs.length > args.length) {
 					for (const _arg of requiredArgs) {
 						const arg = args.find((arg) => arg.name === _arg.name);

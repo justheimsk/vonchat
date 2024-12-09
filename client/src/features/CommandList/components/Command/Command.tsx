@@ -1,6 +1,6 @@
 import { vonchat } from '@/lib/Application';
 import './Command.scss';
-import type CommandLib from '@/lib/core/Command';
+import type CommandLib from '@/lib/core/command/Command';
 import type { RootState } from '@/store/store';
 import { useSelector } from 'react-redux';
 

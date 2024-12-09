@@ -1,4 +1,4 @@
-import type Command from '@/lib/core/Command';
+import type Command from '@/lib/core/command/Command';
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface CommandRegistryState {

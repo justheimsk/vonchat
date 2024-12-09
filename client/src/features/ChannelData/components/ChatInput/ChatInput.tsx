@@ -15,6 +15,7 @@ export default function ChatInput() {
 		const event = vonchat.input.events.domSetInnerText.subscribe((text) => {
 			if (editor) {
 				editor.innerText = text;
+				vonchat.input.value = text;
 				parseCommand(text);
 				moveCaretToEnd(editor);
 			}
@@ -39,13 +40,19 @@ export default function ChatInput() {
 	}
 
 	function parseCommand(name: string) {
-		const cmd = vonchat.cmdRegistry
-			.getState()
-			.commands.find((cmd) =>
-				cmd.name.startsWith(name.trim().replace(/\//gi, '').split(' ')[0]),
-			);
-		if (cmd) vonchat.ui.selectCommand(cmd.name);
-		else vonchat.ui.selectCommand('');
+		if (name.startsWith('/')) {
+			vonchat.ui.openCommandList();
+			const cmd = vonchat.cmdRegistry
+				.getState()
+				.commands.find((cmd) =>
+					cmd.name.startsWith(name.trim().replace(/\//gi, '').split(' ')[0]),
+				);
+
+			if (cmd) vonchat.ui.selectCommand(cmd.name);
+			else vonchat.ui.selectCommand('');
+		} else {
+			vonchat.ui.closeCommandList();
+		}
 	}
 
 	function handleInput(e: React.FormEvent<HTMLDivElement>) {
@@ -54,12 +61,6 @@ export default function ChatInput() {
 
 		vonchat.input.history.resetIdx();
 		parseCommand(target.innerText);
-
-		if (target.innerText.startsWith('/')) {
-			vonchat.ui.openCommandList();
-		} else {
-			vonchat.ui.closeCommandList();
-		}
 
 		vonchat.input.value = target.innerText;
 		vonchat.input.events.onInput.notify(target.innerText);
