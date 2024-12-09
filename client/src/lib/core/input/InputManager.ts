@@ -1,19 +1,18 @@
-import type { Application } from '../Application';
-import { InputEvents } from '../events/InputEvents';
-import type Command from './Command';
-import type { RecvArg } from './CommandRegistry';
+import type { Application } from '@/lib/Application';
+import { InputEvents } from '@/lib/events/InputEvents';
+import type Command from '../Command';
+import type { RecvArg } from '../CommandRegistry';
+import { InputHistory } from './InputHistory';
 
 export class InputManager {
 	public events: InputEvents;
 	private app: Application;
-	private historyIdx: number;
-	public history: string[];
 	public value: string;
+	public history: InputHistory;
 
 	public constructor(app: Application) {
 		this.events = new InputEvents();
-		this.history = [];
-		this.historyIdx = 0;
+		this.history = new InputHistory(this, { maxHistory: 100 });
 		this.app = app;
 		this.value = '';
 	}
@@ -51,8 +50,7 @@ export class InputManager {
 				this.events.setChatInput.notify('');
 				this.app.cmdRegistry.exec(selectedCommand, args);
 				this.app.ui.closeCommandList();
-				this.history.push(entry);
-				this.resetHistoryIndex();
+				this.history.pushHistory(entry);
 				this.value = '';
 			}
 		}
@@ -62,27 +60,5 @@ export class InputManager {
 		return this.app.input.events.setChatInput.notify(
 			`/${cmd.name} ${cmd.args.map((arg) => `${arg.name}=""`).join(' ')}`,
 		);
-	}
-
-	public cycleHistory(reversed = false) {
-		if (!reversed) {
-			if (this.historyIdx > 0) {
-				this.historyIdx--;
-				return this.history[this.historyIdx];
-			}
-		} else {
-			if (this.historyIdx < this.history.length - 1) {
-				this.historyIdx++;
-				return this.history[this.historyIdx];
-				// biome-ignore lint/style/noUselessElse: <explanation>
-			} else {
-				this.resetHistoryIndex();
-				return this.value;
-			}
-		}
-	}
-
-	public resetHistoryIndex() {
-		this.historyIdx = this.history.length;
 	}
 }
