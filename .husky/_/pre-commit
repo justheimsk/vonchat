@@ -1,17 +1,18 @@
 #!/usr/bin/env sh
 
 FILES=$(git diff --cached --name-only)
+ROOT=$(git rev-parse --show-toplevel)
 
 if echo "$FILES" | grep -qE "\.(js|ts|jsx|tsx)$"; then
-  cd $(git rev-parse --show-toplevel)/client
+  cd "$ROOT"/client
   bin_path=$(which bun)
   bin_name="bun"
 
   if [ -n "$bin_path" ]; then
-    bun run lint
+    bun run lint:staged
   else 
     bin_name="npm"
-    npm run lint
+    npm run lint:staged
   fi
 
   if [ $? -ne 0 ]; then
@@ -21,7 +22,7 @@ if echo "$FILES" | grep -qE "\.(js|ts|jsx|tsx)$"; then
 fi
 
 if echo "$FILES" | grep -q "\.go$"; then
-  cd $(git rev-parse --show-toplevel)/server
+  cd "$ROOT"/server
   go_path="$(which go)"
   if [ -z "$go_path" ]; then
     echo "You must have go installed!"
