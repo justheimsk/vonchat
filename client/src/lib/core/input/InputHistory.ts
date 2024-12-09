@@ -1,5 +1,6 @@
 export interface InputHistoryOptions {
 	maxHistory: number;
+	allowDuplicatedHistory?: boolean;
 }
 
 export class InputHistory {
@@ -16,6 +17,12 @@ export class InputHistory {
 	}
 
 	public pushHistory(value: string) {
+		if (
+			this.options.allowDuplicatedHistory === false &&
+			this.history[this.history.length - 1] === value
+		)
+			return;
+
 		this.history.push(value);
 		this.resetIdx();
 	}
@@ -51,10 +58,14 @@ export class InputHistory {
 			!options.maxHistory ||
 			typeof options.maxHistory !== 'number' ||
 			options.maxHistory < 0
-		) {
+		)
 			options.maxHistory = 100;
-		}
 
+		if (
+			options.allowDuplicatedHistory === undefined ||
+			typeof options.allowDuplicatedHistory !== 'boolean'
+		)
+			options.allowDuplicatedHistory = false;
 		return options;
 	}
 }
