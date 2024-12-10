@@ -1,5 +1,13 @@
 import type { BackendAdapter } from '../BackendAdapter';
 
+export interface JSONProfile {
+	name: string;
+	email: string;
+	password: string;
+	id: string;
+	adapter: string;
+}
+
 export class Profile {
 	public name: string;
 	public email: string;
@@ -20,5 +28,15 @@ export class Profile {
 
 		this.adapter = adapter;
 		this.adapter.attachProfile(this);
+	}
+
+	public toJSON(): JSONProfile {
+		return {
+			id: this.id,
+			name: this.name,
+			email: this.email,
+			password: this.password,
+			adapter: this.adapter.adapterName,
+		};
 	}
 }

@@ -1,6 +1,6 @@
 import { vonchat } from '@/lib/Application';
 import type { RecvContext } from '@/lib/core/command/CommandRegistry';
-import { HTTPAdapter } from './adapters/HTTPAdapter';
+import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
 
 export default () => {
 	const hello_world = () => {
@@ -43,6 +43,7 @@ export default () => {
 			new HTTPAdapter({ secure: false, host: 'localhost', port: 8080 }),
 		);
 		profile.adapter.init();
+		vonchat.profiles.saveToMemory();
 	};
 
 	vonchat.cmdRegistry.register(
@@ -54,5 +55,16 @@ export default () => {
 			{ type: 'text', name: 'password', required: true },
 		],
 		createProfile,
+	);
+
+	const listProfiles = () => {
+		console.log(vonchat.profiles.getProfiles());
+	};
+
+	vonchat.cmdRegistry.register(
+		'list_profiles',
+		'List created profiles',
+		[],
+		listProfiles,
 	);
 };
