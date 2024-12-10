@@ -1,4 +1,5 @@
 import { CommandRegistryState } from '@/shared/state/commandRegistry';
+import { ProfileState } from '@/shared/state/profiles';
 import { UiState } from '@/shared/state/uiState';
 import UIManager from './core/UIManager';
 import CommandRegistry from './core/command/CommandRegistry';
@@ -8,6 +9,7 @@ import { StateManager } from './state/StateManager';
 export interface States {
 	cmdRegistry: CommandRegistryState;
 	ui: UiState;
+	profiles: ProfileState;
 }
 
 export class Application {
@@ -20,6 +22,7 @@ export class Application {
 		this.state = new StateManager({
 			cmdRegistry: new CommandRegistryState(),
 			ui: new UiState(),
+			profiles: new ProfileState(),
 		});
 
 		this.ui = new UIManager(this);
