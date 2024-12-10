@@ -9,10 +9,10 @@ if echo "$FILES" | grep -qE "\.(js|ts|jsx|tsx)$"; then
   bin_name="bun"
 
   if [ -n "$bin_path" ]; then
-    bun run lint:staged
+    bun run lint
   else 
     bin_name="npm"
-    npm run lint:staged
+    npm run lint
   fi
 
   if [ $? -ne 0 ]; then
