@@ -1,6 +1,5 @@
 import { vonchat } from '@/lib/Application';
 import type { RecvContext } from '@/lib/core/command/CommandRegistry';
-import { Profile } from '@/lib/core/profile/Profile';
 import { HTTPAdapter } from './adapters/HTTPAdapter';
 
 export default () => {
@@ -37,13 +36,12 @@ export default () => {
 
 		if (!name || !email || !password) return;
 
-		const profile = new Profile(
+		const profile = vonchat.profiles.createProfile(
 			name,
 			email,
 			password,
 			new HTTPAdapter({ secure: false, host: 'localhost', port: 8080 }),
 		);
-		vonchat.state.reducers.profiles.appendProfile(profile);
 		profile.adapter.init();
 	};
 
