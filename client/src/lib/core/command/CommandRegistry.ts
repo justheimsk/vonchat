@@ -1,4 +1,4 @@
-import { vonchat } from '@/lib/Application';
+import type { Application } from '@/lib/Application';
 import Command, { type Arg } from './Command';
 
 export type CommandCallback = (ctx: RecvContext) => void;
@@ -12,6 +12,12 @@ export interface RecvContext {
 }
 
 export default class CommandRegistry {
+	private app: Application;
+
+	public constructor(app: Application) {
+		this.app = app;
+	}
+
 	public register(
 		name: string,
 		description: string,
@@ -19,15 +25,13 @@ export default class CommandRegistry {
 		execv: CommandCallback,
 	) {
 		const command = new Command(name, description, args, execv);
-		//store.dispatch(registerCommand(command));
-		vonchat.state.dispatch(
-			vonchat.state.reducers.cmdRegistry.appendCommand(command),
+		this.app.state.dispatch(
+			this.app.state.reducers.cmdRegistry.appendCommand(command),
 		);
 	}
 
 	public fetch(name: string) {
-		//return this.getState().commands.find((cmd) => cmd.name === name);
-		return vonchat.state.reducers.cmdRegistry.data.commands.get(name);
+		return this.app.state.reducers.cmdRegistry.data.commands.get(name);
 	}
 
 	public exec(name: string, args: RecvArg[]) {
@@ -46,6 +50,6 @@ export default class CommandRegistry {
 	}
 
 	public getState() {
-		return vonchat.state.reducers.cmdRegistry;
+		return this.app.state.reducers.cmdRegistry;
 	}
 }
