@@ -1,20 +1,19 @@
-import { selectCommand, toggleCommandList } from '@/store/slices/ui';
-import store from '@/store/store';
+import { vonchat } from '../Application';
 
 export default class UIManager {
 	public getState() {
-		return store.getState().ui;
+		return vonchat.state.reducers.ui.data;
 	}
 
 	public openCommandList() {
-		store.dispatch(toggleCommandList(true));
+		vonchat.state.dispatch(vonchat.state.reducers.ui.toggleCommandList(true));
 	}
 
 	public closeCommandList() {
-		store.dispatch(toggleCommandList(false));
+		vonchat.state.dispatch(vonchat.state.reducers.ui.toggleCommandList(false));
 	}
 
 	public selectCommand(name: string) {
-		store.dispatch(selectCommand(name));
+		vonchat.state.dispatch(vonchat.state.reducers.ui.selectCommand(name));
 	}
 }

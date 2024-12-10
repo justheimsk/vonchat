@@ -1,14 +1,18 @@
 import { BsSlashSquareFill } from 'react-icons/bs';
 import './CommandList.scss';
-import type { RootState } from '@/store/store';
+import { vonchat } from '@/lib/Application';
+import { useLibState } from '@/lib/state/Hook';
+import type { ICommandRegistryState } from '@/shared/state/commandRegistry';
+import type { IUiState } from '@/shared/state/uiState';
 import { FaClock } from 'react-icons/fa6';
-import { useSelector } from 'react-redux';
 import { Command } from './components/Command/Command';
 
 export function CommandList() {
-	const active = useSelector((state: RootState) => state.ui.commandList);
-	const commands = useSelector(
-		(state: RootState) => state.commandRegistry.commands,
+	const active = useLibState<IUiState>(
+		vonchat.state.reducers.ui,
+	).commandListOpen;
+	const registry = useLibState<ICommandRegistryState>(
+		vonchat.state.reducers.cmdRegistry,
 	);
 
 	return (
@@ -26,7 +30,7 @@ export function CommandList() {
 						<BsSlashSquareFill /> Client Commands
 					</span>
 					<div id="command-list__commands">
-						{Array.from(commands.values()).map((cmd) => (
+						{Array.from(registry.commands.values()).map((cmd) => (
 							<Command key={cmd.name} self={cmd} />
 						))}
 					</div>

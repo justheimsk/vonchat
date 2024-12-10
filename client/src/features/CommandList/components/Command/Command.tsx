@@ -1,15 +1,14 @@
 import { vonchat } from '@/lib/Application';
 import './Command.scss';
 import type CommandLib from '@/lib/core/command/Command';
-import type { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
+import { useLibState } from '@/lib/state/Hook';
 
 export interface CommandProps {
 	self: CommandLib;
 }
 
 export function Command(props: CommandProps) {
-	const active = useSelector((state: RootState) => state.ui.selectedCommand);
+	const active = useLibState(vonchat.state.reducers.ui).selectedCommand;
 
 	return (
 		<>

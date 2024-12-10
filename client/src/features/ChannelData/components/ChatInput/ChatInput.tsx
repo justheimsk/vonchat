@@ -42,11 +42,11 @@ export default function ChatInput() {
 	function parseCommand(name: string) {
 		if (name.startsWith('/')) {
 			vonchat.ui.openCommandList();
-			const cmd = vonchat.cmdRegistry
-				.getState()
-				.commands.find((cmd) =>
-					cmd.name.startsWith(name.trim().replace(/\//gi, '').split(' ')[0]),
-				);
+			const cmd = Array.from(
+				vonchat.cmdRegistry.getState().data.commands.values(),
+			).find((cmd) =>
+				cmd.name.startsWith(name.trim().replace(/\//gi, '').split(' ')[0]),
+			);
 
 			if (cmd) vonchat.ui.selectCommand(cmd.name);
 			else vonchat.ui.selectCommand('');
