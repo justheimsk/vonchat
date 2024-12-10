@@ -9,8 +9,7 @@
     "lint": "biome check ./src/",
     "lint:staged": "biome check ./src/ --staged",
     "lint:write": "biome check ./src/ --write",
-    "preview": "vite preview --host --port 3000",
-    "prepare": "cd .. && husky install client/.husky"
+    "preview": "vite preview --host --port 3000"
   },
   "dependencies": {
     "react": "^18.3.1",

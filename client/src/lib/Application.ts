@@ -17,13 +17,14 @@ export class Application {
 	public state: StateManager<States>;
 
 	public constructor() {
-		this.ui = new UIManager();
-		this.cmdRegistry = new CommandRegistry();
-		this.input = new InputManager(this);
 		this.state = new StateManager({
 			cmdRegistry: new CommandRegistryState(),
 			ui: new UiState(),
 		});
+
+		this.ui = new UIManager(this);
+		this.cmdRegistry = new CommandRegistry(this);
+		this.input = new InputManager(this);
 
 		this.loadClientCommands();
 	}

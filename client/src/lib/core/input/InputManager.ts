@@ -67,7 +67,7 @@ export class InputManager {
 	}
 
 	public setValue(value: string, modifyDom = true) {
-		// TODO: value is not registering on every change, so make it work :)
+		// TODO: value is not always registering on change, so... make it work :)
 		this.value = value;
 		this.history.current = value;
 		this.events.onInput.notify(value);
