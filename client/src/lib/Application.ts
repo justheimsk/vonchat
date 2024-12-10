@@ -1,3 +1,5 @@
+import { LocalStorageMemoryAdapter } from '@/shared/adapters/LocalStorageMemoryAdapter';
+import { HTTPAdapter } from '@/shared/adapters/backend/HTTPAdapter';
 import { CommandRegistryState } from '@/shared/state/commandRegistry';
 import { ProfileState } from '@/shared/state/profiles';
 import { UiState } from '@/shared/state/uiState';
@@ -30,14 +32,37 @@ export class Application {
 		this.ui = new UIManager(this);
 		this.cmdRegistry = new CommandRegistry(this);
 		this.input = new InputManager(this);
-		this.profiles = new ProfileManager(this);
+		this.profiles = new ProfileManager(this, new LocalStorageMemoryAdapter());
 
+		this.loadProfiles();
 		this.loadClientCommands();
 	}
 
 	private async loadClientCommands() {
 		const commands = (await import('../shared/commands')).default;
 		commands();
+	}
+
+	private loadProfiles() {
+		const profiles = this.profiles.readInMemoryProfiles();
+
+		// biome-ignore lint/complexity/useOptionalChain: <explanation>
+		if (profiles && profiles.length) {
+			for (const profile of profiles) {
+				const adapter = new HTTPAdapter({
+					host: 'localhost',
+					secure: false,
+					port: 8080,
+				});
+
+				this.profiles.createProfile(
+					profile.name,
+					profile.email,
+					profile.password,
+					adapter,
+				);
+			}
+		}
 	}
 }
 

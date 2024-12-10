@@ -18,6 +18,10 @@ export class HTTPAdapter extends BackendAdapter {
 		this.options = options;
 	}
 
+	public get adapterName() {
+		return 'HTTP';
+	}
+
 	public attachProfile(profile: Profile) {
 		this.profile = profile;
 	}
