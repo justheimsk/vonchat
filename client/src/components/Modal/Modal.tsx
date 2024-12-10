@@ -9,7 +9,6 @@ export interface ModalProps {
 export function Modal(props: ModalProps) {
 	return (
 		<>
-			{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 			<div
 				onClick={() => props.onClose?.()}
 				className={`modal__overlay ${props.active ? 'modal__overlay--active' : ''}`}

@@ -46,7 +46,6 @@ export class Application {
 	private loadProfiles() {
 		const profiles = this.profiles.readInMemoryProfiles();
 
-		// biome-ignore lint/complexity/useOptionalChain: <explanation>
 		if (profiles && profiles.length) {
 			for (const profile of profiles) {
 				const adapter = new HTTPAdapter({
