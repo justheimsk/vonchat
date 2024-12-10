@@ -7,6 +7,7 @@ export interface RecvArg {
 	name: string;
 	value: unknown;
 }
+
 export interface RecvContext {
 	args: Map<string, RecvArg>;
 }
