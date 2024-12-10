@@ -4,6 +4,7 @@ import { UiState } from '@/shared/state/uiState';
 import UIManager from './core/UIManager';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
+import { ProfileManager } from './core/profile/ProfileManager';
 import { StateManager } from './state/StateManager';
 
 export interface States {
@@ -17,6 +18,7 @@ export class Application {
 	public cmdRegistry: CommandRegistry;
 	public input: InputManager;
 	public state: StateManager<States>;
+	public profiles: ProfileManager;
 
 	public constructor() {
 		this.state = new StateManager({
@@ -28,6 +30,7 @@ export class Application {
 		this.ui = new UIManager(this);
 		this.cmdRegistry = new CommandRegistry(this);
 		this.input = new InputManager(this);
+		this.profiles = new ProfileManager(this);
 
 		this.loadClientCommands();
 	}
