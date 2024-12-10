@@ -12,7 +12,6 @@ export function Command(props: CommandProps) {
 
 	return (
 		<>
-			{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 			<div
 				onClick={() => vonchat.input.formatCommandInChatInput(props.self)}
 				className={`command ${active === props.self.name ? 'command--active' : ''}`}

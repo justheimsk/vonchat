@@ -25,6 +25,13 @@
         "noUnusedFunctionParameters": "error",
         "noUnusedVariables": "error",
         "noUnusedPrivateClassMembers": "error"
+      },
+      "complexity": {
+        "useOptionalChain": "off"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "off",
+        "useKeyWithMouseEvents": "off"
       }
 		}
 	},
