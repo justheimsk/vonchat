@@ -3,6 +3,7 @@ import { ProfileState } from '@/shared/state/profiles';
 import { UiState } from '@/shared/state/uiState';
 import { LocalStorageMemoryAdapter } from './adapters/LocalStorageMemoryAdapter';
 import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
+import { LogManager } from './core/LogManager';
 import UIManager from './core/UIManager';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
@@ -21,6 +22,7 @@ export class Application {
 	public input: InputManager;
 	public state: StateManager<States>;
 	public profiles: ProfileManager;
+	public logs: LogManager;
 
 	public constructor() {
 		this.state = new StateManager({
@@ -29,6 +31,10 @@ export class Application {
 			profiles: new ProfileState(),
 		});
 
+		this.logs = new LogManager(
+			(log) => console.log(log.message),
+			'Application',
+		);
 		this.ui = new UIManager(this);
 		this.cmdRegistry = new CommandRegistry(this);
 		this.input = new InputManager(this);
