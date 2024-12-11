@@ -36,9 +36,16 @@ export class Application {
 			'Application',
 		);
 		this.ui = new UIManager(this);
-		this.cmdRegistry = new CommandRegistry(this);
+		this.cmdRegistry = new CommandRegistry(
+			this,
+			this.logs.withTag('Command Registry'),
+		);
 		this.input = new InputManager(this);
-		this.profiles = new ProfileManager(this, new LocalStorageMemoryAdapter());
+		this.profiles = new ProfileManager(
+			this,
+			new LocalStorageMemoryAdapter(),
+			this.logs.withTag('Profile Manager'),
+		);
 
 		this.loadProfiles();
 		this.loadClientCommands();

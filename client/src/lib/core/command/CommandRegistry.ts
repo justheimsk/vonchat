@@ -1,4 +1,5 @@
 import type { Application } from '@/lib/Application';
+import type { LogManager } from '../LogManager';
 import Command, { type Arg } from './Command';
 
 export type CommandCallback = (ctx: RecvContext) => void;
@@ -14,9 +15,11 @@ export interface RecvContext {
 
 export default class CommandRegistry {
 	private app: Application;
+	private logs: LogManager;
 
-	public constructor(app: Application) {
+	public constructor(app: Application, logs: LogManager) {
 		this.app = app;
+		this.logs = logs;
 	}
 
 	public register(
@@ -29,6 +32,8 @@ export default class CommandRegistry {
 		this.app.state.dispatch(
 			this.app.state.reducers.cmdRegistry.appendCommand(command),
 		);
+
+		this.logs.send('info', `Registering new command: ${command.name}`);
 	}
 
 	public fetch(name: string) {
