@@ -1,8 +1,8 @@
-import { LocalStorageMemoryAdapter } from '@/shared/adapters/LocalStorageMemoryAdapter';
-import { HTTPAdapter } from '@/shared/adapters/backend/HTTPAdapter';
 import { CommandRegistryState } from '@/shared/state/commandRegistry';
 import { ProfileState } from '@/shared/state/profiles';
 import { UiState } from '@/shared/state/uiState';
+import { LocalStorageMemoryAdapter } from './adapters/LocalStorageMemoryAdapter';
+import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
 import UIManager from './core/UIManager';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
