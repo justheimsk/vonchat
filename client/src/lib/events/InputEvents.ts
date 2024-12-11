@@ -1,4 +1,4 @@
-import { Observable } from '../core/Observable';
+import { Observable } from '../core/observable/Observable';
 
 export class InputEvents {
 	public domSetInnerText = new Observable<string>();

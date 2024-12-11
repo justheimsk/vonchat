@@ -1,9 +1,9 @@
 import {
 	BufferedObservable,
 	type BufferedObservableOptions,
-} from './BufferedObservable';
+} from './observable/BufferedObservable';
 
-export type LogLevel = 'info' | 'error' | 'debug';
+export type LogLevel = 'info' | 'error' | 'warn' | 'debug';
 export interface Log {
 	level: LogLevel;
 	message: string;
