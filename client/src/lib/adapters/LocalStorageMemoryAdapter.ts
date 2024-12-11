@@ -12,4 +12,8 @@ export class LocalStorageMemoryAdapter extends MemoryAdapter {
 		const stringified = JSON.stringify(value);
 		localStorage.setItem(key, stringified);
 	}
+
+	public get adapterName() {
+		return 'Local Storage';
+	}
 }
