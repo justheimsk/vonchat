@@ -4,6 +4,7 @@ import { vonchat } from '@/lib/Application';
 import { useLibState } from '@/lib/state/Hook';
 import type { ICommandRegistryState } from '@/shared/state/commandRegistry';
 import type { IUiState } from '@/shared/state/uiState';
+import { useEffect } from 'react';
 import { FaClock } from 'react-icons/fa6';
 import { Command } from './components/Command/Command';
 
@@ -14,6 +15,13 @@ export function CommandList() {
 	const registry = useLibState<ICommandRegistryState>(
 		vonchat.state.reducers.cmdRegistry,
 	);
+
+	useEffect(() => {
+		vonchat.state.reducers.ui.subscribe((state) => {
+			const element = document.getElementById(state.selectedCommand);
+			if (element) element.scrollIntoView({ behavior: 'smooth', block: 'end' });
+		});
+	}, []);
 
 	return (
 		<>

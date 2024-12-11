@@ -13,6 +13,7 @@ export function Command(props: CommandProps) {
 	return (
 		<>
 			<div
+				id={props.self.name}
 				onClick={() => vonchat.input.formatCommandInChatInput(props.self)}
 				className={`command ${active === props.self.name ? 'command--active' : ''}`}
 			>
