@@ -32,7 +32,7 @@ export class Application {
 		});
 
 		this.logs = new LogManager(
-			(log) => console.log(log.message),
+			(logs) => console.log(logs.map((log) => log.message).join('\n')),
 			'Application',
 		);
 		this.ui = new UIManager(this);

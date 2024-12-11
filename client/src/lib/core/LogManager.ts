@@ -1,4 +1,7 @@
-import { Observable } from './Observable';
+import {
+	BufferedObservable,
+	type BufferedObservableOptions,
+} from './BufferedObservable';
 
 export type LogLevel = 'info' | 'error' | 'debug';
 export interface Log {
@@ -6,24 +9,60 @@ export interface Log {
 	message: string;
 }
 
-export type Output = (log: Log) => void;
+export type Output = (logs: Log[]) => void;
+
+export interface LogManagerOptions {
+	maxLogSize?: number;
+	buffer?: BufferedObservableOptions;
+}
 
 // EXPERIMENTAL CODE!!!!!!!!!!!!!!!!!!!!!!!!!!
 // This will probably have a huge overhead if there are many logs, or many instances.
 // Another possible problem is data duplication, since each instance will store its logs, and the main instance will store the logs of all other instances.
-export class LogManager extends Observable<Log> {
+export class LogManager extends BufferedObservable<Log> {
 	public logs: Log[];
 	public tag?: string;
 	private output?: Output;
 	private instances: LogManager[];
+	private _options: LogManagerOptions;
 
-	public constructor(output?: Output, tag?: string) {
+	public constructor(
+		output?: Output,
+		tag?: string,
+		options?: LogManagerOptions,
+	) {
 		super();
 
 		this.instances = [];
 		this.output = output;
 		this.tag = tag;
+		this._options = this.validateLoggerOptions(options);
 		this.logs = [];
+
+		this.subscribe((log) => this.output?.(log));
+	}
+
+	private validateLoggerOptions(_options?: LogManagerOptions) {
+		const options = _options || {};
+		if (!options.maxLogSize || typeof options.maxLogSize !== 'number')
+			options.maxLogSize = 1000;
+
+		return options;
+	}
+
+	public get logOptions(): LogManagerOptions {
+		return this._options;
+	}
+
+	public updateOptions(options: LogManagerOptions) {
+		this._options = options;
+		this.iterate((inst) => inst.updateOptions(options));
+	}
+
+	private pushLog(log: Log) {
+		if (this.logs.length >= (this.logOptions.maxLogSize || 1000))
+			this.logs.shift();
+		this.logs.push(log);
 	}
 
 	public send(level: LogLevel, message: string) {
@@ -31,18 +70,20 @@ export class LogManager extends Observable<Log> {
 			level,
 			message: `${this.tag ? `[${this.tag}]:` : ''} ${message}`,
 		};
-		this.logs.push(log);
-		this.notify(log);
 
-		if (this.output) this.output(log);
+		this.pushLog(log);
+		this.notify([log]);
 	}
 
 	public withTag(tag: string) {
-		const instance = new LogManager(this.output, tag);
+		const instance = new LogManager(undefined, tag);
 		this.instances.push(instance);
 
 		instance.subscribe((log) => {
-			this.logs.push(log);
+			for (const _log of log) {
+				this.pushLog(_log);
+			}
+
 			this.notify(log);
 		});
 
@@ -50,7 +91,7 @@ export class LogManager extends Observable<Log> {
 	}
 
 	public setOutput(output: Output) {
-		this.iterate((inst) => inst.setOutput(output));
+		this.output = output;
 	}
 
 	public clear() {

@@ -17,7 +17,7 @@ export class Subscription<T> {
 }
 
 export class Observable<T> {
-	private observers: Map<string, Subscription<T>>;
+	protected observers: Map<string, Subscription<T>>;
 
 	public constructor() {
 		this.observers = new Map();
