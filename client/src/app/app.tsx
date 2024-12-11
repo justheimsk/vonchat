@@ -1,7 +1,8 @@
-import { StrictMode } from 'react';
+import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './pages/app/app';
 import './globals.scss';
+import { vonchat } from '@/lib/Application';
 import {
 	Route,
 	RouterProvider,
@@ -20,10 +21,26 @@ const router = createBrowserRouter(
 );
 
 const app = document.getElementById('root');
-if (app) {
-	createRoot(app).render(
+
+function Root() {
+	useEffect(() => {
+		function printError() {
+			vonchat.logs.send('error', 'Unknown error.');
+		}
+
+		window.addEventListener('error', () => printError());
+		window.addEventListener('unhandledrejection', () => printError());
+
+		vonchat.logs.send('info', 'Listening to app-level unknown errors.');
+	}, []);
+
+	return (
 		<StrictMode>
 			<RouterProvider router={router} />
-		</StrictMode>,
+		</StrictMode>
 	);
+}
+
+if (app) {
+	createRoot(app).render(<Root />);
 }

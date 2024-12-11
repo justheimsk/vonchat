@@ -42,14 +42,21 @@ export class ProfileManager {
 	}
 
 	public saveToMemory() {
-		const profiles = this.app.state.reducers.profiles.data.profiles;
-		this.memory.set(
-			'profiles',
-			Array.from(profiles.values()).map((profile) => profile.toJSON()),
-		);
-		this.logs.send(
-			'info',
-			`Saved ${profiles.size} into memory using ${this.memory.adapterName} adapter.`,
-		);
+		try {
+			const profiles = this.app.state.reducers.profiles.data.profiles;
+			this.memory.set(
+				'profiles',
+				Array.from(profiles.values()).map((profile) => profile.toJSON()),
+			);
+			this.logs.send(
+				'info',
+				`Saved ${profiles.size} into memory using ${this.memory.adapterName} adapter.`,
+			);
+		} catch {
+			this.logs.send(
+				'error',
+				`Failed to write profiles in memory, using: ${this.memory.adapterName} adapter`,
+			);
+		}
 	}
 }

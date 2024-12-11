@@ -1,6 +1,7 @@
 import { CommandRegistryState } from '@/shared/state/commandRegistry';
 import { ProfileState } from '@/shared/state/profiles';
 import { UiState } from '@/shared/state/uiState';
+import { to } from '@/utils/to';
 import { LocalStorageMemoryAdapter } from './adapters/LocalStorageMemoryAdapter';
 import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
 import { LogManager } from './core/LogManager';
@@ -52,28 +53,34 @@ export class Application {
 	}
 
 	private async loadClientCommands() {
-		const commands = (await import('../shared/commands')).default;
-		commands();
+		const [commands, err] = await to(import('../shared/commands'));
+		if (err) return this.logs.send('error', 'Failed to load client commands.');
+
+		if (commands) commands.default();
 	}
 
 	private loadProfiles() {
-		const profiles = this.profiles.readInMemoryProfiles();
+		try {
+			const profiles = this.profiles.readInMemoryProfiles();
 
-		if (profiles && profiles.length) {
-			for (const profile of profiles) {
-				const adapter = new HTTPAdapter({
-					host: 'localhost',
-					secure: false,
-					port: 8080,
-				});
+			if (profiles && profiles.length) {
+				for (const profile of profiles) {
+					const adapter = new HTTPAdapter({
+						host: 'localhost',
+						secure: false,
+						port: 8080,
+					});
 
-				this.profiles.createProfile(
-					profile.name,
-					profile.email,
-					profile.password,
-					adapter,
-				);
+					this.profiles.createProfile(
+						profile.name,
+						profile.email,
+						profile.password,
+						adapter,
+					);
+				}
 			}
+		} catch {
+			return this.logs.send('error', 'Failed to read in-memory profiles');
 		}
 	}
 }
