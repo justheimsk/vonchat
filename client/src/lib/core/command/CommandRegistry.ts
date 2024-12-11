@@ -28,6 +28,14 @@ export default class CommandRegistry {
 		args: Arg[],
 		execv: CommandCallback,
 	) {
+		if (this.getState().data.commands.get(name)) {
+			this.logs.send(
+				'warn',
+				`Trying to register a duplicated command: ${name}`,
+			);
+			return;
+		}
+
 		const command = new Command(name, description, args, execv);
 		this.app.state.dispatch(
 			this.app.state.reducers.cmdRegistry.appendCommand(command),
