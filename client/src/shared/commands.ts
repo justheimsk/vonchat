@@ -4,7 +4,6 @@ import type { RecvContext } from '@/lib/core/command/CommandRegistry';
 
 export default () => {
 	const hello_world = () => {
-		peras;
 		alert('Hello World!');
 	};
 
