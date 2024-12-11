@@ -1,0 +1,23 @@
+@use '@utils/mixins' as mixins;
+
+.error-magnifier {
+  @include mixins.transition;
+
+  position: fixed;
+  bottom: -100%;
+  right: 0;
+  background-color: red;
+  padding: 5px 20px;
+  font-size: 14px;
+  border-top-left-radius: var(--small-radius);
+
+  & > span {
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  &--active {
+    bottom: 0;
+  }
+}

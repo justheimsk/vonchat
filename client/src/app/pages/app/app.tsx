@@ -1,5 +1,6 @@
 import ServerList from '@features/ServerList/ServerList';
 import './app.scss';
+import { ErrorMagnifier } from '@/components/ErrorMagnifier/ErrorMagnifier';
 import ChannelData from '@features/ChannelData/ChannelData';
 import ChannelInfo from '@features/ChannelInfo/ChannelInfo';
 import ChannelList from '@features/ChannelList/ChannelList';
@@ -11,6 +12,7 @@ export default function App() {
 	return (
 		<>
 			<div id="layout">
+				<ErrorMagnifier />
 				<ServerList />
 				<div className="layout--flex-col channels-side">
 					<ServerName />
