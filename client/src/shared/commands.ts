@@ -1,6 +1,6 @@
 import { vonchat } from '@/lib/Application';
+import { HTTPAdapter } from '@/lib/adapters/backend/HTTPAdapter';
 import type { RecvContext } from '@/lib/core/command/CommandRegistry';
-import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
 
 export default () => {
 	const hello_world = () => {
