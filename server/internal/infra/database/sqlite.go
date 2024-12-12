@@ -14,20 +14,28 @@ import (
 )
 
 type SQLiteDatabaseDriver struct {
-	Path   string
+	config *config.Config
 	db     *sql.DB
 	logger models.Logger
 }
 
 func NewSQLiteDatabaseDriver(config *config.Config, logger models.Logger) *SQLiteDatabaseDriver {
 	return &SQLiteDatabaseDriver{
-		Path:   config.Sqlite.Path,
+		config: config,
 		logger: logger,
 	}
 }
 
+func init() {
+	GetDriverRegistry().Register("SQLITE", NewSQLiteDatabaseDriver(nil, nil))
+}
+
 func (self *SQLiteDatabaseDriver) Open() error {
-	db, err := sql.Open("sqlite3", self.Path)
+	if self.config == nil {
+		return fmt.Errorf("Config not set")
+	}
+
+	db, err := sql.Open("sqlite3", self.config.Sqlite.Path)
 	if err != nil {
 		return fmt.Errorf("Failed to open connection: %w", err)
 	}
@@ -44,6 +52,11 @@ func (self *SQLiteDatabaseDriver) Open() error {
 
 	self.db = db
 	return nil
+}
+
+func (self *SQLiteDatabaseDriver) Init(config *config.Config, logger models.Logger) {
+	self.config = config
+	self.logger = logger
 }
 
 func (self *SQLiteDatabaseDriver) GetDB() *sql.DB {

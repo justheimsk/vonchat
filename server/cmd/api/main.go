@@ -32,8 +32,12 @@ func main() {
 	}
 
 	driver := database.NewDatabaseDriver(config.DatabaseDriver, config, logger)
-	defer driver.Close()
+	if driver == nil {
+		logger.Fatal("Failed to create driver")
+		return
+	}
 
+	defer driver.Close()
 	logger.Infof("Using %s database driver.", driver.GetName())
 	logger.Info("Opening database connection...")
 
