@@ -43,6 +43,6 @@ func (self *Server) Serve(config *config.Config) {
 	api.LoadHTTPV1Routes(router, self.db, self.logger)
 	self.logger.Infof("Serving HTTP in port: %s", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), handler); err != nil {
-		self.logger.Fatalf("Failed to start HTTP server: %w", err)
+		self.logger.Fatal("Failed to start HTTP server", "err", err)
 	}
 }

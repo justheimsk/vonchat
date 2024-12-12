@@ -37,7 +37,7 @@ func (self *SQLiteDatabaseDriver) Open() error {
 
 	_, err = db.Exec(scripts.GetSQLiteInitScript())
 	if err != nil {
-		self.logger.Warnf("Failed to exec init script: %w", err)
+		self.logger.Warn("Failed to exec init script", "err", err)
 	}
 
 	self.db = db

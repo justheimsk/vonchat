@@ -34,7 +34,7 @@ func LoadConfig(log models.Logger) (*Config, error) {
 	err := viper.ReadInConfig()
 	if err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
-			log.Fatalf("Failed to read configuration file: %w", err)
+			log.Fatal("Failed to read configuration file", "err", err)
 		}
 	} else {
 		log.Infof("Configuration file loaded: %s", viper.ConfigFileUsed())

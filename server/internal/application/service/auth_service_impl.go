@@ -43,21 +43,21 @@ func (self *authService) Register(name string, email string, password string) (t
 
 	pass, err := self.hashPassword(password)
 	if err != nil {
-		self.logger.Errorf("Failed to hash password: %w", err)
+		self.logger.Error("Failed to hash password", "err", err)
 		err = models.InternalError
 		return
 	}
 
 	id, err := self.authRepo.Register(name, email, pass)
 	if err != nil {
-		self.logger.Errorf("Failed to register user: %w", err)
+		self.logger.Error("Failed to register user", "err", err)
 		err = models.InternalError
 		return
 	}
 
 	token, err = self.generateToken(id)
 	if err != nil {
-		self.logger.Errorf("Failed to generate JWT token: %w", err)
+		self.logger.Error("Failed to generate JWT token", "err", err)
 		err = models.InternalError
 		return
 	}
@@ -80,6 +80,7 @@ func (self *authService) Login(email string, password string) (token string, err
 
 	token, err = self.generateToken(user.ID)
 	if err != nil {
+		self.logger.Error("Failed to generate JWT token", "err", err)
 		err = models.InternalError
 		return
 	}
@@ -116,13 +117,13 @@ func (self *authService) ValidateToken(tokenString string) (*jwt.Token, error) {
 func (self *authService) GetIdFromClaims(token *jwt.Token) (string, error) {
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		self.logger.Errorf("Failed to get ID from claims")
+		self.logger.Error("Failed to get ID from claims")
 		return "", models.InternalError
 	}
 
 	id, ok := claims["id"]
 	if !ok || id == nil {
-		self.logger.Errorf("Failed to get ID from claims")
+		self.logger.Error("Failed to get ID from claims")
 		return "", models.InternalError
 	}
 

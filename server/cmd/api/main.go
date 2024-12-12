@@ -9,10 +9,16 @@ import (
 	"github.com/justheimsk/vonchat/server/internal/infra/http"
 )
 
-func main() {
+func setupLogger() *log.Logger {
 	logger := log.New(os.Stdout)
 	logger.SetReportCaller(true)
 	logger.SetReportTimestamp(true)
+
+	return logger
+}
+
+func main() {
+	logger := setupLogger()
 
 	config, err := config.LoadConfig(logger)
 	if err != nil {
@@ -33,11 +39,11 @@ func main() {
 
 	err = driver.Open()
 	if err != nil {
-		logger.Fatal("Fatal error", "err", err)
+		logger.Fatal("Failed to open database connection", "err", err)
 		return
 	}
 
-	logger.Infof("Connected to the database.")
+	logger.Info("Connected to the database.")
 	server := http.NewServer(driver, logger)
 	server.Serve(config)
 }
