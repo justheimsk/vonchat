@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
-	domain_service "github.com/justheimsk/vonchat/server/internal/domain/service"
+	"github.com/justheimsk/vonchat/server/internal/domain/service"
 	"github.com/justheimsk/vonchat/server/pkg/util"
 )
 

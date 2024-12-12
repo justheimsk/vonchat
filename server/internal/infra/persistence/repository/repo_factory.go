@@ -1,13 +1,13 @@
 package repository
 
 import (
-	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/pgsql"
 	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/sqlite"
 )
 
-func NewAuthRepository(driver database.DatabaseDriver) (repo domain.AuthRepository) {
+func NewAuthRepository(driver database.DatabaseDriver) (repo domain_repo.AuthRepository) {
 	switch driver.GetName() {
 	case "POSTGRES":
 		repo = pgsql.NewAuthRepository(driver.GetDB())
@@ -18,7 +18,7 @@ func NewAuthRepository(driver database.DatabaseDriver) (repo domain.AuthReposito
 	return
 }
 
-func NewHealthRepository(driver database.DatabaseDriver) (repo domain.HealthRepository) {
+func NewHealthRepository(driver database.DatabaseDriver) (repo domain_repo.HealthRepository) {
 	switch driver.GetName() {
 	case "POSTGRES":
 		repo = pgsql.NewHealthRepository(driver.GetDB())
@@ -29,7 +29,7 @@ func NewHealthRepository(driver database.DatabaseDriver) (repo domain.HealthRepo
 	return
 }
 
-func NewUserRepository(driver database.DatabaseDriver) (repo domain.UserRepository) {
+func NewUserRepository(driver database.DatabaseDriver) (repo domain_repo.UserRepository) {
 	switch driver.GetName() {
 	case "SQLITE":
 		repo = sqlite.NewUserRepository(driver.GetDB())

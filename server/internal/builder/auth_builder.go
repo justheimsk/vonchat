@@ -4,8 +4,8 @@ import (
 	http_delivery "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/http"
 	"github.com/justheimsk/vonchat/server/internal/application/service"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
-	domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
-	domain_service "github.com/justheimsk/vonchat/server/internal/domain/service"
+	"github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/internal/domain/service"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository"
 )

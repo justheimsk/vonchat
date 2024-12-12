@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
-	domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 

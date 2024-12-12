@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/justheimsk/vonchat/server/internal/application/dto"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
-	domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/internal/domain/repository"
 )
 
 type UserService struct {

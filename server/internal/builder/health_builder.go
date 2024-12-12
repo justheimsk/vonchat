@@ -1,8 +1,8 @@
 package builder
 
 import (
-	http_delivery "github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
-	domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/api/v1/healthCheck/delivery/http"
+	"github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository"
 )

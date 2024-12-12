@@ -5,15 +5,15 @@ import (
 	"net/http"
 
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
-	domain "github.com/justheimsk/vonchat/server/internal/domain/repository"
+	"github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"github.com/justheimsk/vonchat/server/pkg/util"
 )
 
 type HealthController struct {
-	repo domain.HealthRepository
+	repo domain_repo.HealthRepository
 }
 
-func NewHealthController(repo domain.HealthRepository) *HealthController {
+func NewHealthController(repo domain_repo.HealthRepository) *HealthController {
 	return &HealthController{
 		repo,
 	}
