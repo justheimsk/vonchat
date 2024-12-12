@@ -1,17 +1,16 @@
 package database
 
 import (
-	"database/sql"
-
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
 )
 
 type DatabaseDriver interface {
 	Open() error
 	Close() error
-	GetDB() *sql.DB
 	GetName() string
+	GetRepository() *domain_repo.RepositoryAggregate
 }
 
 func NewDatabaseDriver(driverName string, config *config.Config, logger models.Logger) DatabaseDriver {

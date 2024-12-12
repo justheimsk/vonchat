@@ -5,7 +5,9 @@ import (
 	"fmt"
 
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
+	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/sqlite"
 	"github.com/justheimsk/vonchat/server/scripts"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -54,4 +56,12 @@ func (self *SQLiteDatabaseDriver) Close() error {
 
 func (self *SQLiteDatabaseDriver) GetName() string {
 	return "SQLITE"
+}
+
+func (self *SQLiteDatabaseDriver) GetRepository() *domain_repo.RepositoryAggregate {
+	return &domain_repo.RepositoryAggregate{
+		Health: sqlite.NewHealthRepository(self.db),
+		User:   sqlite.NewUserRepository(self.db),
+		Auth:   sqlite.NewAuthRepository(self.db),
+	}
 }

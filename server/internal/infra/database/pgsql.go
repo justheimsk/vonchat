@@ -5,7 +5,9 @@ import (
 	"fmt"
 
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	domain_repo "github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
+	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/pgsql"
 	"github.com/justheimsk/vonchat/server/scripts"
 	_ "github.com/lib/pq"
 )
@@ -54,14 +56,18 @@ func (self *PostgresDatabaseDriver) Open() (err error) {
 	return
 }
 
-func (self *PostgresDatabaseDriver) GetDB() *sql.DB {
-	return self.db
-}
-
 func (self *PostgresDatabaseDriver) GetName() string {
 	return "POSTGRES"
 }
 
 func (self *PostgresDatabaseDriver) Close() error {
 	return self.db.Close()
+}
+
+func (self *PostgresDatabaseDriver) GetRepository() *domain_repo.RepositoryAggregate {
+	return &domain_repo.RepositoryAggregate{
+		Health: pgsql.NewHealthRepository(self.db),
+		User:   pgsql.NewUserRepository(self.db),
+		Auth:   pgsql.NewAuthRepository(self.db),
+	}
 }

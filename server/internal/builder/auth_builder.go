@@ -7,7 +7,6 @@ import (
 	"github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"github.com/justheimsk/vonchat/server/internal/domain/service"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
-	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository"
 )
 
 type AuthBuilder struct {
@@ -18,15 +17,14 @@ type AuthBuilder struct {
 }
 
 func NewAuthBuilder(driver database.DatabaseDriver, logger models.Logger) *AuthBuilder {
-	authRepo := repository.NewAuthRepository(driver)
-	userRepo := repository.NewUserRepository(driver)
-	service := service.NewAuthService(authRepo, userRepo, logger)
+	repos := driver.GetRepository()
+	service := service.NewAuthService(repos.Auth, repos.User, logger)
 	controller := http_delivery.NewAuthController(service)
 
 	return &AuthBuilder{
 		Handler:        *http_delivery.NewAuthHandler(*controller),
 		Service:        service,
-		AuthRepository: authRepo,
-		UserRepository: userRepo,
+		AuthRepository: repos.Auth,
+		UserRepository: repos.User,
 	}
 }
