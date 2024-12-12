@@ -20,7 +20,7 @@ type SQLiteDatabaseDriver struct {
 func NewSQLiteDatabaseDriver(config *config.Config, logger models.Logger) *SQLiteDatabaseDriver {
 	return &SQLiteDatabaseDriver{
 		Path:   config.Sqlite.Path,
-		logger: logger.New("DATABASE"),
+		logger: logger,
 	}
 }
 

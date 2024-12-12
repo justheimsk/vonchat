@@ -1,40 +1,43 @@
 package main
 
 import (
+	"os"
+
+	"github.com/charmbracelet/log"
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
-	http "github.com/justheimsk/vonchat/server/internal/infra/http"
-	"github.com/justheimsk/vonchat/server/pkg/logger"
+	"github.com/justheimsk/vonchat/server/internal/infra/http"
 )
 
 func main() {
-	log := logger.NewLogger("CORE", nil, nil)
-	config, err := config.LoadConfig(log.New("CONFIG"))
-	log = logger.NewLogger("CORE", config, nil)
+	logger := log.New(os.Stdout)
+	logger.SetReportCaller(true)
+	logger.SetReportTimestamp(true)
 
+	config, err := config.LoadConfig(logger)
 	if err != nil {
-		log.Fatalf("Failed to load config: %s", err)
+		log.Fatal("Failed to load config", "err", err)
 		return
 	}
 
 	if config.Debug {
-		log.Debugf("Debug mode enabled.")
+		logger.SetLevel(log.DebugLevel)
+		logger.Debug("Debug mode enabled.")
 	}
 
-	driver := database.NewDatabaseDriver(config.DatabaseDriver, config, log)
+	driver := database.NewDatabaseDriver(config.DatabaseDriver, config, logger)
+	defer driver.Close()
 
-	log.Infof("Using %s database driver.", driver.GetName())
-	log.Infof("Opening database connection...")
+	logger.Infof("Using %s database driver.", driver.GetName())
+	logger.Info("Opening database connection...")
+
 	err = driver.Open()
-
 	if err != nil {
-		log.Fatalf("Fatal error: %w", err)
+		logger.Fatal("Fatal error", "err", err)
 		return
 	}
 
-	log.Infof("Connected to the database.")
-	defer driver.Close()
-
-	server := http.NewServer(driver, log)
+	logger.Infof("Connected to the database.")
+	server := http.NewServer(driver, logger)
 	server.Serve(config)
 }

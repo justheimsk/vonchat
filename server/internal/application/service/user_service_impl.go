@@ -14,7 +14,7 @@ type UserService struct {
 func NewUserService(repo domain_repo.UserRepository, logger models.Logger) *UserService {
 	return &UserService{
 		repo:   repo,
-		logger: logger.New("USER SERVICE"),
+		logger: logger,
 	}
 }
 

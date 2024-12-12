@@ -12,7 +12,7 @@ type LoggingMiddleware struct {
 
 func NewLoggingMiddleware(logger models.Logger) *LoggingMiddleware {
 	return &LoggingMiddleware{
-		logger: logger.New("MIDDLEWARE"),
+		logger: logger,
 	}
 }
 

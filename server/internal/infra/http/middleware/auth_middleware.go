@@ -16,7 +16,7 @@ type AuthMiddleware struct {
 
 func NewAuthMiddleware(logger models.Logger, service domain_service.AuthService) *AuthMiddleware {
 	return &AuthMiddleware{
-		logger:  logger.New("MIDDLEWARE"),
+		logger:  logger,
 		service: service,
 	}
 }

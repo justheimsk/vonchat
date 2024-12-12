@@ -6,6 +6,9 @@ type Logger interface {
 	Fatalf(string, ...any)
 	Warnf(string, ...any)
 	Debugf(string, ...any)
-	Panicf(string, ...any)
-	New(string) Logger
+	Info(interface{}, ...interface{})
+	Error(interface{}, ...interface{})
+	Fatal(interface{}, ...interface{})
+	Warn(interface{}, ...interface{})
+	Debug(interface{}, ...interface{})
 }

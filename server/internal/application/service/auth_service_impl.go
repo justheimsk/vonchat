@@ -19,7 +19,7 @@ func NewAuthService(authRepo domain_repo.AuthRepository, userRepo domain_repo.Us
 	return &authService{
 		authRepo: authRepo,
 		userRepo: userRepo,
-		logger:   logger.New("AUTH SERVICE"),
+		logger:   logger,
 	}
 }
 

@@ -19,7 +19,7 @@ type Server struct {
 }
 
 func NewServer(db database.DatabaseDriver, logger models.Logger) *Server {
-	return &Server{db: db, logger: logger.New("HTTP")}
+	return &Server{db: db, logger: logger}
 }
 
 func (self *Server) Serve(config *config.Config) {
