@@ -7,7 +7,9 @@ export function ErrorMagnifier() {
 
 	useEffect(() => {
 		vonchat.logs.subscribe(() => {
-			const errors = vonchat.logs.logs.filter((log) => log.level === 'error');
+			const errors = vonchat.logs.logs.filter(
+				(log) => log && log.level === 'error',
+			);
 			setErrorCount(errors.length);
 		});
 	}, []);
