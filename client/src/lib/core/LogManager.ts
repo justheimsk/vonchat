@@ -105,6 +105,7 @@ export class LogManager extends BufferedObservable<Log> {
 
 	public clear() {
 		this.logs = [];
+    this.startOffset = 0;
 
 		this.iterate((inst) => inst.clear());
 	}
