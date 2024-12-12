@@ -16,7 +16,8 @@ if echo "$FILES" | grep -qE "\.(js|ts|jsx|tsx)$"; then
   fi
 
   if [ $? -ne 0 ]; then
-    echo "You can run \"$bin_name run lint:write\" to fix some errors!"
+    git reset *
+    echo "=======> You can run \"$bin_name run lint:write\" to fix some errors! <======="
     exit 1
   fi
 fi
