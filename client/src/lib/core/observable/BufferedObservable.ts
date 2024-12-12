@@ -1,33 +1,35 @@
 import { Observable } from './Observable';
 
 export interface BufferedObservableOptions {
-	flushInterval?: number;
-	bufferMaxSize?: number;
+	flushInterval: number;
+	bufferMaxSize: number;
 }
 
 export class BufferedObservable<T> extends Observable<T[]> {
-	public FLUSH_INTERVAL = 500;
-	public BUFFER_MAX_SIZE = 1000;
 	public buffer: T[];
 	public options: BufferedObservableOptions;
 
-	public constructor(options?: BufferedObservableOptions) {
+	public constructor(options?: Partial<BufferedObservableOptions>) {
 		super();
 
 		this.options = this.validateOptions(options);
 		this.buffer = [];
 		setInterval(() => {
 			this.flush();
-		}, this.FLUSH_INTERVAL);
+		}, this.options.flushInterval);
 	}
 
-	private validateOptions(_options?: BufferedObservableOptions) {
-		const options: BufferedObservableOptions = _options || {};
+	private validateOptions(_options?: Partial<BufferedObservableOptions>) {
+		const options = {
+			bufferMaxSize: 10000,
+			flushInterval: 500,
+		};
 
-		if (!options.bufferMaxSize || typeof options.bufferMaxSize !== 'number')
-			options.bufferMaxSize = 1000;
-		if (!options.flushInterval || typeof options.flushInterval !== 'number')
-			options.flushInterval = 500;
+		if (_options?.bufferMaxSize && typeof _options.bufferMaxSize === 'number')
+			options.bufferMaxSize = _options.bufferMaxSize;
+
+		if (_options?.flushInterval && typeof _options.flushInterval === 'number')
+			options.flushInterval = _options.flushInterval;
 
 		return options;
 	}
@@ -35,7 +37,7 @@ export class BufferedObservable<T> extends Observable<T[]> {
 	public notify(arg: T[]) {
 		this.buffer.push(...arg);
 
-		if (this.buffer.length >= this.BUFFER_MAX_SIZE) this.flush();
+		if (this.buffer.length >= this.options.bufferMaxSize) this.flush();
 	}
 
 	public flush() {

@@ -25,13 +25,14 @@ export class LogManager extends BufferedObservable<Log> {
 	private output?: Output;
 	private instances: LogManager[];
 	private _options: LogManagerOptions;
+	private startOffset = 0;
 
 	public constructor(
 		output?: Output,
 		tag?: string,
 		options?: LogManagerOptions,
 	) {
-		super();
+		super(options?.buffer);
 
 		this.instances = [];
 		this.output = output;
@@ -45,7 +46,7 @@ export class LogManager extends BufferedObservable<Log> {
 	private validateLoggerOptions(_options?: LogManagerOptions) {
 		const options = _options || {};
 		if (!options.maxLogSize || typeof options.maxLogSize !== 'number')
-			options.maxLogSize = 1000;
+			options.maxLogSize = 100000;
 
 		return options;
 	}
@@ -60,9 +61,17 @@ export class LogManager extends BufferedObservable<Log> {
 	}
 
 	private pushLog(log: Log) {
-		if (this.logs.length >= (this.logOptions.maxLogSize || 1000))
-			this.logs.shift();
-		this.logs.push(log);
+		if (
+			this.logs.length - this.startOffset >=
+			(this.logOptions.maxLogSize || 1000)
+		) {
+			//@ts-ignore
+			this.logs[this.startOffset] = null;
+			this.startOffset++;
+			return;
+		}
+
+		this.logs[this.logs.length] = log;
 	}
 
 	public send(level: LogLevel, message: string) {
@@ -79,7 +88,7 @@ export class LogManager extends BufferedObservable<Log> {
 		const instance = new LogManager(undefined, tag);
 		this.instances.push(instance);
 
-		instance.subscribe((log) => {
+		instance.subscribe(async (log) => {
 			for (const _log of log) {
 				this.pushLog(_log);
 			}
