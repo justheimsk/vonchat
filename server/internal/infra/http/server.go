@@ -48,7 +48,7 @@ func (self *Server) Serve(config *config.Config) {
 	socket.Init(router)
 
 	identifyHandler := ws_delivery.NewIdentifyHandler()
-	socket.Router.HandleFunc("IDENTIFY", identifyHandler.Handle)
+	socket.Handler.HandleFunc("IDENTIFY", identifyHandler.Handle)
 
 	self.logger.Infof("Serving HTTP in port: %s", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), handler); err != nil {

@@ -11,13 +11,13 @@ import (
 type WebsocketServer struct {
 	logger   models.Logger
 	upgrader websocket.Upgrader
-	Router   WebsocketRouter
+	Handler  WebsocketHandler
 }
 
 func NewWebsocketServer(logger models.Logger) *WebsocketServer {
 	return &WebsocketServer{
-		logger: logger,
-		Router: *NewWebsockerRouter(),
+		logger:  logger,
+		Handler: *NewWebsockerHandler(),
 		upgrader: websocket.Upgrader{
 			CheckOrigin: func(_ *http.Request) bool {
 				return true
@@ -48,6 +48,6 @@ func (self *WebsocketServer) Upgrade(w http.ResponseWriter, r *http.Request) {
 		}
 
 		writer := NewWebsocketWriter(conn, msg)
-		self.Router.Dispatch(string(writer.Message.T), writer)
+		self.Handler.Dispatch(string(writer.Message.T), writer)
 	}
 }

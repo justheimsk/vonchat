@@ -2,21 +2,21 @@ package ws
 
 import "github.com/justheimsk/vonchat/server/internal/registry"
 
-type WebsocketRouter struct {
+type WebsocketHandler struct {
 	registry *registry.Registry[string, func(*WebsocketWriter)]
 }
 
-func NewWebsockerRouter() *WebsocketRouter {
-	return &WebsocketRouter{
+func NewWebsockerHandler() *WebsocketHandler {
+	return &WebsocketHandler{
 		registry: registry.NewRegistry[string, func(*WebsocketWriter)](),
 	}
 }
 
-func (self *WebsocketRouter) HandleFunc(id string, cb func(*WebsocketWriter)) {
+func (self *WebsocketHandler) HandleFunc(id string, cb func(*WebsocketWriter)) {
 	self.registry.Register(id, cb)
 }
 
-func (self *WebsocketRouter) Dispatch(id string, conn *WebsocketWriter) {
+func (self *WebsocketHandler) Dispatch(id string, conn *WebsocketWriter) {
 	cb, found := self.registry.Get(id)
 	if !found {
 		return
