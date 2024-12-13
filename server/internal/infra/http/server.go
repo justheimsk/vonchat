@@ -6,10 +6,12 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/justheimsk/vonchat/server/api/v1"
+	ws_delivery "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/ws"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/http/middleware"
+	"github.com/justheimsk/vonchat/server/internal/infra/ws"
 	"github.com/rs/cors"
 )
 
@@ -41,6 +43,13 @@ func (self *Server) Serve(config *config.Config) {
 
 	handler := c.Handler(router)
 	api.LoadHTTPV1Routes(router, self.db, self.logger)
+
+	socket := ws.NewWebsocketServer(self.logger)
+	socket.Init(router)
+
+	identifyHandler := ws_delivery.NewIdentifyHandler()
+	socket.Router.HandleFunc("IDENTIFY", identifyHandler.Handle)
+
 	self.logger.Infof("Serving HTTP in port: %s", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), handler); err != nil {
 		self.logger.Fatal("Failed to start HTTP server", "err", err)
