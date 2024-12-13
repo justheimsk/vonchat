@@ -45,7 +45,7 @@ func (self *Server) Serve(config *config.Config) {
 
 	socket := ws.NewWebsocketServer(self.logger)
 	socket.Init(router)
-	api.LoadWSV1Handlers(socket.Handler)
+	api.LoadWSV1Handlers(socket.Handler, self.db, self.logger)
 
 	self.logger.Infof("Serving HTTP in port: %s", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), handler); err != nil {

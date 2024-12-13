@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/go-chi/chi/v5"
 	ws_delivery "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/ws"
+	"github.com/justheimsk/vonchat/server/internal/application/service"
 	builder "github.com/justheimsk/vonchat/server/internal/builder"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
@@ -33,7 +34,11 @@ func LoadHTTPV1Routes(mux *chi.Mux, driver database.DatabaseDriver, logger model
 	})
 }
 
-func LoadWSV1Handlers(handler ws.WebsocketHandler) {
-	identifyHandler := ws_delivery.NewIdentifyHandler()
+func LoadWSV1Handlers(handler ws.WebsocketHandler, driver database.DatabaseDriver, logger models.Logger) {
+	repos := driver.GetRepository()
+	authService := service.NewAuthService(repos.Auth, repos.User, logger)
+	userService := service.NewUserService(repos.User, logger)
+
+	identifyHandler := ws_delivery.NewIdentifyHandler(authService, userService, logger)
 	handler.HandleFunc("IDENTIFY", identifyHandler.Handle)
 }

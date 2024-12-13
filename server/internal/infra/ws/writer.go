@@ -4,22 +4,33 @@ import "github.com/gorilla/websocket"
 
 type WebsocketWriter struct {
 	Message WebsocketMessage
-	conn    *websocket.Conn
+	Client  *Client
+	socket  *websocket.Conn
+	server  *WebsocketServer
 }
 
-func NewWebsocketWriter(conn *websocket.Conn, msg WebsocketMessage) *WebsocketWriter {
+func NewWebsocketWriter(client *Client, socket *websocket.Conn, msg WebsocketMessage, server *WebsocketServer) *WebsocketWriter {
 	return &WebsocketWriter{
 		Message: msg,
-		conn:    conn,
+		Client:  client,
+		socket:  socket,
+		server:  server,
 	}
 }
 
 func (self *WebsocketWriter) Write(op MSG_OP, t MSG_T, data MSG_DATA) error {
-	msg := NewWebsocketMessage(op, t, data)
-	err := self.conn.WriteJSON(msg)
+	err := self.socket.WriteJSON(WebsocketMessage{Op: op, T: t, Data: data})
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (self *WebsocketWriter) GetServer() *WebsocketServer {
+	return self.server
+}
+
+func (self *WebsocketWriter) CloseSocket() {
+	self.server.CloseSocket(self.socket)
 }
