@@ -6,7 +6,6 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/justheimsk/vonchat/server/api/v1"
-	ws_delivery "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/ws"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
@@ -46,9 +45,7 @@ func (self *Server) Serve(config *config.Config) {
 
 	socket := ws.NewWebsocketServer(self.logger)
 	socket.Init(router)
-
-	identifyHandler := ws_delivery.NewIdentifyHandler()
-	socket.Handler.HandleFunc("IDENTIFY", identifyHandler.Handle)
+	api.LoadWSV1Handlers(socket.Handler)
 
 	self.logger.Infof("Serving HTTP in port: %s", PORT)
 	if err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%s", PORT), handler); err != nil {
