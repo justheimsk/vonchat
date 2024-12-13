@@ -62,7 +62,7 @@ func (self *authService) Register(name string, email string, password string) (t
 		return
 	}
 
-	self.logger.Debugf("Account create ID=%s", id)
+	self.logger.Debugf("Account CREATE id=%s", id)
 	return
 }
 
@@ -85,7 +85,7 @@ func (self *authService) Login(email string, password string) (token string, err
 		return
 	}
 
-	self.logger.Debugf("Account login ID=%s", user.ID)
+	self.logger.Debugf("Account LOGIN id=%s", user.ID)
 	return
 }
 

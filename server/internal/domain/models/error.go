@@ -78,6 +78,6 @@ func (self *CustomError) ToHttpStatusCode() *CustomError {
 	case BadRequestErrorCode:
 		return NewCustomError("400", self.Message)
 	default:
-		return self
+		return NewCustomError("500", self.Message)
 	}
 }

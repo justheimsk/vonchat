@@ -18,7 +18,12 @@ func NewLoggingMiddleware(logger models.Logger) *LoggingMiddleware {
 
 func (self *LoggingMiddleware) Run(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		self.logger.Debugf("%s %s", r.Method, r.URL.Path)
+		clientIp := r.Header.Get("X-FORWARDED-FOR")
+		if clientIp == "" {
+			clientIp = r.RemoteAddr
+		}
+
+		self.logger.Debugf("NEW REQUEST method=%s path=%s from=%s", r.Method, r.URL.Path, clientIp)
 		next.ServeHTTP(w, r)
 	})
 }
