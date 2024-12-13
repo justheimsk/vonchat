@@ -31,7 +31,7 @@ func init() {
 
 func (self *PostgresDatabaseDriver) Open() (err error) {
 	if self.config == nil {
-		return fmt.Errorf("Config not set")
+		return models.NewCustomError("config_not_set", "Config not set")
 	}
 
 	str := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=disable", self.config.Postgres.Host, self.config.Postgres.Port, self.config.Postgres.DB, self.config.Postgres.User, self.config.Postgres.Password)

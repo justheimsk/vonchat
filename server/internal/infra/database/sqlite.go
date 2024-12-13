@@ -9,7 +9,6 @@ import (
 	"github.com/justheimsk/vonchat/server/internal/infra/config"
 	"github.com/justheimsk/vonchat/server/internal/infra/persistence/repository/sqlite"
 	"github.com/justheimsk/vonchat/server/scripts"
-
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -32,7 +31,7 @@ func init() {
 
 func (self *SQLiteDatabaseDriver) Open() error {
 	if self.config == nil {
-		return fmt.Errorf("Config not set")
+		return models.NewCustomError("config_not_set", "Config not set")
 	}
 
 	db, err := sql.Open("sqlite3", self.config.Sqlite.Path)
