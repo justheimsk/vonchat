@@ -2,6 +2,7 @@ package ws_delivery
 
 import (
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
+	"github.com/justheimsk/vonchat/server/internal/domain/payload"
 	domain_service "github.com/justheimsk/vonchat/server/internal/domain/service"
 	"github.com/justheimsk/vonchat/server/internal/infra/ws"
 	"github.com/mitchellh/mapstructure"
@@ -13,10 +14,6 @@ type IdentifyHandler struct {
 	logger      models.Logger
 }
 
-type IdentifyPayload struct {
-	Token string `json:"token"`
-}
-
 func NewIdentifyHandler(authService domain_service.AuthService, userService domain_service.UserService, logger models.Logger) *IdentifyHandler {
 	return &IdentifyHandler{
 		authService: authService,
@@ -26,7 +23,11 @@ func NewIdentifyHandler(authService domain_service.AuthService, userService doma
 }
 
 func (self *IdentifyHandler) Handle(w *ws.WebsocketWriter) {
-	var data IdentifyPayload
+	if w.Client.Authenticated {
+		return
+	}
+
+	var data payload.IdentifyPayload
 	mapstructure.Decode(w.Message.Data, &data)
 
 	if data.Token == "" {

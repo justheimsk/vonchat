@@ -2,11 +2,11 @@ package registry
 
 import "github.com/justheimsk/vonchat/server/internal/domain/models"
 
-type Registry[K string, V any] struct {
+type Registry[K comparable, V any] struct {
 	items map[K]V
 }
 
-func NewRegistry[K string, V any]() *Registry[K, V] {
+func NewRegistry[K comparable, V any]() *Registry[K, V] {
 	return &Registry[K, V]{
 		items: make(map[K]V),
 	}
@@ -29,4 +29,8 @@ func (self *Registry[K, V]) Get(key K) (V, bool) {
 
 func (self *Registry[K, V]) Remove(key K) {
 	delete(self.items, key)
+}
+
+func (self *Registry[K, V]) Values() map[K]V {
+	return self.items
 }

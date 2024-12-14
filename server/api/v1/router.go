@@ -5,6 +5,7 @@ import (
 	ws_delivery "github.com/justheimsk/vonchat/server/api/v1/auth/delivery/ws"
 	"github.com/justheimsk/vonchat/server/internal/application/service"
 	builder "github.com/justheimsk/vonchat/server/internal/builder"
+	"github.com/justheimsk/vonchat/server/internal/domain/constants/opcodes"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/http/middleware"
@@ -40,5 +41,5 @@ func LoadWSV1Handlers(handler ws.WebsocketHandler, driver database.DatabaseDrive
 	userService := service.NewUserService(repos.User, logger)
 
 	identifyHandler := ws_delivery.NewIdentifyHandler(authService, userService, logger)
-	handler.HandleFunc("IDENTIFY", identifyHandler.Handle)
+	handler.HandleFunc(opcodes.IDENTIFY, identifyHandler.Handle)
 }

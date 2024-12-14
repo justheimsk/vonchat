@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/gorilla/websocket"
+	"github.com/justheimsk/vonchat/server/internal/domain/constants/opcodes"
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/registry"
 )
@@ -53,7 +54,7 @@ func (self *WebsocketServer) Upgrade(w http.ResponseWriter, r *http.Request) {
 
 	time.AfterFunc(60*time.Second, func() {
 		if _, found := self.Sockets.Get(conn.RemoteAddr().String()); found {
-			if !client.authenticated {
+			if !client.Authenticated {
 				self.logger.Infof("Client %s took too long to identify, closing connection...", conn.RemoteAddr().String())
 				self.CloseSocket(conn)
 			}
@@ -73,7 +74,25 @@ func (self *WebsocketServer) Upgrade(w http.ResponseWriter, r *http.Request) {
 		}
 
 		writer := NewWebsocketWriter(client, conn, msg, self)
-		self.Handler.Dispatch(string(writer.Message.T), writer)
+		if writer.Message.Op != opcodes.IDENTIFY && !client.Authenticated {
+			self.logger.Infof("Client %s unauthorized", conn.RemoteAddr().String())
+			self.CloseSocket(conn)
+		}
+
+		self.Handler.Dispatch(int(writer.Message.Op), writer)
+	}
+}
+
+func (self *WebsocketServer) Broadcast(msg *WebsocketMessage) {
+	for _, client := range self.Sockets.Values() {
+		if !client.Authenticated {
+			continue
+		}
+
+		err := client.Socket.WriteJSON(msg)
+		if err != nil {
+			self.logger.Errorf("Failed to broadcast message to %s(%s)", client.user.Username, client.RandomID)
+		}
 	}
 }
 
