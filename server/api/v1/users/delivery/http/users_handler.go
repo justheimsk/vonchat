@@ -14,4 +14,5 @@ func NewUsersHandler(controller UsersController) *UsersHandler {
 
 func (self *UsersHandler) Load(r chi.Router) {
 	r.Get("/@me", self.controller.GetMe)
+	r.Get("/", self.controller.GetAll)
 }

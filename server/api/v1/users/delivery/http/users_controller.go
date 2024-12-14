@@ -35,3 +35,21 @@ func (self *UsersController) GetMe(w http.ResponseWriter, r *http.Request) {
 		"user": user,
 	})
 }
+
+func (self *UsersController) GetAll(w http.ResponseWriter, r *http.Request) {
+	id := r.Context().Value("userID")
+	if id == "" {
+		util.WriteHTTPError(w, models.InternalError)
+		return
+	}
+
+	users, err := self.service.GetAll()
+	if err != nil {
+		util.WriteHTTPError(w, err)
+		return
+	}
+
+	util.WriteHTTPResponse(w, map[string]interface{}{
+		"users": users,
+	})
+}
