@@ -7,6 +7,7 @@ import (
 	"github.com/justheimsk/vonchat/server/internal/domain/repository"
 	"github.com/justheimsk/vonchat/server/internal/domain/service"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
+	"github.com/justheimsk/vonchat/server/internal/infra/persistence/cache"
 )
 
 type UserBuilder struct {
@@ -18,7 +19,8 @@ type UserBuilder struct {
 
 func NewUserBuilder(driver database.DatabaseDriver, logger models.Logger) *UserBuilder {
 	repo := driver.GetRepository().User
-	service := service.NewUserService(repo, logger)
+	c := cache.NewInMemoryCache()
+	service := service.NewUserService(repo, c, logger)
 	controller := http_delivery.NewUsersController(service)
 	handler := http_delivery.NewUsersHandler(*controller)
 

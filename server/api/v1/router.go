@@ -9,6 +9,7 @@ import (
 	"github.com/justheimsk/vonchat/server/internal/domain/models"
 	"github.com/justheimsk/vonchat/server/internal/infra/database"
 	"github.com/justheimsk/vonchat/server/internal/infra/http/middleware"
+	"github.com/justheimsk/vonchat/server/internal/infra/persistence/cache"
 	"github.com/justheimsk/vonchat/server/internal/infra/ws"
 )
 
@@ -37,8 +38,9 @@ func LoadHTTPV1Routes(mux *chi.Mux, driver database.DatabaseDriver, logger model
 
 func LoadWSV1Handlers(handler ws.WebsocketHandler, driver database.DatabaseDriver, logger models.Logger) {
 	repos := driver.GetRepository()
+	c := cache.NewInMemoryCache()
 	authService := service.NewAuthService(repos.Auth, repos.User, logger)
-	userService := service.NewUserService(repos.User, logger)
+	userService := service.NewUserService(repos.User, c, logger)
 
 	identifyHandler := ws_delivery.NewIdentifyHandler(authService, userService, logger)
 	handler.HandleFunc(opcodes.IDENTIFY, identifyHandler.Handle)

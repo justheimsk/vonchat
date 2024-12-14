@@ -55,5 +55,6 @@ func (self *IdentifyHandler) Handle(w *ws.WebsocketWriter) {
 
 	w.Client.Authenticate(user)
 	w.Write(1, "READY", nil)
+	self.userService.SetUserStatus(user.ID, "online")
 	self.logger.Infof("Client %s with username \"%s\" is now authenticated", w.Client.RandomID, user.Username)
 }
