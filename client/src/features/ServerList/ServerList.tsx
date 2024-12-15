@@ -1,7 +1,11 @@
+import { useLibState } from '@/lib/state/Hook';
 import ServerButton from './components/ServerButton/ServerButton';
 import './ServerList.scss';
+import { vonchat } from '@/lib/Application';
 
 export default function ServerList() {
+	const profiles = useLibState(vonchat.state.reducers.profiles).profiles;
+
 	return (
 		<>
 			<div id="server-list">
@@ -10,12 +14,9 @@ export default function ServerList() {
 					<ServerButton />
 				</div>
 				<div className="server-list__panel">
-					{'h'
-						.repeat(20)
-						.split('')
-						.map(() => (
-							<ServerButton key={Math.random() * 99999} />
-						))}
+					{vonchat.profiles.getActiveProfile(profiles)?.servers.map((s) => (
+						<ServerButton key={s.ip} />
+					))}
 				</div>
 			</div>
 		</>

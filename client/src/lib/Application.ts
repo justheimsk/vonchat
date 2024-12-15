@@ -3,7 +3,9 @@ import { ProfileState } from '@/shared/state/profiles';
 import { UiState } from '@/shared/state/uiState';
 import { to } from '@/utils/to';
 import { LocalStorageMemoryAdapter } from './adapters/LocalStorageMemoryAdapter';
+import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
 import { LogManager } from './core/LogManager';
+import { Server } from './core/Server';
 import UIManager from './core/UIManager';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
@@ -64,10 +66,28 @@ export class Application {
 
 			if (profiles && profiles.length) {
 				for (const profile of profiles) {
+					const servers: Server[] = [];
+					for (const server of profile.servers) {
+						servers.push(
+							new Server(
+								server.ip,
+								server.port,
+								new HTTPAdapter({
+									host: server.ip,
+									port: server.port,
+									secure: false,
+								}),
+							),
+						);
+					}
+
 					this.profiles.createProfile(
 						profile.name,
 						profile.email,
 						profile.password,
+						profile.active,
+						profile.id,
+						servers,
 					);
 				}
 			}

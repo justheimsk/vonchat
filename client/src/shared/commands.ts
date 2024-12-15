@@ -1,5 +1,6 @@
 import { vonchat } from '@/lib/Application';
 import { HTTPAdapter } from '@/lib/adapters/backend/HTTPAdapter';
+import { Server } from '@/lib/core/Server';
 import type { RecvContext } from '@/lib/core/command/CommandRegistry';
 
 export default () => {
@@ -33,16 +34,9 @@ export default () => {
 		const name = ctx.args.get('username')?.value as string;
 		const email = ctx.args.get('email')?.value as string;
 		const password = ctx.args.get('password')?.value as string;
-
 		if (!name || !email || !password) return;
 
-		const profile = vonchat.profiles.createProfile(
-			name,
-			email,
-			password,
-			new HTTPAdapter({ secure: false, host: 'localhost', port: 8080 }),
-		);
-		profile.adapter.init();
+		vonchat.profiles.createProfile(name, email, password, true);
 		vonchat.profiles.saveToMemory();
 	};
 
@@ -57,14 +51,28 @@ export default () => {
 		createProfile,
 	);
 
-	const listProfiles = () => {
-		console.log(vonchat.profiles.getProfiles());
+	const connect = (ctx: RecvContext) => {
+		const host = ctx.args.get('host')?.value as string;
+		const port = ctx.args.get('port')?.value as string;
+		if (!port || !host) return;
+
+		const profile = vonchat.profiles.getActiveProfile();
+		if (!profile) return;
+
+		vonchat.profiles.addServer(
+			profile,
+			new Server(host, port, new HTTPAdapter({ host, port, secure: false })),
+		);
+		vonchat.profiles.saveToMemory();
 	};
 
 	vonchat.cmdRegistry.register(
-		'list_profiles',
-		'List created profiles',
-		[],
-		listProfiles,
+		'connect',
+		'Connect to a server',
+		[
+			{ type: 'text', name: 'host', required: true },
+			{ type: 'text', name: 'port', required: true },
+		],
+		connect,
 	);
 };

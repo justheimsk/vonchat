@@ -1,6 +1,7 @@
 import type { Application } from '@/lib/Application';
 import type { LogManager } from '../LogManager';
 import type { MemoryAdapter } from '../MemoryAdapter';
+import type { Server } from '../Server';
 import { type JSONProfile, Profile } from './Profile';
 
 export class ProfileManager {
@@ -18,17 +19,50 @@ export class ProfileManager {
 		this.logs = logs;
 	}
 
-	public createProfile(name: string, email: string, password: string) {
-		const profile = new Profile(name, email, password);
+	public createProfile(
+		name: string,
+		email: string,
+		password: string,
+		active?: boolean,
+		id?: string,
+		servers: Server[] = [],
+	) {
+		const profile = new Profile(name, email, password, active, id, servers);
+
 		this.app.state.dispatch(
 			this.app.state.reducers.profiles.appendProfile(profile),
 		);
 
+		if (active) this.setActiveProfile(profile);
 		return profile;
 	}
 
+	public addServer(profile: Profile, server: Server) {
+		profile.servers.push(server);
+		this.app.state.dispatch(
+			this.app.state.reducers.profiles.appendProfile(profile),
+		);
+	}
+
 	public getProfiles() {
-		return this.app.state.reducers.profiles.data;
+		return this.app.state.reducers.profiles.data.profiles;
+	}
+
+	public getActiveProfile(
+		profiles?: Map<string, Profile>,
+	): Profile | undefined {
+		return Array.from(profiles?.values() || this.getProfiles().values()).find(
+			(p) => p.active,
+		);
+	}
+
+	public setActiveProfile(profile: Profile) {
+		for (const _profile of this.getProfiles().values()) {
+			_profile.active = _profile.id === profile.id;
+			this.app.state.dispatch(
+				this.app.state.reducers.profiles.appendProfile(_profile),
+			);
+		}
 	}
 
 	public readInMemoryProfiles() {
@@ -44,12 +78,12 @@ export class ProfileManager {
 			);
 			this.logs.send(
 				'info',
-				`Saved ${profiles.size} into memory using ${this.memory.adapterName} adapter.`,
+				`Saved ${profiles.size} profiles using ${this.memory.adapterName} adapter.`,
 			);
-		} catch {
+		} catch (err) {
 			this.logs.send(
 				'error',
-				`Failed to write profiles in memory, using: ${this.memory.adapterName} adapter`,
+				`Failed to write profiles in memory, using: ${this.memory.adapterName} adapter: ${err}`,
 			);
 		}
 	}

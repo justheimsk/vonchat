@@ -6,7 +6,7 @@ export interface IProfilesState {
 }
 
 export class ProfileState extends State<IProfilesState> {
-	public profiles = new Map();
+	public profiles = new Map<string, Profile>();
 
 	public get data() {
 		return {
@@ -14,8 +14,8 @@ export class ProfileState extends State<IProfilesState> {
 		};
 	}
 
-	public appendProfile(prof: Profile) {
-		this.profiles.set(prof.id, prof);
+	public appendProfile(profile: Profile) {
+		this.profiles.set(profile.id, profile);
 		return this;
 	}
 }
