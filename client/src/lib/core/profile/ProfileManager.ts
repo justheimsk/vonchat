@@ -1,5 +1,4 @@
 import type { Application } from '@/lib/Application';
-import type { BackendAdapter } from '../BackendAdapter';
 import type { LogManager } from '../LogManager';
 import type { MemoryAdapter } from '../MemoryAdapter';
 import { type JSONProfile, Profile } from './Profile';
@@ -19,13 +18,8 @@ export class ProfileManager {
 		this.logs = logs;
 	}
 
-	public createProfile(
-		name: string,
-		email: string,
-		password: string,
-		adapter: BackendAdapter,
-	) {
-		const profile = new Profile(name, email, password, adapter);
+	public createProfile(name: string, email: string, password: string) {
+		const profile = new Profile(name, email, password);
 		this.app.state.dispatch(
 			this.app.state.reducers.profiles.appendProfile(profile),
 		);
