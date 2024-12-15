@@ -6,6 +6,7 @@
   font-size: 15px;
   border-radius: var(--small-radius);
   border: 1px solid transparent;
+  overflow: hidden;
 
   &__header {
     display: flex;
