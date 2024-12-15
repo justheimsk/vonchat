@@ -2,9 +2,12 @@ import { useLibState } from '@/lib/state/Hook';
 import ServerButton from './components/ServerButton/ServerButton';
 import './ServerList.scss';
 import { vonchat } from '@/lib/Application';
+import type { ProfileStateData } from '@/shared/state/profiles';
 
 export default function ServerList() {
-	const profiles = useLibState(vonchat.state.reducers.profiles).profiles;
+	const profile = useLibState<ProfileStateData>(
+		vonchat.profiles.getState(),
+	).activeProfile;
 
 	return (
 		<>
@@ -14,7 +17,7 @@ export default function ServerList() {
 					<ServerButton />
 				</div>
 				<div className="server-list__panel">
-					{vonchat.profiles.getActiveProfile(profiles)?.servers.map((s) => (
+					{profile?.servers.map((s) => (
 						<ServerButton key={s.ip} />
 					))}
 				</div>

@@ -11,7 +11,9 @@ export class StateManager<T = Reducers> {
 	}
 
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	public dispatch(state: State<any>) {
-		state.notify(state.data);
+	public dispatch(...state: State<any>[]) {
+		for (const st of state) {
+			st.notify(st.data);
+		}
 	}
 }

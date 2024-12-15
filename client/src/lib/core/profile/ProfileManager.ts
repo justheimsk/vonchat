@@ -44,21 +44,23 @@ export class ProfileManager {
 		);
 	}
 
-	public getProfiles() {
-		return this.app.state.reducers.profiles.data.profiles;
+	public getState() {
+		return this.app.state.reducers.profiles;
 	}
 
-	public getActiveProfile(
-		profiles?: Map<string, Profile>,
-	): Profile | undefined {
-		return Array.from(profiles?.values() || this.getProfiles().values()).find(
-			(p) => p.active,
-		);
+	public getActiveProfile(): Profile | undefined {
+		return this.getState().data.activeProfile;
 	}
 
 	public setActiveProfile(profile: Profile) {
-		for (const _profile of this.getProfiles().values()) {
-			_profile.active = _profile.id === profile.id;
+		for (const _profile of this.getState().data.profiles.values()) {
+			if (_profile.id === profile.id) {
+				_profile.active = true;
+				this.app.state.dispatch(
+					this.app.state.reducers.profiles.setActiveProfile(_profile),
+				);
+			}
+
 			this.app.state.dispatch(
 				this.app.state.reducers.profiles.appendProfile(_profile),
 			);
