@@ -6,10 +6,10 @@ import { LocalStorageMemoryAdapter } from './adapters/LocalStorageMemoryAdapter'
 import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
 import { LogManager } from './core/LogManager';
 import { Server } from './core/Server';
-import UIManager from './core/UIManager';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
 import { ProfileManager } from './core/profile/ProfileManager';
+import UIManager from './core/ui/UIManager';
 import { StateManager } from './state/StateManager';
 
 export interface States {

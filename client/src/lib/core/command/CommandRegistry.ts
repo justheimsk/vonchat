@@ -61,8 +61,11 @@ export default class CommandRegistry {
 		if (cmd) {
 			try {
 				cmd.execv(ctx);
-			} catch {
-				this.logs.send('error', `Failed to execute command: ${cmd.name}`);
+			} catch (err) {
+				this.logs.send(
+					'error',
+					`Failed to execute command: ${cmd.name}: ${err}`,
+				);
 			}
 		}
 	}

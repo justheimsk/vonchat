@@ -2,7 +2,9 @@ import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './pages/app/app';
 import './globals.scss';
+import { Modal } from '@/components/Modal/Modal';
 import { vonchat } from '@/lib/Application';
+import { useLibState } from '@/lib/state/Hook';
 import {
 	Route,
 	RouterProvider,
@@ -23,6 +25,8 @@ const router = createBrowserRouter(
 const app = document.getElementById('root');
 
 function Root() {
+	const modal = useLibState(vonchat.state.reducers.ui).modal;
+
 	useEffect(() => {
 		function printError() {
 			vonchat.logs.send('error', 'Unknown error.');
@@ -36,6 +40,15 @@ function Root() {
 
 	return (
 		<StrictMode>
+			<Modal
+				onClose={() =>
+					modal?.onClose?.() === false ? null : vonchat.ui.closeModal()
+				}
+				active={modal?.title !== undefined}
+				title={modal?.title || ''}
+				description={modal?.description || ''}
+				buttons={modal?.buttons || []}
+			/>
 			<RouterProvider router={router} />
 		</StrictMode>
 	);

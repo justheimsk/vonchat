@@ -1,6 +1,7 @@
 @use '@utils/mixins' as mixins;
 
-.modal, .modal__overlay {
+.modal,
+.modal__overlay {
   position: absolute;
   opacity: 0;
   pointer-events: none;
@@ -23,17 +24,70 @@
 .modal {
   @include mixins.slow-transition;
   color: var(--text);
-  padding: 12px;
   width: 350px;
   height: 350px;
   background-color: var(--secondary);
-  border-radius: var(--radius);
+  border-radius: var(--small-radius);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.5);
   z-index: 101;
 
+  &__content {
+    font-size: 15px;
+  }
+
   &--active {
     transform: translate(-50%, -50%) scale(1);
+  }
+
+  &--padding {
+    padding: 12px;
+  }
+
+  &__footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: var(--tertiary);
+    display: flex;
+    border-bottom-left-radius: var(--small-radius);
+    border-bottom-right-radius: var(--small-radius);
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+
+    &__button {
+      @include mixins.fast-transition;
+      @include mixins.shrink;
+
+      padding: 7px 14px;
+      font-size: 15px;
+      outline: none;
+      border: none;
+      background-color: transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+
+      &--danger {
+        background-color: var(--notification);
+        color: black
+      }
+
+      &--default {
+        background-color: var(--discord);
+        color: white;
+      }
+    }
+  }
+
+
+  &__divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.3);
   }
 }
