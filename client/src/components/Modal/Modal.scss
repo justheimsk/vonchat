@@ -24,17 +24,21 @@
 .modal {
   @include mixins.slow-transition;
   color: var(--text);
-  width: 350px;
-  height: 350px;
+  width: 450px;
+  height: 400px;
   background-color: var(--secondary);
   border-radius: var(--small-radius);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0.5);
   z-index: 101;
+  overflow: hidden;
 
   &__content {
     font-size: 15px;
+    height: 100%;
+    overflow: auto;
+    max-height: calc(100% - 100px);
   }
 
   &--active {
@@ -80,6 +84,11 @@
       &--default {
         background-color: var(--discord);
         color: white;
+      }
+
+      &--success {
+        color: white;
+        background-color: var(--status-online);
       }
     }
   }

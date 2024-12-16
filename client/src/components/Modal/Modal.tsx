@@ -1,5 +1,6 @@
 import type { ModalButton } from '@/lib/types/Modal';
 import './Modal.scss';
+import React from 'react';
 
 export interface ModalProps {
 	title: string;
@@ -20,7 +21,15 @@ export function Modal(props: ModalProps) {
 				<div className="modal--padding">
 					<h3>{props.title}</h3>
 				</div>
-				<div className="modal__content modal--padding">{props.description}</div>
+				<div className="modal__content modal--padding">
+					{props.description.split('\n').map((line, index) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+						<React.Fragment key={index}>
+							{line}
+							<br />
+						</React.Fragment>
+					))}
+				</div>
 				<div className="modal__footer modal--padding">
 					{props.buttons.map((bn) => (
 						<button
