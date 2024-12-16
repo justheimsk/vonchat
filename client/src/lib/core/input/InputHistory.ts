@@ -1,7 +1,4 @@
-export interface InputHistoryOptions {
-	maxHistory: number;
-	allowDuplicatedHistory?: boolean;
-}
+import type { InputHistoryOptions } from '@/lib/types/Input';
 
 export class InputHistory {
 	private historyIdx: number;

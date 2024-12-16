@@ -1,17 +1,12 @@
 import type { Application } from '@/lib/Application';
+import type {
+	Arg,
+	CommandCallback,
+	RecvArg,
+	RecvContext,
+} from '@/lib/types/Command';
 import type { LogManager } from '../LogManager';
-import Command, { type Arg } from './Command';
-
-export type CommandCallback = (ctx: RecvContext) => void;
-
-export interface RecvArg {
-	name: string;
-	value: unknown;
-}
-
-export interface RecvContext {
-	args: Map<string, RecvArg>;
-}
+import Command from './Command';
 
 export default class CommandRegistry {
 	private app: Application;

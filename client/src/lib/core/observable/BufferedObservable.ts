@@ -1,9 +1,5 @@
+import type { BufferedObservableOptions } from '@/lib/types/Observable';
 import { Observable } from './Observable';
-
-export interface BufferedObservableOptions {
-	flushInterval: number;
-	bufferMaxSize: number;
-}
 
 export class BufferedObservable<T> extends Observable<T[]> {
 	public buffer: T[];

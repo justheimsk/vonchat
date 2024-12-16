@@ -1,12 +1,4 @@
-import type { CommandCallback, RecvContext } from './CommandRegistry';
-
-export type ArgType = 'text';
-
-export interface Arg {
-	type: ArgType;
-	name: string;
-	required?: boolean;
-}
+import type { Arg, CommandCallback, RecvContext } from '@/lib/types/Command';
 
 export default class Command {
 	public name: string;

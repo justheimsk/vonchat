@@ -1,10 +1,5 @@
+import type { JSONServer } from '../types/Server';
 import type { BackendAdapter } from './BackendAdapter';
-
-export interface JSONServer {
-	ip: string;
-	port: string;
-	adapter: string;
-}
 
 export class Server {
 	public ip: string;

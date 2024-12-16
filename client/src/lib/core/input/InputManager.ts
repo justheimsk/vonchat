@@ -1,8 +1,7 @@
 import type { Application } from '@/lib/Application';
 import { InputEvents } from '@/lib/events/InputEvents';
+import type { Arg, RecvArg } from '@/lib/types/Command';
 import type Command from '../command/Command';
-import type { Arg } from '../command/Command';
-import type { RecvArg } from '../command/CommandRegistry';
 import { InputHistory } from './InputHistory';
 
 export class InputManager {

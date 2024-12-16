@@ -1,4 +1,5 @@
-import type { JSONServer, Server } from '../Server';
+import type { JSONServer } from '@/lib/types/Server';
+import type { Server } from '../Server';
 
 export interface JSONProfile {
 	name: string;

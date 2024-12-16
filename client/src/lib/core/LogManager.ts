@@ -1,20 +1,5 @@
-import {
-	BufferedObservable,
-	type BufferedObservableOptions,
-} from './observable/BufferedObservable';
-
-export type LogLevel = 'info' | 'error' | 'warn' | 'debug';
-export interface Log {
-	level: LogLevel;
-	message: string;
-}
-
-export type Output = (logs: Log[]) => void;
-
-export interface LogManagerOptions {
-	maxLogSize?: number;
-	buffer?: BufferedObservableOptions;
-}
+import type { Log, LogLevel, LogManagerOptions, Output } from '../types/Log';
+import { BufferedObservable } from './observable/BufferedObservable';
 
 // EXPERIMENTAL CODE!!!!!!!!!!!!!!!!!!!!!!!!!!
 // This will probably have a huge overhead if there are many logs, or many instances.
