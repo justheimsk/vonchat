@@ -6,7 +6,7 @@ export interface ICommandRegistryState {
 }
 
 export class CommandRegistryState extends State<ICommandRegistryState> {
-	public commands = new Map<string, Command>();
+	private commands = new Map<string, Command>();
 
 	public get data() {
 		return {

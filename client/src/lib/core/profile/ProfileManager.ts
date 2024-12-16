@@ -30,7 +30,7 @@ export class ProfileManager {
 		const profile = new Profile(name, email, password, active, id, servers);
 
 		this.app.state.dispatch(
-			this.app.state.reducers.profiles.appendProfile(profile),
+			this.app.state.reducers.profiles.addProfile(profile),
 		);
 
 		if (active) this.setActiveProfile(profile);
@@ -40,7 +40,7 @@ export class ProfileManager {
 	public addServer(profile: Profile, server: Server) {
 		profile.servers.push(server);
 		this.app.state.dispatch(
-			this.app.state.reducers.profiles.appendProfile(profile),
+			this.app.state.reducers.profiles.addProfile(profile),
 		);
 	}
 
@@ -62,7 +62,7 @@ export class ProfileManager {
 			}
 
 			this.app.state.dispatch(
-				this.app.state.reducers.profiles.appendProfile(_profile),
+				this.app.state.reducers.profiles.addProfile(_profile),
 			);
 		}
 	}

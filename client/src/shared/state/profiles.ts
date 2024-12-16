@@ -17,7 +17,7 @@ export class ProfileState extends State<ProfileStateData> {
 		};
 	}
 
-	public appendProfile(profile: Profile) {
+	public addProfile(profile: Profile) {
 		this.profiles.set(profile.id, profile);
 		return this;
 	}
