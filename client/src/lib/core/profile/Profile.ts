@@ -1,14 +1,5 @@
-import type { JSONServer } from '@/lib/types/Server';
+import type { JSONProfile } from '@/lib/types/Profile';
 import type { Server } from '../Server';
-
-export interface JSONProfile {
-	name: string;
-	email: string;
-	password: string;
-	id: string;
-	active: boolean;
-	servers: JSONServer[];
-}
 
 export class Profile {
 	public name: string;

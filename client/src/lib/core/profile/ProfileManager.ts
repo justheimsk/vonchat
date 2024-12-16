@@ -1,8 +1,9 @@
 import type { Application } from '@/lib/Application';
+import type { JSONProfile } from '@/lib/types/Profile';
 import type { LogManager } from '../LogManager';
 import type { MemoryAdapter } from '../MemoryAdapter';
 import type { Server } from '../Server';
-import { type JSONProfile, Profile } from './Profile';
+import { Profile } from './Profile';
 
 export class ProfileManager {
 	public app: Application;
