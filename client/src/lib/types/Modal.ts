@@ -1,4 +1,4 @@
-export type ModalButtonType = 'danger' | 'success' | 'default';
+export type ModalButtonType = 'danger' | 'success' | 'default' | 'outline';
 
 export interface ModalButton {
 	type: ModalButtonType;

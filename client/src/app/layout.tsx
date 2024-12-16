@@ -23,11 +23,11 @@ export function Layout(props: LayoutProps) {
           \nAlso, if you enjoy coding and would like to contribute, feel free to explore the codebase and submit pull requests. Every contribution helps!
           \nLastly, if you like the project, consider leaving a star on our GitHub repository. It’s a small gesture, but it goes a long way in supporting the project and motivating us to keep improving.
           \nThank you for being part of this journey with us.`)
-				.addButton('default', 'Github', () => {
+				.addButton('outline', 'Github', () => {
 					window.open('https://github.com/justheimsk/vonchat', '_blank');
 					return false;
 				})
-				.addButton('success', 'Ok', () => {})
+				.addButton('default', 'Ok', () => {})
 				.setOnCloseCallback(() => {
 					localStorage.setItem('noticeRead', 'true');
 					return true;

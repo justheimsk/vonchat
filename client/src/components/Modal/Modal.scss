@@ -90,6 +90,16 @@
         color: white;
         background-color: var(--status-online);
       }
+
+      &--outline {
+        color: white;
+        background-color: none;
+        font-weight: normal;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
   }
 
