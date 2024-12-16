@@ -9,6 +9,7 @@ import {
 	createBrowserRouter,
 	createRoutesFromElements,
 } from 'react-router-dom';
+import { Layout } from './layout';
 import Auth from './pages/auth/auth';
 
 const router = createBrowserRouter(
@@ -36,7 +37,9 @@ function Root() {
 
 	return (
 		<>
-			<RouterProvider router={router} />
+			<Layout>
+				<RouterProvider router={router} />
+			</Layout>
 		</>
 	);
 }
