@@ -35,6 +35,8 @@
   overflow: hidden;
 
   &__content {
+    @include mixins.scrollbar;
+
     font-size: 15px;
     height: 100%;
     overflow: auto;

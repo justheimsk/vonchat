@@ -52,3 +52,16 @@
     }
   }
 }
+
+@mixin scrollbar($color: var(--tertiary)) {
+  &::-webkit-scrollbar {
+    width: 20px; /* Largura do scrollbar */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color;
+    background-clip: content-box;
+    border: 7px solid transparent;
+    border-radius: 20px;
+  }
+}
