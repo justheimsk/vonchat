@@ -1,8 +1,6 @@
 import { State } from '@/lib/state/State';
 import type { Modal } from '@/lib/types/Modal';
 
-export type ModalButtonType = 'sucess' | 'danger' | 'default';
-
 export interface IUiState {
 	commandListOpen: boolean;
 	selectedCommand: string;

@@ -1,8 +1,10 @@
 import ServerList from '@features/ServerList/ServerList';
 import './app.scss';
 import { ErrorMagnifier } from '@/components/ErrorMagnifier/ErrorMagnifier';
+import { Modal } from '@/components/Modal/Modal';
 import { vonchat } from '@/lib/Application';
 import { ModalBuilder } from '@/lib/core/ui/ModalBuilder';
+import { useLibState } from '@/lib/state/Hook';
 import ChannelData from '@features/ChannelData/ChannelData';
 import ChannelInfo from '@features/ChannelInfo/ChannelInfo';
 import ChannelList from '@features/ChannelList/ChannelList';
@@ -12,6 +14,8 @@ import UserList from '@features/UserList/UserList';
 import { useEffect } from 'react';
 
 export default function App() {
+	const modal = useLibState(vonchat.state.reducers.ui).modal;
+
 	useEffect(() => {
 		const read = localStorage.getItem('noticeRead');
 
@@ -32,12 +36,22 @@ export default function App() {
 					localStorage.setItem('noticeRead', 'true');
 					return true;
 				});
+
 			vonchat.ui.createModal(modal);
 		}
 	}, []);
 
 	return (
 		<>
+			<Modal
+				onClose={() =>
+					modal?.onClose?.() === false ? null : vonchat.ui.closeModal()
+				}
+				active={modal?.title !== undefined}
+				title={modal?.title || ''}
+				description={modal?.description || ''}
+				buttons={modal?.buttons || []}
+			/>
 			<div id="layout">
 				<ErrorMagnifier />
 				<ServerList />
