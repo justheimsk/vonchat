@@ -69,6 +69,8 @@
   }
 
   #command-list__context {
+    @include mixins.scrollbar;
+
     width: 100%;
     display: flex;
     flex-direction: column;
