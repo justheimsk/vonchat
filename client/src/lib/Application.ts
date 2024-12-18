@@ -11,18 +11,13 @@ import { ProfileManager } from './core/profile/ProfileManager';
 import { Server } from './core/server/Server';
 import UIManager from './core/ui/UIManager';
 import { StateManager } from './state/StateManager';
-
-export interface States {
-	cmdRegistry: CommandRegistryState;
-	ui: UiState;
-	profiles: ProfileState;
-}
+import type { ApplicationState } from './types/State';
 
 export class Application {
 	public ui: UIManager;
 	public cmdRegistry: CommandRegistry;
 	public input: InputManager;
-	public state: StateManager<States>;
+	public state: StateManager<ApplicationState>;
 	public profiles: ProfileManager;
 	public logs: LogManager;
 
