@@ -5,10 +5,10 @@ import { to } from '@/utils/to';
 import { LocalStorageMemoryAdapter } from './adapters/LocalStorageMemoryAdapter';
 import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
 import { LogManager } from './core/LogManager';
-import { Server } from './core/Server';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
 import { ProfileManager } from './core/profile/ProfileManager';
+import { Server } from './core/server/Server';
 import UIManager from './core/ui/UIManager';
 import { StateManager } from './state/StateManager';
 
@@ -72,6 +72,7 @@ export class Application {
 							new Server(
 								server.ip,
 								server.port,
+								server.active,
 								new HTTPAdapter({
 									host: server.ip,
 									port: server.port,

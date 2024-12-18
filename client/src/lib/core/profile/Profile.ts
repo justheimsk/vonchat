@@ -1,5 +1,6 @@
+import type { Server } from '@/lib/core/server/Server';
 import type { JSONProfile } from '@/lib/types/Profile';
-import type { Server } from '../Server';
+import { ServerManager } from '../server/ServerManager';
 
 export class Profile {
 	public name: string;
@@ -7,7 +8,7 @@ export class Profile {
 	public password: string;
 	public id;
 	public active: boolean;
-	public servers: Server[];
+	public servers: ServerManager;
 
 	public constructor(
 		name: string,
@@ -22,12 +23,12 @@ export class Profile {
 		this.name = name;
 		this.email = email;
 		this.active = active || false;
-		this.servers = servers;
+		this.servers = new ServerManager(servers);
 	}
 
 	public toJSON(): JSONProfile {
 		return {
-			servers: this.servers.map((s) => s.toJSON()),
+			servers: this.servers.getAll().map((s) => s.toJSON()),
 			active: this.active,
 			id: this.id,
 			name: this.name,

@@ -2,7 +2,7 @@ import type { Application } from '@/lib/Application';
 import type { JSONProfile } from '@/lib/types/Profile';
 import type { LogManager } from '../LogManager';
 import type { MemoryAdapter } from '../MemoryAdapter';
-import type { Server } from '../Server';
+import type { Server } from '../server/Server';
 import { Profile } from './Profile';
 
 export class ProfileManager {
@@ -39,7 +39,10 @@ export class ProfileManager {
 	}
 
 	public addServer(profile: Profile, server: Server) {
-		profile.servers.push(server);
+		profile.servers.set(server.host, server);
+		server.attach(profile);
+		if (server.active) profile.servers.setActiveServer(server);
+
 		this.app.state.dispatch(
 			this.app.state.reducers.profiles.addProfile(profile),
 		);
@@ -60,6 +63,8 @@ export class ProfileManager {
 				this.app.state.dispatch(
 					this.app.state.reducers.profiles.setActiveProfile(_profile),
 				);
+			} else {
+				_profile.active = false;
 			}
 
 			this.app.state.dispatch(
@@ -75,6 +80,7 @@ export class ProfileManager {
 	public saveToMemory() {
 		try {
 			const profiles = this.app.state.reducers.profiles.data.profiles;
+			console.log(profiles);
 			this.memory.set(
 				'profiles',
 				Array.from(profiles.values()).map((profile) => profile.toJSON()),

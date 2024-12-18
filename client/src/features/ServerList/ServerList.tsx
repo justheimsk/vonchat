@@ -17,8 +17,8 @@ export default function ServerList() {
 					<ServerButton />
 				</div>
 				<div className="server-list__panel">
-					{profile?.servers.map((s) => (
-						<ServerButton key={s.ip} />
+					{profile?.servers.getAll().map((s) => (
+						<ServerButton key={s.host} />
 					))}
 				</div>
 			</div>

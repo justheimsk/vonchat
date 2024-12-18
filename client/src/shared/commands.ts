@@ -1,6 +1,6 @@
 import { vonchat } from '@/lib/Application';
 import { HTTPAdapter } from '@/lib/adapters/backend/HTTPAdapter';
-import { Server } from '@/lib/core/Server';
+import { Server } from '@/lib/core/server/Server';
 import type { RecvContext } from '@/lib/types/Command';
 
 export default () => {
@@ -59,11 +59,16 @@ export default () => {
 		const profile = vonchat.profiles.getActiveProfile();
 		if (!profile) return;
 
-		vonchat.profiles.addServer(
-			profile,
-			new Server(host, port, new HTTPAdapter({ host, port, secure: false })),
+		const server = new Server(
+			host,
+			port,
+			false,
+			new HTTPAdapter({ host, port, secure: false }),
 		);
+		vonchat.profiles.addServer(profile, server);
 		vonchat.profiles.saveToMemory();
+		profile.servers.setActiveServer(server);
+		profile.servers.getActive()?.connect();
 	};
 
 	vonchat.cmdRegistry.register(

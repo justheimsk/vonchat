@@ -22,7 +22,7 @@ export class HTTPAdapter extends BackendAdapter {
 		return 'HTTP';
 	}
 
-	public attachProfile(profile: Profile) {
+	public attach(profile: Profile) {
 		this.profile = profile;
 	}
 
