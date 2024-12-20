@@ -3,7 +3,7 @@ import { ProfileState } from '@/shared/state/profiles';
 import { UiState } from '@/shared/state/uiState';
 import { to } from '@/utils/to';
 import { LocalStorageMemoryAdapter } from './adapters/LocalStorageMemoryAdapter';
-import { HTTPAdapter } from './adapters/backend/HTTPAdapter';
+import { HTTPAdapter } from './adapters/backend/http/HTTPAdapter';
 import { LogManager } from './core/LogManager';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';

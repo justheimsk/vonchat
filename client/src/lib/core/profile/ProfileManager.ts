@@ -40,7 +40,11 @@ export class ProfileManager {
 
 	public addServer(profile: Profile, server: Server) {
 		profile.servers.set(server.host, server);
-		server.attach(profile);
+		server.attach(
+			profile,
+			this.app,
+			this.logs.withTag(server.adapter.adapterName),
+		);
 		if (server.active) profile.servers.setActiveServer(server);
 
 		this.app.state.dispatch(
@@ -80,7 +84,6 @@ export class ProfileManager {
 	public saveToMemory() {
 		try {
 			const profiles = this.app.state.reducers.profiles.data.profiles;
-			console.log(profiles);
 			this.memory.set(
 				'profiles',
 				Array.from(profiles.values()).map((profile) => profile.toJSON()),

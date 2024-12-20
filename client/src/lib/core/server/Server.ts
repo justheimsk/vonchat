@@ -1,5 +1,7 @@
+import type { Application } from '@/lib/Application';
 import type { JSONServer } from '../../types/Server';
 import type { BackendAdapter } from '../BackendAdapter';
+import type { LogManager } from '../LogManager';
 import type { Profile } from '../profile/Profile';
 
 export class Server {
@@ -21,9 +23,9 @@ export class Server {
 		this.adapter = adapter;
 	}
 
-	public attach(profile: Profile) {
+	public attach(profile: Profile, app: Application, logger: LogManager) {
 		this.profile = profile;
-		this.adapter.attach(profile);
+		this.adapter.attach(profile, app, logger);
 	}
 
 	public connect() {
