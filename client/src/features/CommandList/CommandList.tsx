@@ -11,7 +11,7 @@ import { Command } from './components/Command/Command';
 export function CommandList() {
 	const active = useLibState<IUiState>(
 		vonchat.state.reducers.ui,
-	).commandListOpen;
+	)?.commandListOpen;
 	const registry = useLibState<ICommandRegistryState>(
 		vonchat.state.reducers.cmdRegistry,
 	);
@@ -38,9 +38,10 @@ export function CommandList() {
 						<BsSlashSquareFill /> Client Commands
 					</span>
 					<div id="command-list__commands">
-						{Array.from(registry.commands.values()).map((cmd) => (
-							<Command key={cmd.name} self={cmd} />
-						))}
+						{registry &&
+							Array.from(registry.commands.values()).map((cmd) => (
+								<Command key={cmd.name} self={cmd} />
+							))}
 					</div>
 				</div>
 			</div>

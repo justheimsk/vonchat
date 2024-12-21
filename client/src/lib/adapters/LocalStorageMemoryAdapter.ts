@@ -1,4 +1,4 @@
-import { MemoryAdapter } from '@/lib/core/MemoryAdapter';
+import { MemoryAdapter } from '../core/adapter/MemoryAdapter';
 
 export class LocalStorageMemoryAdapter extends MemoryAdapter {
 	public get<T>(key: string): T | null {

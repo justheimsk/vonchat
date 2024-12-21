@@ -10,7 +10,7 @@ export interface LayoutProps {
 }
 
 export function Layout(props: LayoutProps) {
-	const modal = useLibState(vonchat.state.reducers.ui).modal;
+	const modal = useLibState(vonchat.state.reducers.ui)?.modal;
 
 	useEffect(() => {
 		const read = localStorage.getItem('noticeRead');

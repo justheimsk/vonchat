@@ -8,7 +8,7 @@ import { FaCog } from 'react-icons/fa';
 export default function UserInfo() {
 	const profile = useLibState<ProfileStateData>(
 		vonchat.profiles.getState(),
-	).activeProfile;
+	)?.activeProfile;
 
 	return (
 		<>

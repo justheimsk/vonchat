@@ -8,7 +8,7 @@ export interface CommandProps {
 }
 
 export function Command(props: CommandProps) {
-	const active = useLibState(vonchat.state.reducers.ui).selectedCommand;
+	const active = useLibState(vonchat.state.reducers.ui)?.selectedCommand;
 
 	return (
 		<>

@@ -1,7 +1,7 @@
 import type { Application } from '@/lib/Application';
-import type { JSONServer } from '../../types/Server';
-import type { BackendAdapter } from '../BackendAdapter';
+import type { JSONServer, ServerStatus } from '../../types/Server';
 import type { LogManager } from '../LogManager';
+import type { BackendAdapter } from '../adapter/backend/BackendAdapter';
 import type { Profile } from '../profile/Profile';
 
 export class Server {
@@ -10,22 +10,26 @@ export class Server {
 	public adapter: BackendAdapter;
 	public active: boolean;
 	public profile?: Profile;
+	public status: ServerStatus = 'disconnected';
+	public accountCreated: boolean;
 
 	public constructor(
 		host: string,
 		port: string,
 		active: boolean,
+		accountCreated: boolean,
 		adapter: BackendAdapter,
 	) {
 		this.host = host;
 		this.port = port;
 		this.active = active;
+		this.accountCreated = accountCreated;
 		this.adapter = adapter;
 	}
 
 	public attach(profile: Profile, app: Application, logger: LogManager) {
 		this.profile = profile;
-		this.adapter.attach(profile, app, logger);
+		this.adapter.attach(profile, this, app, logger);
 	}
 
 	public connect() {
@@ -40,8 +44,9 @@ export class Server {
 		return {
 			ip: this.host,
 			port: this.port,
-			adapter: this.adapter.adapterName,
 			active: this.active,
+			adapter: this.adapter.adapterName,
+			accountCreated: this.accountCreated,
 		};
 	}
 }

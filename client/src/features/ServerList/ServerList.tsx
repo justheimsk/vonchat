@@ -7,7 +7,7 @@ import type { ProfileStateData } from '@/shared/state/profiles';
 export default function ServerList() {
 	const profile = useLibState<ProfileStateData>(
 		vonchat.profiles.getState(),
-	).activeProfile;
+	)?.activeProfile;
 
 	return (
 		<>

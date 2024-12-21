@@ -31,17 +31,30 @@
       font-size: 0.87rem;
       text-overflow: ellipsis;
       overflow: hidden;
+      text-transform: capitalize
     }
   }
 
   &__avatar {
-    @include mixins.status-dot(online, var(--tertiary));
+    @include mixins.status-dot(offline, var(--tertiary));
 
     position: relative;
     min-width: 32px;
     min-height: 32px;
     background-color: var(--discord);
     border-radius: 50%;
+
+    &--online {
+      @include mixins.status-dot(online, var(--tertiary));
+    }
+
+    &--idle {
+      @include mixins.status-dot(idle, var(--tertiary));
+    }
+
+    &--dnd {
+      @include mixins.status-dot(dnd, var(--tertiary));
+    }
   }
 
   &:hover {

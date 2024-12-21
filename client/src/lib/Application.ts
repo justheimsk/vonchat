@@ -4,6 +4,7 @@ import { UiState } from '@/shared/state/uiState';
 import { to } from '@/utils/to';
 import { LocalStorageMemoryAdapter } from './adapters/LocalStorageMemoryAdapter';
 import { HTTPAdapter } from './adapters/backend/http/HTTPAdapter';
+import { Context } from './core/Context';
 import { LogManager } from './core/LogManager';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
@@ -20,6 +21,7 @@ export class Application {
 	public state: StateManager<ApplicationState>;
 	public profiles: ProfileManager;
 	public logs: LogManager;
+	public context: Context;
 
 	public constructor() {
 		this.state = new StateManager({
@@ -43,6 +45,7 @@ export class Application {
 			new LocalStorageMemoryAdapter(),
 			this.logs.withTag('Profile Manager'),
 		);
+		this.context = new Context(this);
 
 		this.loadProfiles();
 		this.loadClientCommands();
@@ -68,6 +71,7 @@ export class Application {
 								server.ip,
 								server.port,
 								server.active,
+								server.accountCreated,
 								new HTTPAdapter({
 									host: server.ip,
 									port: server.port,

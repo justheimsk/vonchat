@@ -58,17 +58,22 @@ export default () => {
 
 		const profile = vonchat.profiles.getActiveProfile();
 		if (!profile) return;
+		let server = profile.servers.get(host);
 
-		const server = new Server(
-			host,
-			port,
-			false,
-			new HTTPAdapter({ host, port, secure: false }),
-		);
+		if (!server) {
+			server = new Server(
+				host,
+				port,
+				false,
+				false,
+				new HTTPAdapter({ host, port, secure: false }),
+			);
+		}
+
 		vonchat.profiles.addServer(profile, server);
-		vonchat.profiles.saveToMemory();
 		profile.servers.setActiveServer(server);
 		profile.servers.getActive()?.connect();
+		vonchat.profiles.saveToMemory();
 	};
 
 	vonchat.cmdRegistry.register(

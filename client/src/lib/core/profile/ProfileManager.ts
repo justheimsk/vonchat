@@ -1,7 +1,7 @@
 import type { Application } from '@/lib/Application';
 import type { JSONProfile } from '@/lib/types/Profile';
 import type { LogManager } from '../LogManager';
-import type { MemoryAdapter } from '../MemoryAdapter';
+import type { MemoryAdapter } from '../adapter/MemoryAdapter';
 import type { Server } from '../server/Server';
 import { Profile } from './Profile';
 
