@@ -61,18 +61,15 @@ export default () => {
 		let server = profile.servers.get(host);
 
 		if (!server) {
-			server = new Server(
+			server = profile.servers.createServer(
 				host,
 				port,
-				false,
-				false,
 				new HTTPAdapter({ host, port, secure: false }),
 			);
 		}
 
-		vonchat.profiles.addServer(profile, server);
 		profile.servers.setActiveServer(server);
-		profile.servers.getActive()?.connect();
+		server.connect();
 		vonchat.profiles.saveToMemory();
 	};
 

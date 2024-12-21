@@ -60,6 +60,7 @@ export class HTTPAdapter extends BackendAdapter {
 	public async init() {
 		if (!this.app || !this.profile || !this.server || !this.logger)
 			throw new Error('Profile, application and/or logger not attached.');
+    if(this.server.status !== "disconnected" && this.server.status !== "failed") return;
 
 		this.server.status = 'connecting';
 		this.logger.send('info', 'Initializing adapter...');

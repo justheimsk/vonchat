@@ -4,8 +4,9 @@ import { vonchat } from '@/lib/Application';
 import { useLibState } from '@/lib/state/Hook';
 
 export default function UserList() {
+  const server = useLibState(vonchat.profiles.getState())?.activeProfile?.servers.getActive();
 	const users = useLibState(
-		vonchat.context.getActiveServer()?.adapter.state.reducers.users,
+		server?.adapter.state.reducers.users,
 	);
 
 	return (

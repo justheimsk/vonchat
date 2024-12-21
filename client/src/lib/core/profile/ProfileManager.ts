@@ -28,7 +28,15 @@ export class ProfileManager {
 		id?: string,
 		servers: Server[] = [],
 	) {
-		const profile = new Profile(name, email, password, active, id, servers);
+		const profile = new Profile(
+			name,
+			email,
+			password,
+			this.app,
+			active,
+			id,
+			servers,
+		);
 
 		this.app.state.dispatch(
 			this.app.state.reducers.profiles.addProfile(profile),
@@ -36,20 +44,6 @@ export class ProfileManager {
 
 		if (active) this.setActiveProfile(profile);
 		return profile;
-	}
-
-	public addServer(profile: Profile, server: Server) {
-		profile.servers.set(server.host, server);
-		server.attach(
-			profile,
-			this.app,
-			this.logs.withTag(server.adapter.adapterName),
-		);
-		if (server.active) profile.servers.setActiveServer(server);
-
-		this.app.state.dispatch(
-			this.app.state.reducers.profiles.addProfile(profile),
-		);
 	}
 
 	public getState() {

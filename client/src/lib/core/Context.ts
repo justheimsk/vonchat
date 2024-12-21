@@ -14,4 +14,18 @@ export class Context {
 	public getActiveServer() {
 		return this.getActiveProfile()?.servers.getActive();
 	}
+
+  public setActiveServer(host: string) {
+    const profile = this.getActiveProfile();
+    if(profile) {
+      const found = profile.servers.get(host);
+      if(found) {
+        found.active = true;
+        this.app.profiles.getActiveProfile()?.servers.createServer(found.host, found.port, found.adapter);
+        found.connect();
+
+        this.app.state.dispatch(this.app.state.reducers.profiles.addProfile(profile))
+      }
+    }
+  }
 }

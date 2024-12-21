@@ -13,12 +13,12 @@ export default function ServerList() {
 		<>
 			<div id="server-list">
 				<div className="server-list__panel server-list__panel--small">
-					<ServerButton />
-					<ServerButton />
+					<ServerButton disableDot />
+					<ServerButton disableDot />
 				</div>
 				<div className="server-list__panel">
 					{profile?.servers.getAll().map((s) => (
-						<ServerButton key={s.host} />
+						<ServerButton self={s} key={s.host} />
 					))}
 				</div>
 			</div>

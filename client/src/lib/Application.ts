@@ -63,32 +63,28 @@ export class Application {
 			const profiles = this.profiles.readInMemoryProfiles();
 
 			if (profiles && profiles.length) {
-				for (const profile of profiles) {
-					const servers: Server[] = [];
-					for (const server of profile.servers) {
-						servers.push(
-							new Server(
-								server.ip,
-								server.port,
-								server.active,
-								server.accountCreated,
-								new HTTPAdapter({
-									host: server.ip,
-									port: server.port,
-									secure: false,
-								}),
-							),
+				for (const _profile of profiles) {
+					const profile = this.profiles.createProfile(
+						_profile.name,
+						_profile.email,
+						_profile.password,
+						_profile.active,
+						_profile.id,
+					);
+
+					for (const server of _profile.servers) {
+						profile.servers.createServer(
+							server.ip,
+							server.port,
+							new HTTPAdapter({
+								host: server.ip,
+								port: server.port,
+								secure: false,
+							}),
+							server.active,
+							server.accountCreated,
 						);
 					}
-
-					this.profiles.createProfile(
-						profile.name,
-						profile.email,
-						profile.password,
-						profile.active,
-						profile.id,
-						servers,
-					);
 				}
 			}
 		} catch {

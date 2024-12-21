@@ -5,6 +5,7 @@ import type { BackendAdapter } from '../adapter/backend/BackendAdapter';
 import type { Profile } from '../profile/Profile';
 
 export class Server {
+  public app: Application;
 	public host: string;
 	public port: string;
 	public adapter: BackendAdapter;
@@ -14,22 +15,23 @@ export class Server {
 	public accountCreated: boolean;
 
 	public constructor(
+    app: Application,
+    profile: Profile,
 		host: string,
 		port: string,
 		active: boolean,
 		accountCreated: boolean,
 		adapter: BackendAdapter,
 	) {
+    this.app = app;
 		this.host = host;
 		this.port = port;
 		this.active = active;
 		this.accountCreated = accountCreated;
-		this.adapter = adapter;
-	}
+    this.profile = profile;
 
-	public attach(profile: Profile, app: Application, logger: LogManager) {
-		this.profile = profile;
-		this.adapter.attach(profile, this, app, logger);
+		this.adapter = adapter;
+		this.adapter.attach(profile, this, app, this.app.logs.withTag(adapter.adapterName));
 	}
 
 	public connect() {
