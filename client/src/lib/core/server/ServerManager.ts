@@ -1,7 +1,7 @@
 import type { Application } from '@/lib/Application';
 import type { BackendAdapter } from '../adapter/backend/BackendAdapter';
-import { Server } from './Server';
 import type { Profile } from '../profile/Profile';
+import { Server } from './Server';
 
 export class ServerManager extends Map<string, Server> {
 	private app: Application;
@@ -43,7 +43,7 @@ export class ServerManager extends Map<string, Server> {
 		this.set(host, server);
 		if (active) this.setActiveServer(server);
 
-    this.dispatch();
+		this.dispatch();
 		return server;
 	}
 
@@ -69,6 +69,6 @@ export class ServerManager extends Map<string, Server> {
 			this.set(_server.host, _server);
 		}
 
-    this.dispatch();
+		this.dispatch();
 	}
 }

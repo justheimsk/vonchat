@@ -4,10 +4,10 @@ import { vonchat } from '@/lib/Application';
 import { useLibState } from '@/lib/state/Hook';
 
 export default function UserList() {
-  const server = useLibState(vonchat.profiles.getState())?.activeProfile?.servers.getActive();
-	const users = useLibState(
-		server?.adapter.state.reducers.users,
-	);
+	const server = useLibState(
+		vonchat.profiles.getState(),
+	)?.activeProfile?.servers.getActive();
+	const users = useLibState(server?.adapter.state.reducers.users);
 
 	return (
 		<>

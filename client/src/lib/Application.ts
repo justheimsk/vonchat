@@ -9,7 +9,6 @@ import { LogManager } from './core/LogManager';
 import CommandRegistry from './core/command/CommandRegistry';
 import { InputManager } from './core/input/InputManager';
 import { ProfileManager } from './core/profile/ProfileManager';
-import { Server } from './core/server/Server';
 import UIManager from './core/ui/UIManager';
 import { StateManager } from './state/StateManager';
 import type { ApplicationState } from './types/State';

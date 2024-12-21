@@ -1,6 +1,5 @@
 import { vonchat } from '@/lib/Application';
 import { HTTPAdapter } from '@/lib/adapters/backend/http/HTTPAdapter';
-import { Server } from '@/lib/core/server/Server';
 import type { RecvContext } from '@/lib/types/Command';
 
 export default () => {

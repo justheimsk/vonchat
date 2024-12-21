@@ -1,7 +1,7 @@
+import type { Application } from '@/lib/Application';
 import type { Server } from '@/lib/core/server/Server';
 import type { JSONProfile } from '@/lib/types/Profile';
 import { ServerManager } from '../server/ServerManager';
-import type {Application} from '@/lib/Application';
 
 export class Profile {
 	public name: string;
@@ -15,7 +15,7 @@ export class Profile {
 		name: string,
 		email: string,
 		password: string,
-    app: Application,
+		app: Application,
 		active?: boolean,
 		id?: string,
 		servers: Server[] = [],
