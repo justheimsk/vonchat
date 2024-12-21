@@ -64,10 +64,11 @@ export default () => {
 				host,
 				port,
 				new HTTPAdapter({ host, port, secure: false }),
+				true,
+				false,
 			);
 		}
 
-		profile.servers.setActiveServer(server);
 		server.connect();
 		vonchat.profiles.saveToMemory();
 	};
