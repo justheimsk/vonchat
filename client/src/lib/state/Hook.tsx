@@ -7,6 +7,7 @@ export function useLibState<T>(state?: State<T>) {
 	const [data, setData] = useState<T>(state.data);
 
 	useEffect(() => {
+    setData(state.data);
 		const sub = state.subscribe((data) => {
 			setData(data);
 		});
